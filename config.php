@@ -1,0 +1,130 @@
+<?php
+
+define( 'BASE_URL', 'http://grr2.local:8888/aaaart/'); // change this
+define( 'SITE_TITLE', '$$$');
+define( 'BASE_PATH', dirname(__FILE__)); // do not change this
+define( 'LIST_TYPE', 'list'); // can be (text) list or (thumbnail) grid
+
+// solr conversation
+define( 'SOLR_HOST', 'localhost');
+define( 'SOLR_PORT', '8983');
+define( 'SOLR_PATH', '/solr/core2');
+define( 'SOLR_LIBRARY_PATH', '/Users/dddd/Documents/dev/grr2.0/SolrPHPClient/Apache/Solr/Service.php'); // You need the php library installed
+
+// mongo configuration
+$db = NULL;
+define( 'DB_HOST', 'localhost');
+define( 'DB_NAME', 'aaaart');
+define( 'PEOPLE_COLLECTION', 'people');
+define( 'IMAGES_COLLECTION', 'images');
+define( 'COLLECTIONS_COLLECTION', 'collections');
+define( 'MAKERS_COLLECTION', 'makers');
+define( 'COMMENTS_COLLECTION', 'comments');
+define( 'SYSTEM_COLLECTION', 'system');
+
+// extra db fields
+define( 'FIELDS_KEY', 'metadata'); // defines where in a Mongo object the field data is kept 
+$IMAGE_FIELDS = array(
+  'one_liner' => array('type' => 'text', 'label' => 'Short description', 'description' => 'Just a few words'),
+	'year' => array('type' => 'text', 'label' => 'Year', 'description' => 'eg. 1697 or 1692-97 or c.1700'),
+	'description' => array('type'=>'textarea', 'label' => 'Description', 'description' => 'any more information'),
+);
+
+// authentication stuff
+define( 'COOKIE_DOMAIN', ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false); 
+define( 'SECRET_KEY', 'ou812');
+define( 'COOKIE_PATH', '/aaaart' ); 
+define( 'COOKIE_AUTH', 'auth' ); 
+
+// image file stuff
+define( 'ALLOW_ANON_DOWNLOADS', false);
+define( 'EMPTY_PLACEHOLDER', 'http://grr.numm.org/imageserver/cache/placeholder-lines-%dx%d.png'); // document with no file
+define( 'NONIMAGE_PLACEHOLDER', 'http://grr.numm.org/imageserver/cache/placeholder-circle-%dx%d.png'); // document with file that is not an image
+define( 'PLACEHOLDER_WIDTH', 400); // width and height of large placeholder image
+define( 'PLACEHOLDER_HEIGHT', 600);
+
+$IMAGE_UPLOAD_OPTIONS = array(
+  'user_dirs' => false,
+  'mkdir_mode' => 0755,
+  //'files_dir' => 'files/', // subdirectory to store the files in - keep the trailing slash
+  'upload_dir' => BASE_PATH.'/files/',
+  'upload_url' => BASE_URL.'/files/',
+  'param_name' => 'files',
+  // Set the following option to 'POST', if your server does not support
+  // DELETE requests. This is a parameter sent to the client:
+  'delete_type' => 'DELETE',
+  // Enable to provide file downloads via GET requests to the PHP script:
+  'download_via_php' => false,
+  // Defines which files can be displayed inline when downloaded:
+  'inline_file_types' => '/\.(gif|jpe?g|png)$/i',
+  // Defines which files (based on their names) are accepted for upload:
+  'accept_file_types' => '/.+$/i',
+  // This callback gets a chance to look at the form data
+  'form_data_callback' => array('aaaart_image_handle_form_data', 'aaaart_collection_handle_form_data'),
+  // The php.ini settings upload_max_filesize and post_max_size
+  // take precedence over the following max_file_size setting:
+  'max_file_size' => null,
+  'min_file_size' => 1,
+  // The maximum number of files for the upload directory:
+  'max_number_of_files' => null,
+  // Image resolution restrictions:
+  'max_width' => null,
+  'max_height' => null,
+  'min_width' => 1,
+  'min_height' => 1,
+  // Set the following option to false to enable resumable uploads:
+  'discard_aborted_uploads' => true,
+  // Set to true to rotate images based on EXIF meta data, if available:
+  'orient_image' => false,
+  'image_versions' => array(
+    // Uncomment the following to create medium sized images:
+    'medium' => array(
+      'max_width' => 800,
+      'max_height' => 600,
+      'jpeg_quality' => 90
+    ),
+    'thumbnail' => array(
+      // Uncomment the following to force the max
+      // dimensions and e.g. create square thumbnails:
+      //'crop' => true,
+      'max_width' => 160,
+      'max_height' => 160
+    )
+  )
+);
+
+
+// misc
+define( 'MAKERS_LABEL', 'Author'); // Author, Artist, etc.
+define( 'COLLECTIONS_ARE_HUGE', true); // true makes an alphabet nav show up in collections list
+define( 'NAME_PARSER_URL', 'http://grr.numm.org/nameserver/');
+define( 'NAME_PARSER_SCRIPT', 'php /var/www/grr.numm.org/nameserver/index.php'); // if NAME_PARSER_URL is false, use this
+define( 'DEBUG_MODE', true);
+define( 'MAIL_FROM', 'aaaarg.org@gmail.com');
+
+// access control stuff
+define( 'ACCESS_CONTROL_ALLOW_ORIGIN', false);
+define( 'ACCESS_CONTROL_ALLOW_CREDENTIALS', false);
+$ACCESS_CONTROL_ALLOW_METHODS = array('OPTIONS', 'HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE');
+$ACCESS_CONTROL_ALLOW_HEADERS = array('Content-Type', 'Content-Range', 'Content-Disposition');
+
+###############################################################
+# Don't edit below - this is where the application gets started
+
+foreach (glob(BASE_PATH."/includes/custom/*.php") as $filename) {
+  include $filename;
+}
+foreach (glob(BASE_PATH."/includes/contrib/*.php") as $filename) {
+  include $filename;
+}
+include SOLR_LIBRARY_PATH;
+
+aaaart_mongo_init();
+$user = aaaart_user_get();
+
+if (empty($db)) {
+	print 'db problem!';
+	exit;
+}
+
+?>
