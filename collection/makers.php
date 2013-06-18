@@ -21,7 +21,7 @@ Collections are groups of documents created by users.
     <div class="page-header">
     <h2 >library</h2>
     </div>
-    <?php if (COLLECTIONS_ARE_HUGE): ?>
+    <?php if (MAKERS_ARE_HUGE): ?>
     <div class="btn-toolbar">
       <div class="btn-group" id="makers-filter">
         <a class="btn" href="#">a</a>

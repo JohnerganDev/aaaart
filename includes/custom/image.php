@@ -387,20 +387,24 @@ function _aaaart_image_update_image($image, $values) {
  * $filter can be a single letter or a range (like ab-an)
  */
 function aaaart_image_filter_makers($filter, $print_response=false) {
-	$parts = explode('-', $filter);
-	if (count($parts)==2) {
-		$filter_str = substr($parts[0], 0, strlen($parts[0])-1);
-		$filter_str .= '['.substr($parts[0], strlen($parts[0])-1, 1).'-'.substr($parts[1], strlen($parts[1])-1, 1).']';
-	} else if (count($parts)==1) {
-		$filter_str = $filter;
-	} else return array();
-	if ($filter_str=='.etc') {
-		$regexObj = new MongoRegex("/^[^a-zA-z]/i"); 
+	if (!empty($filter)) {
+		$parts = explode('-', $filter);
+		if (count($parts)==2) {
+			$filter_str = substr($parts[0], 0, strlen($parts[0])-1);
+			$filter_str .= '['.substr($parts[0], strlen($parts[0])-1, 1).'-'.substr($parts[1], strlen($parts[1])-1, 1).']';
+		} else if (count($parts)==1) {
+			$filter_str = $filter;
+		} else return array();
+		if ($filter_str=='.etc') {
+			$regexObj = new MongoRegex("/^[^a-zA-z]/i"); 
+		} else {
+			$regexObj = new MongoRegex("/^".$filter_str."/i"); 
+		}
+		//$regexObj = new MongoRegex("/^a[b-f]/i"); 
+		$names = aaaart_mongo_get( MAKERS_COLLECTION, array('last'=>$regexObj), array('last'=>1));
 	} else {
-		$regexObj = new MongoRegex("/^".$filter_str."/i"); 
+		$names = aaaart_mongo_get( MAKERS_COLLECTION, array(), array('last'=>1));
 	}
-	//$regexObj = new MongoRegex("/^a[b-f]/i"); 
-	$names = aaaart_mongo_get( MAKERS_COLLECTION, array('last'=>$regexObj), array('last'=>1));
 	$results = array();
 	foreach ($names as $obj) {
 		$results[] = $obj;

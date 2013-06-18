@@ -34,7 +34,9 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
   			case 'list_makers':
   				if (!empty($_GET['filter'])) {
   					aaaart_image_filter_makers($_GET['filter'], true);
-  				}
+  				} else if (!MAKERS_ARE_HUGE) {
+            aaaart_image_filter_makers('', true);
+          }
   			break;
         case 'list_collections':
           if (isset($_GET['arg'])) {
