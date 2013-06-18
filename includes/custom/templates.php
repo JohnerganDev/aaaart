@@ -37,7 +37,7 @@ function aaaart_template_header($title='Website') {
 	<body>
 	<div class="navbar navbar-fixed-top">
 	    <div class="navbar-inner">
-	    <a class="brand" href="/aaaart">{$site_name}</a>
+	    <a class="brand" href="{$script_url}">{$site_name}</a>
 	        <div class="container">
 	            <div class="nav-collapse btn-group">
 	                <ul id="nav" class="nav">
