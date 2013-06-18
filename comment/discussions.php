@@ -2,7 +2,7 @@
 
 require_once('../config.php');
 
-print aaaart_template_header('Makers');
+print aaaart_template_header('discussions');
 
 /*
 

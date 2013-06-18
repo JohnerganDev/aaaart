@@ -122,12 +122,13 @@ EOF;
 
 function aaaart_template_nav() {
 	$script_url = BASE_URL;
+	$library_title = MAKERS_DISPLAY.'s';
 	if (aaaart_user_verify_cookie()) {
 return <<< EOF
       <li class="btn-group">
 	      	<a class="btn" data-toggle="dropdown" href="#">Library <span class="caret"></span></a>
 	      	<ul class="dropdown-menu">
-				    <li><a href="{$script_url}collection/makers.php"><i class="icon-stop"></i> List</a></li>
+				    <li><a href="{$script_url}collection/makers.php"><i class="icon-stop"></i> {$library_title}</a></li>
 				    <li><a href="{$script_url}upload/"><i class="icon-arrow-up"></i> Upload</a></li>
 				    <li><a data-toggle="modal" href="#request-form"><i class="icon-magnet"></i> Request</a></li>
 				  </ul>
