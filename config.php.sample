@@ -96,6 +96,7 @@ $IMAGE_UPLOAD_OPTIONS = array(
 
 // misc
 define( 'MAKERS_LABEL', 'Author'); // Author, Artist, etc.
+define( 'MAKERS_ARE_HUGE', true); // true makes an alphabet nav show up in makers list
 define( 'COLLECTIONS_ARE_HUGE', true); // true makes an alphabet nav show up in collections list
 define( 'NAME_PARSER_URL', 'http://grr.numm.org/nameserver/');
 define( 'NAME_PARSER_SCRIPT', 'php /var/www/grr.numm.org/nameserver/index.php'); // if NAME_PARSER_URL is false, use this
