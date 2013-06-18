@@ -122,7 +122,7 @@ EOF;
 
 function aaaart_template_nav() {
 	$script_url = BASE_URL;
-	$library_title = MAKERS_DISPLAY.'s';
+	$library_title = MAKERS_LABEL.'s';
 	if (aaaart_user_verify_cookie()) {
 return <<< EOF
       <li class="btn-group">
