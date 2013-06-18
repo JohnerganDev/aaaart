@@ -221,8 +221,7 @@ function aaaart_user_attempt_first_login($name, $params) {
  */
 function aaaart_user_log_invitation($inviter, $invitee) {
 	$invited = (!empty($inviter["invited"])) ? $inviter["invited"] : array();
-	$invited[] = $invitee['_id'];
-	aaaart_mongo_push(PEOPLE_COLLECTION, (string)$inviter['_id'], array('invited' => $invited));
+	aaaart_mongo_push(PEOPLE_COLLECTION, (string)$inviter['_id'], array('invited' => $invitee['_id']));
 }
 
 
