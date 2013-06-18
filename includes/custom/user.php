@@ -239,10 +239,11 @@ function aaaart_user_create_invitation($email, $print_response=false) {
 		if (!empty($account['_id'])) {
 			$inviter = aaaart_user_get();
 			aaaart_user_log_invitation($inviter, $account);
-			$message = sprintf("this email is an invitation to %s. you were invited by %s. visit\n\n%suser/login.php?key=%s\n\n to pick a password and log in. once you are logged in you can upload/ download and make collections.",
+			$message = sprintf("this email is an invitation to %s. you were invited by %s. visit\n\n%suser/login.php?key=%s\n\n to pick a password and log in. once you are logged in you can upload/ download and make collections.\n\nFor future reference, your key (which you need, along with your password, to log in) is:\n\n%s",
 				SITE_TITLE,
 				$inviter['email'],
 				BASE_URL,
+				(string)$account['_id'],
 				(string)$account['_id']);
 			aaaart_utils_send_email($email, sprintf('an invitation to %s', SITE_TITLE), $message);
 			return $account;

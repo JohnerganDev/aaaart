@@ -4,8 +4,9 @@ $(function () {
     $.ajax({
       type: "POST",
       url: base_url + "user/index.php",
-      data: $('#edit-form > form').serialize(), 
+      data: $('#site-invite-form > form').serialize(), 
       success: function(msg){
+          alert('An invite has been sent - you might want to let the person know it is coming');
           $("#site-invite-form").modal('hide');
       },
       error: function(){
