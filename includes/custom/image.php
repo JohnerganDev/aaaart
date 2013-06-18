@@ -270,6 +270,7 @@ function aaaart_image_make_file_object($doc) {
 		// Add in a link to detail page
 		$file->detail_url = BASE_URL . 'image/detail.php?id=' . (string)$doc['_id'];
 		// Add in more metadata from DB
+		$file->metadata = new StdClass();
 		$file->metadata->title = stripslashes($doc['title']);
 		if (!empty($doc['metadata']['one_liner'])) {
 			$file->metadata->one_liner = stripslashes($doc['metadata']['one_liner']);
