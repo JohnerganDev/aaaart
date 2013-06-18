@@ -801,7 +801,7 @@ function aaaart_collection_generate_response_from_documents($documents) {
 /**
  * Callback for when an image has been successfully uploaded
  */
-function aaaart_collection_handle_form_data($request_data, &$file, $index) {
+function aaaart_collection_handle_form_data($request_data, $file, $index) {
 	if (!empty($file->document_id) && !empty($request_data['collection-id'])) {
 		aaaart_collection_add_document($request_data['collection-id'] , $file->document_id);
 	}

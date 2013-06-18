@@ -463,7 +463,7 @@ function aaaart_image_get_or_create_maker($name) {
 /**
  * Callback for when an image has been successfully uploaded
  */
-function aaaart_image_handle_form_data($request_data, &$file, $index) {
+function aaaart_image_handle_form_data($request_data, $file, $index) {
 	$uid = aaaart_user_get_id();
 	$now = time();
 	if (!empty($request_data['document-id'])) {
