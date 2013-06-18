@@ -2,6 +2,7 @@
 
 function aaaart_template_header($title='Website') {
 	$script_url = BASE_URL;
+	$site_name = SITE_TITLE;
 	$nav = aaaart_template_nav();
 	$title_bar = sprintf('%s | %s', SITE_TITLE, $title);
 	$css = 'style-'.LIST_TYPE;
@@ -36,7 +37,7 @@ function aaaart_template_header($title='Website') {
 	<body>
 	<div class="navbar navbar-fixed-top">
 	    <div class="navbar-inner">
-	    <a class="brand" href="/aaaart">Aaaart</a>
+	    <a class="brand" href="/aaaart">{$site_name}</a>
 	        <div class="container">
 	            <div class="nav-collapse btn-group">
 	                <ul id="nav" class="nav">
