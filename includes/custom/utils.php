@@ -265,6 +265,31 @@ function aaaart_utils_generate_response($content, $print_response = true) {
 function aaaart_utils_send_email($to, $subject, $message) {
   $headers = "From:" . MAIL_FROM;
   mail($to,$subject,$message,$headers);
+  $mail = new PHPMailer;
+
+  $mail->IsSMTP();                                      // Set mailer to use SMTP
+  $mail->Host = SMTP_HOST;                              // Specify main and backup server
+  $mail->SMTPAuth = true;                               // Enable SMTP authentication
+  $mail->Username = SMTP_USER;                            // SMTP username
+  $mail->Password = SMTP_PASS;                           // SMTP password
+  //$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+
+  $mail->From = MAIL_FROM;
+  $mail->FromName = SITE_TITLE;
+  $mail->AddAddress($to);               // Name is optional
+
+  //$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+  //$mail->AddAttachment('/var/tmp/file.tar.gz');         // Add attachments
+  //$mail->AddAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+  //$mail->IsHTML(true);                                  // Set email format to HTML
+
+  $mail->Subject = $subject;
+  $mail->Body    = $message;
+  $mail->AltBody = $message;  
+
+  if(!$mail->Send()) {
+    error_log('mail could not be sent to ' . $to);
+  }
 }
 
 
