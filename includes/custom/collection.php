@@ -307,8 +307,9 @@ function aaaart_collection_search($query, $print_response=false) {
 				$collections = array();
 			}
 		}
-		$makers = array_slice($makers, 0, 10);
-		$collections = array_slice($collections, 0, 7);
+
+		$makers = (!empty($makers)) ? array_slice($makers, 0, 10) : array();
+		$collections = (!empty($collections)) ? array_slice($collections, 0, 7) : array();
 		aaaart_mongo_stringify_ids($makers);
 		aaaart_mongo_stringify_ids($collections);
 		$response = array( 'files' => $docs, 'makers' => $makers, 'collections'=> $collections );
