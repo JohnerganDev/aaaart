@@ -54,11 +54,9 @@ function aaaart_render_thumbnail_title(file, show_maker) {
 	}
 	*/
 	var $title = $('<small>')
-    .append($("<a data-gallery='gallery'>")
-    .attr('data-detail', file.detail_url)
-	  .prop('href', file.url)
+    .append($("<a>")
+    .prop('href', file.detail_url)
     .prop('title',file.metadata.title)
-    .prop("download",file.name)
     .html(file.metadata.title));
   if (show_maker) {
   	$title.append(" ").append($("<span>")
