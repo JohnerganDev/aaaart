@@ -61,7 +61,6 @@ Collections are groups of documents created by users.
     </div>
 </div>
 
-
 <?php
 
 print aaaart_template_footer(array("js/home.js"));

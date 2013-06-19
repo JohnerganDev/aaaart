@@ -51,10 +51,13 @@ ul#gallery li.image {
     list-style-type: none;
     float: left;
     width:160px;
-    height: 160px;
     padding:15px;
 }
-
+ul#gallery li.image img {
+  display: block;
+    float: none;
+    vertical-align: top;
+}
 ul#gallery li.image a.placeholder {
     position:relative;
     height: 100%;
