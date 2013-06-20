@@ -487,9 +487,10 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 		aaaart_solr_add_to_queue(IMAGES_COLLECTION, $request_data['document-id']);
 	} else {
 		// this is a brand new image
-		$file->metadata->title = aaaart_utils_get_field_data($request_data, 'title', $index);
+		// $file->original_name is used so that we can recover the correct extra field information ($index doesn't work)
+		$file->metadata->title = aaaart_utils_get_field_data($request_data, 'title', $file->original_name);
 		// Handle the "maker" (it might be several people separated by commas)
-		$makers_str = aaaart_utils_get_field_data($request_data, 'maker', $index);
+		$makers_str = aaaart_utils_get_field_data($request_data, 'maker', $file->original_name);
 		// This attributes array will be inserted
 	  $attributes = array(
 	  	'owner' => aaaart_mongo_id($uid),

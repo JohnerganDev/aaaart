@@ -105,10 +105,10 @@ print aaaart_template_header('Upload');
         </td>
         <td class="editable-fields">
             <div class="row">
-                <label><?php print MAKERS_LABEL; ?>:</label><input type="text" name="maker">
+                <label><?php print MAKERS_LABEL; ?>:</label><input type="text" name="maker[{%= file.name %}]">
             </div>
             <div class="row">
-                <label>Title:</label><input type="text" name="title">
+                <label>Title:</label><input type="text" name="title[{%= file.name %}]">
             </div>
         </td>
         <td>

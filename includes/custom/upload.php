@@ -564,6 +564,7 @@ class AaaartUploadHandler {
         $new_name = uniqid();
         $file = new stdClass();
         //$file->name = $this->get_file_name($name, $type, $index, $content_range);
+        $file->original_name = $name;
         $file->name = $this->get_file_name($new_name, $type, $index, $content_range);
         $file->size = $this->fix_integer_overflow(intval($size));
         $file->type = $type;
