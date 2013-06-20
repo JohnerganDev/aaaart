@@ -55,7 +55,7 @@ $(function () {
                     }
                 });
             });
-            gallery.append($('<li class="image">').append($button).append($thumbnail));
+            aaaart_add_item_to_gallery(file, gallery).prepend($button);
         });
     });
 

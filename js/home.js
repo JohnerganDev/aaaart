@@ -27,8 +27,7 @@ $(function () {
             var gallery = $('#gallery'),
                 url;
             $.each(result.files, function (index, file) {
-                var $thumbnail = aaaart_render_thumbnail(file);
-                gallery.append($('<li class="image">').append($thumbnail));
+                aaaart_add_item_to_gallery(file, gallery);
             });
             if (result.files.length===0) {
                 $("button#more").hide();

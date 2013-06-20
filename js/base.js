@@ -68,8 +68,7 @@ $(function () {
             var gallery = $('#gallery.search-results'),
                 url;
             $.each(result.files, function (index, file) {
-                var $thumbnail = aaaart_render_thumbnail(file);
-                gallery.append($('<li class="image">').append($thumbnail));
+                aaaart_add_item_to_gallery(file, gallery);
             });
             aaaart_build_makers_list($list2, result.makers);
             aaaart_build_collections_list($list2, result.collections);

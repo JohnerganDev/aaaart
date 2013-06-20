@@ -1,6 +1,17 @@
 
 
+var masonryInitialized = false;
 
+function initMasonry(container, item_selector) {
+	container.masonry({
+		itemSelector: item_selector
+	}).imagesLoaded(function() {
+		if (masonryInitialized) {
+			container.masonry('reloadItems');
+		}
+	});
+	masonryInitialized = true;
+}
 
 function aaaart_render_thumbnail_image(file) {
 	/*
@@ -75,3 +86,15 @@ function aaaart_render_thumbnail(file, show_maker) {
   return $container;
 }
 
+function aaaart_add_item_to_gallery(file, gallery, show_maker) {
+	show_maker = (typeof show_maker === "undefined") ? true : show_maker;
+	var $thumbnail = aaaart_render_thumbnail(file, show_maker);
+  var $box = $('<li class="image">').append($thumbnail);
+  if (!masonryInitialized) {
+      gallery.append($box);
+      initMasonry(gallery, '.image');
+  } else {
+      gallery.append($box).masonry('appended', $box, true);
+  }
+  return $box;
+}

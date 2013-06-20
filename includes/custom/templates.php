@@ -65,11 +65,10 @@ function aaaart_template_footer($js=array()) {
 	$script_url = BASE_URL;
 	$js[] = "js/base-".LIST_TYPE.".js";
 	$js[] = "js/base.js";
-	/*
 	if (LIST_TYPE=='grid') {
 		$js[] = 'js/masonry.pkgd.min.js';
+		$js[] = 'js/imagesloaded.js';
 	}
-	*/
 	$js_additions = '';
 	$output = '';
 
