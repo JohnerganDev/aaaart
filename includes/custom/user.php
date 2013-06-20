@@ -175,9 +175,13 @@ function aaaart_user_logout() {
  */
 function aaaart_user_attempt_login($name, $password) {
 	if (!$password) {
-		$u = aaaart_user_get($name);
+		//$u = aaaart_user_get($name);
 	} else {
-		$u = aaaart_mongo_get_one(PEOPLE_COLLECTION, array('_id'=>$name, 'pass'=>md5($password)));
+		if (strpos($name, '@')>0) {
+			$u = aaaart_mongo_get_one(PEOPLE_COLLECTION, array('email'=>$name, 'pass'=>md5($password)));
+		} else {
+			$u = aaaart_mongo_get_one(PEOPLE_COLLECTION, array('_id'=>$name, 'pass'=>md5($password)));
+		}
 	}
 	if (!empty($u)) {
 		$expiration = time() + 1209600;
