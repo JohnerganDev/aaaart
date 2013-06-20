@@ -92,9 +92,14 @@ function aaaart_add_item_to_gallery(file, gallery, show_maker) {
   var $box = $('<li class="image">').append($thumbnail);
   if (!masonryInitialized) {
       gallery.append($box);
-      initMasonry(gallery, '.image');
+      $box.imagesLoaded(function() {
+      	initMasonry(gallery, '.image');
+      });
   } else {
-      gallery.append($box).masonry('appended', $box, true);
+      gallery.append($box);
+      $box.imagesLoaded(function() {
+      	gallery.masonry('appended', $box, true);
+      });
   }
   return $box;
 }
