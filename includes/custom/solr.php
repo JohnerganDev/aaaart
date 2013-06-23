@@ -183,9 +183,11 @@ class Solr {
 			'makers' => array(),
 		);
 		// index makers 
-		foreach ($obj['makers'] as $m) {
-			if (!empty($m['$id'])) {
-				$item['makers'][] = (string)$m['$id'];
+		if (!empty($obj['makers'])) {
+			foreach ($obj['makers'] as $m) {
+				if (!empty($m['$id'])) {
+					$item['makers'][] = (string)$m['$id'];
+				}
 			}
 		}
 		// index collections
@@ -291,7 +293,7 @@ class Solr {
 					case COLLECTIONS_COLLECTION: $this->indexCollection($obj); break;
 					case COMMENTS_COLLECTION: $this->indexDiscussion($obj); break;
 				}
-				aaaart_mongo_pull(SYSTEM_COLLECTION, array('name' => 'solr_queue'), array('id'=>$item['id']));
+				aaaart_mongo_pull(SYSTEM_COLLECTION, array('name' => 'solr_queue'), array('queue' => array('id'=>$item['id'])));
 			}
 		}
 	}
