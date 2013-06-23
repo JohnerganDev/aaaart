@@ -13,17 +13,21 @@ if (php_sapi_name() == 'cli') {
 
 	switch ($action) {
 
-		case 'reindexAll':
+		case 'clear':
 			// reindex everything
 			$solr = new Solr();
 			$solr->clearSolr();
+		break;
+
+		case 'reindexAll':
+			// reindex everything
+			$solr = new Solr();
 			$solr->reindexAllDocuments();
 		break;
 
 		case 'processQueue':
 			// only reindex queued items
 			$solr = new Solr();
-			$solr->clearSolr();
 			$solr->processQueue();
 		break;
 
