@@ -74,7 +74,7 @@ function aaaart_memex_update_path($url) {
 			'title' => $ref['title'],
 			'note' => '',
 		);
-		if ($m['pointer']<=count($m['path'])-1) {
+		if ($m['pointer']>=count($m['path'])-1) {
 			$m['path'][] = $addition;
 			$m['pointer'] = count($m['path']) - 1;
 			$m['changed'] = $now;
