@@ -480,6 +480,25 @@ function aaaart_truncate($str, $limit) {
   }
 }
 
+
+/*
+ *
+ */
+function aaaart_array_splice(&$array, $insert, $position) {
+  $new_array = array();
+  foreach ($array as $k=>$v) {
+    if ($k<$position) {
+      $new_array[] = $v;
+    } else if ($k==$position) {
+      $new_array[] = $insert;
+      $new_array[] = $v;
+    } else if ($k>$position) {
+      $new_array[] = $v;
+    }
+  }
+  $array = $new_array;
+}
+
 function in_string($needle, $haystack, $insensitive = 0) { 
   if ($insensitive) { 
     return (false !== stristr($haystack, $needle)) ? true : false; 

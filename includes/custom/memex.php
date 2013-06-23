@@ -79,7 +79,7 @@ function aaaart_memex_update_path($url) {
 			$m['pointer'] = count($m['path']) - 1;
 			$m['changed'] = $now;
 		} else {
-			array_splice($m['path'], $m['pointer'] + 1, 0, $addition);
+			aaaart_array_splice($m['path'], $addition, $m['pointer'] + 1);
 			$m['pointer'] = $m['pointer'] + 1;
 			$m['changed'] = $now;
 		}
