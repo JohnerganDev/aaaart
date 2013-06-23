@@ -121,11 +121,12 @@ function aaaart_memex_get_active_user_path($id=false) {
 }
 
 function aaaart_memex_render_button($title, $uri, $icon_type, $button_type) {
-	return sprintf('<div class="btn-group">
+	return sprintf('<div class="btn-group dropup">
 		<a href="%s%s" class="btn btn-mini %s" type="button"><i class="icon-%s icon-white"></i> %s</a>
 		<a class="btn btn-mini %s dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 		<ul class="dropdown-menu">
-	    
+	    <li><a data-toggle="modal" href="#"><i class="icon-remove"></i> Remove</a></li>
+	    <li><a data-toggle="modal" data-target="#comments" class="comments" href="#"><i class="icon-comment"></i> Add a note</a></li>
 	  </ul>
 	</div>', BASE_URL, $uri, $button_type, $icon_type, aaaart_truncate($title, 30), $button_type);
 }
