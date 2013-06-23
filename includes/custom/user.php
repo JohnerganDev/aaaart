@@ -179,8 +179,16 @@ function aaaart_user_attempt_login($name, $password) {
 	} else {
 		if (strpos($name, '@')>0) {
 			$u = aaaart_mongo_get_one(PEOPLE_COLLECTION, array('email'=>$name, 'pass'=>md5($password)));
+			if (empty($u)) {
+				aaaart_utils_generate_response(array('result' => false, 'message' => 'The password didn\'t work for the email address you used: '.$name));
+				exit;
+			}
 		} else {
 			$u = aaaart_mongo_get_one(PEOPLE_COLLECTION, array('_id'=>$name, 'pass'=>md5($password)));
+			if (empty($u)) {
+				aaaart_utils_generate_response(array('result' => false, 'message' => 'The password didn\'t work for the key you used: '.$name . ' You got your key will look something like this: 51c581276c3a0ee00b23f100. If you don\'t remember it, use your email address.'));
+				exit;
+			}			
 		}
 	}
 	if (!empty($u)) {

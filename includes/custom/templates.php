@@ -270,6 +270,7 @@ function aaaart_template_form_login(&$js=array()) {
         </div>
         <form class="modal-body">
             <input type="hidden" name="action" value="login" />
+            <div class="message text-error"></div>
             <fieldset>
 	            <label>Enter your key or email address.</label>
 	            <input class="input-xlarge" name="key" required>

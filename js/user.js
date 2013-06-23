@@ -45,6 +45,8 @@ $(function () {
       success: function(data){
         if (data.result) {
           window.location.reload(); 
+        } else {
+          $("#modal-login-form").find('.message').text(data.message);
         }
       },
       error: function(){
