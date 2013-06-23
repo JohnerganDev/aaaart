@@ -27,7 +27,7 @@ Document JSON structure in DB
 */
 
 
-function aaaart_image_check_perm($op, $image=false, $user_key=false) {
+function aaaart_image_check_perm($op, $image=false, $file=false) {
 	if (aaaart_user_check_capability('do_anything')) {
 		return true;
 	}
@@ -43,11 +43,14 @@ function aaaart_image_check_perm($op, $image=false, $user_key=false) {
 			return true;
 		case 'update':
 			// only image owners or site moderators can update
-			return (aaaart_collection_user_is_owner($user, $image));
+			return (aaaart_image_user_is_owner($user, $image));
 		break;
 		case 'delete':
 			// only image owners or site moderators can update
-		return (aaaart_collection_user_is_owner($user, $image));
+		return (aaaart_image_user_is_owner($user, $image));
+		case 'delete_file':
+			// only image owners or site moderators can update
+		return (aaaart_image_user_is_owner($user, $image) || aaaart_image_file_user_is_owner($user, $file));
 		break;
 		case 'request':
 			if (aaaart_user_check_capability('ban_document_request')) return false;
@@ -74,6 +77,17 @@ function aaaart_image_check_perm($op, $image=false, $user_key=false) {
 function aaaart_image_user_is_owner($user, $document) {
 	if (!empty($document['owner']) && !empty($user['_id'])) {
 		if ($document['owner']==$user['_id']) return true;
+	} 
+	// fallback
+	return false;
+}
+
+/**
+ * Checks if a user is owner of a file
+ */
+function aaaart_image_file_user_is_owner($user, $file) {
+	if (!empty($file['uploader']) && !empty($user['_id'])) {
+		if ($file['uploader']==$user['_id']) return true;
 	} 
 	// fallback
 	return false;
@@ -127,11 +141,12 @@ function aaaart_image_load_from_query_string() {
 /**
  * Returns HTML for a version of the image (version, as defined in config.php)
  */
-function aaaart_image_display_image($image, $version=false) {
-	if (is_string($image)) {
-		$image = aaaart_image_get($image);
+function aaaart_image_display_image($document, $version=false) {
+	if (is_string($document)) {
+		$document = aaaart_image_get($document);
 	}
-	$file = aaaart_image_make_file_object($image);
+	$image_file = aaaart_image_find_first_image($document);
+	$file = aaaart_image_make_file_object($document, $image_file);
 	if (empty($file)) {
 		return '';
 	}
@@ -224,10 +239,27 @@ function aaaart_image_get_makers_for_document($document_id, $print_response=fals
 
 
 /**
+ * A document might have several files - if we are looking for an image to 
+ * display (as a thumbnail or something like that) then this looks through 
+ * each of the attached files to locate the first image file that it can use.
+ */
+function aaaart_image_find_first_image($doc) {
+	if (!empty($doc['files'])) {
+		foreach ($doc['files'] as $id=>$f) {
+			if (!empty($f['name']) && aaaart_utils_is_image($f['name'])) {
+				return $f;
+			}
+		}
+	}
+	return false;
+}
+
+
+/**
  * Creates a file object from Mongo document
  * The file object is what is sent to front end via JSON
  */
-function aaaart_image_make_file_object($doc) {
+function aaaart_image_make_file_object($doc, $file_to_use = false) {
 	global $IMAGE_UPLOAD_OPTIONS;
 	if (is_string($doc)) {
 		$doc = aaaart_image_get($doc);
@@ -252,7 +284,11 @@ function aaaart_image_make_file_object($doc) {
 			}
 		}
 	}
-	if (empty($first_file['name'])) {
+	if ($file_to_use) {
+		$file_name = $file_to_use['name'];
+		$upload_handler = new AaaartUploadHandler($IMAGE_UPLOAD_OPTIONS);
+		$file = $upload_handler->get_file_object($file_name);
+	} else if (empty($first_file['name'])) {
 		$file = new StdClass();	
 	} else {
 		$file_name = $first_file['name'];
@@ -262,7 +298,6 @@ function aaaart_image_make_file_object($doc) {
 	if (!empty($file) || is_object($file)) {
 		// mark if this is a request
 		if (empty($doc['files'])) {
-			debug($doc);
 			$file->is_request = true;
 		}
 		// document id
@@ -291,7 +326,13 @@ function aaaart_image_make_file_object($doc) {
 function aaaart_image_delete_file($file_name) {
 	global $IMAGE_UPLOAD_OPTIONS;
 	$image = aaaart_image_file_lookup($file_name);
-	if (!empty($image) && aaaart_image_check_perm('update', $image)) {
+	$file = false;
+	foreach ($image['files'] as $id=>$f) {
+		if (!empty($f['name']) && ($f['name']==$file_name)) {
+			$file = $f;
+		}
+	} 
+	if (!empty($image) && !empty($file) && aaaart_image_check_perm('delete_file', $image, $file)) {
 		$upload_handler = new AaaartUploadHandler($IMAGE_UPLOAD_OPTIONS);
 		$success = $upload_handler->delete($file_name);
 		if ($success) {

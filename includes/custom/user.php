@@ -185,7 +185,8 @@ function aaaart_user_attempt_login($name, $password) {
 	}
 	if (!empty($u)) {
 		$expiration = time() + 1209600;
-		$cookie = aaaart_user_generate_cookie( $name, $expiration ); 
+		$id = (string)$u['_id'];
+		$cookie = aaaart_user_generate_cookie( $id, $expiration ); 
 		setcookie( COOKIE_AUTH, $cookie, $expiration, COOKIE_PATH );
 		aaaart_utils_generate_response(array('result' => true, 'message' => 'success'));
 	} else {

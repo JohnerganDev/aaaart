@@ -1,11 +1,17 @@
 <?php
 
 function aaaart_template_header($title='Website') {
+	global $user;
 	$script_url = BASE_URL;
 	$site_name = SITE_TITLE;
 	$nav = aaaart_template_nav();
 	$title_bar = sprintf('%s | %s', SITE_TITLE, $title);
-	$css = 'style-'.LIST_TYPE;
+	$styles = array();
+	if (!empty($user)) {
+		//$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/sticky-footer.css");
+	}
+	$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/style-".LIST_TYPE.".css");
+	$style_additions = implode("\n", $styles);
 	$output = <<< EOF
 
 	<!DOCTYPE HTML>
@@ -20,7 +26,7 @@ function aaaart_template_header($title='Website') {
 	<!-- Bootstrap CSS Toolkit styles -->
 	<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
 	<!-- Generic page styles -->
-	<link rel="stylesheet" href="{$script_url}css/{$css}.css">
+	{$style_additions}
 	<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
 	<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
 	<!-- Bootstrap CSS fixes for IE6 -->
@@ -62,6 +68,7 @@ EOF;
 
 
 function aaaart_template_footer($js=array()) {
+	global $user;
 	$script_url = BASE_URL;
 	$js[] = "js/base-".LIST_TYPE.".js";
 	$js[] = "js/base.js";
@@ -82,6 +89,7 @@ function aaaart_template_footer($js=array()) {
 	foreach ($js as $f) {
 		$js_additions .= "<script src=\"".$script_url.$f."\"></script>\n";
 	}
+	//$footer = (!empty($user)) ? '<div class="footer"><p>This is a footer</p></div>' : '';
 	$output .= <<< EOF
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->

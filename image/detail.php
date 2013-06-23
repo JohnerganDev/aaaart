@@ -3,7 +3,7 @@
 require_once('../config.php');
 
 $image = aaaart_image_load_from_query_string();
-$can_edit = (aaaart_image_check_perm('edit', $image)) ? true : false;
+$can_edit = (aaaart_image_check_perm('update', $image)) ? true : false;
 $can_upload = (aaaart_image_check_perm('upload')) ? true : false;
 
 print aaaart_template_header( $image['title'] );

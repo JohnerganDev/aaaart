@@ -59,6 +59,8 @@ $(function () {
 
     if (getURLParameter('show')=='mine') {
         loadCollections('mine');
+    } else if ($("#collections-filter").length) {
+        loadCollections('filter');
     } else {
         loadCollections('all');
     }
