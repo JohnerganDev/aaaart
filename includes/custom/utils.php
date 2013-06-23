@@ -460,6 +460,34 @@ function aaaart_utils_format_date($time) {
 }
 
 
+/*
+ *
+ */
+function aaaart_truncate($str, $limit) {
+  // Make sure a small or negative limit doesn't cause a negative length for substr().
+  if ($limit < 3)
+  {
+    $limit = 3;
+  }
+  // Now truncate the string if it is over the limit.
+  if (strlen($str) > $limit)
+  {
+    return substr($str, 0, $limit - 3) . '...';
+  }
+  else
+  {
+    return $str;
+  }
+}
+
+function in_string($needle, $haystack, $insensitive = 0) { 
+  if ($insensitive) { 
+    return (false !== stristr($haystack, $needle)) ? true : false; 
+  } else { 
+    return (false !== strpos($haystack, $needle))  ? true : false; 
+  } 
+} 
+
 /**
  * Prints something out to error log
  */

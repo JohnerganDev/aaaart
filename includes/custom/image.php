@@ -104,7 +104,9 @@ function aaaart_image_get($id) {
 			return $id;
 		}
 		$doc = aaaart_mongo_get_one(IMAGES_COLLECTION, $id);
-		array_walk_recursive($doc, create_function('&$val', '$val = stripslashes($val);'));
+		if (is_array($doc)) {
+			array_walk_recursive($doc, create_function('&$val', '$val = stripslashes($val);'));
+		}
 		return $doc;
 	}
 	return false;

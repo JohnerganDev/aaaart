@@ -20,6 +20,7 @@ define( 'IMAGES_COLLECTION', 'images');
 define( 'COLLECTIONS_COLLECTION', 'collections');
 define( 'MAKERS_COLLECTION', 'makers');
 define( 'COMMENTS_COLLECTION', 'comments');
+define( 'MEMEX_COLLECTION', 'memex');
 define( 'SYSTEM_COLLECTION', 'system');
 
 // extra db fields

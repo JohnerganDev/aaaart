@@ -8,7 +8,9 @@ function aaaart_template_header($title='Website') {
 	$title_bar = sprintf('%s | %s', SITE_TITLE, $title);
 	$styles = array();
 	if (!empty($user)) {
-		//$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/sticky-footer.css");
+		$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/style-user.css");
+	} else {
+		$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/style-anon.css");
 	}
 	$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/style-".LIST_TYPE.".css");
 	$style_additions = implode("\n", $styles);
@@ -70,6 +72,7 @@ EOF;
 function aaaart_template_footer($js=array()) {
 	global $user;
 	$script_url = BASE_URL;
+	$js[] = "js/memex.js";
 	$js[] = "js/base-".LIST_TYPE.".js";
 	$js[] = "js/base.js";
 	if (LIST_TYPE=='grid') {
@@ -89,8 +92,9 @@ function aaaart_template_footer($js=array()) {
 	foreach ($js as $f) {
 		$js_additions .= "<script src=\"".$script_url.$f."\"></script>\n";
 	}
-	//$footer = (!empty($user)) ? '<div class="footer"><p>This is a footer</p></div>' : '';
+
 	$output .= <<< EOF
+	<div id="footer"></div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="{$script_url}js/vendor/jquery.ui.widget.js"></script>
