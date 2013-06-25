@@ -56,7 +56,7 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
     break;
   case 'DELETE':
     if (!empty($_GET['prune'])) {
-			aaaart_memex_prune_path($_GET['prune']);
+			aaaart_memex_prune_path($_GET['prune'], false, true);
 		} else if (!empty($_GET['id'])) {
 			aaaart_memex_delete($_GET['id']);
 		}

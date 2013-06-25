@@ -93,8 +93,34 @@ function aaaart_memex_update_path($url) {
 }
 
 
+/*
+
+*/
+function aaaart_memex_prune_path($url, $id=false, $print_response=false) {
+	if (!$id) {
+		$m = aaaart_memex_get_active_user_path();
+	} else {
+		$m = aaaart_memex_get($id);
+	}
+	aaaart_mongo_pull(
+		MEMEX_COLLECTION, 
+		array('_id'=>$m['_id']), 
+		array('path' => array('uri' => $url))
+	);
+	if ($print_response) {
+		$response = array( 'result' => 'success' );
+		return aaaart_utils_generate_response($response);
+	} else {
+		return $output;
+	}
+}
+
+/*
+	* Tries to extract some data from a url
+	*/
 function aaaart_memex_parse_url($url) {
 	$url = str_replace(BASE_URL, '', $url);
+	$url = str_replace('#', '', $url);
 	if (in_string('image/detail.php?id=', $url, 1)) {
 		$id = str_replace('image/detail.php?id=', '', $url);
 		$obj = aaaart_image_get($id);
@@ -120,15 +146,19 @@ function aaaart_memex_get_active_user_path($id=false) {
 	return aaaart_mongo_get_one(MEMEX_COLLECTION, array('owner'=>$u['_id'], 'active'=> 1));
 }
 
+
+/*
+ * Renders a single button (one item in path)
+ */
 function aaaart_memex_render_button($title, $uri, $icon_type, $button_type) {
-	return sprintf('<div class="btn-group dropup">
+	return sprintf('<li><div class="btn-group dropup">
 		<a href="%s%s" class="btn btn-mini %s" type="button"><i class="icon-%s icon-white"></i> %s</a>
 		<a class="btn btn-mini %s dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 		<ul class="dropdown-menu">
-	    <li><a data-toggle="modal" href="#"><i class="icon-remove"></i> Remove</a></li>
+	    <li><a data-toggle="modal" class="remove" data-url="%s" href="#"><i class="icon-remove"></i> Remove</a></li>
 	    <li><a data-toggle="modal" data-target="#comments" class="comments" href="#"><i class="icon-comment"></i> Add a note</a></li>
 	  </ul>
-	</div>', BASE_URL, $uri, $button_type, $icon_type, aaaart_truncate($title, 30), $button_type);
+	</div></li>', BASE_URL, $uri, $button_type, $icon_type, aaaart_truncate($title, 30), $button_type, $uri);
 }
 
 /*
@@ -137,7 +167,7 @@ function aaaart_memex_render_button($title, $uri, $icon_type, $button_type) {
  */
 function aaaart_memex_render_path($id=false, $print_response = true) {
 	global $user;
-	$output = '';
+	$buttons = array();
 	if (!$id) {
 		$m = aaaart_memex_get_active_user_path();
 	} else {
@@ -147,16 +177,16 @@ function aaaart_memex_render_path($id=false, $print_response = true) {
 		foreach ($m['path'] as $k => $item) {
 			 $btn = ($k==$m['pointer']) ? 'btn-primary' : 'btn-info';
 			switch ($item['type']) {
-				case IMAGES_COLLECTION: $output .= aaaart_memex_render_button($item['title'], $item['uri'], 'book', $btn); break;
-				case COLLECTIONS_COLLECTION: $output .= aaaart_memex_render_button($item['title'], $item['uri'], 'list', $btn); break;
-				case MAKERS_COLLECTION: $output .= aaaart_memex_render_button($item['title'], $item['uri'], 'user', $btn); break;
-				case COMMENTS_COLLECTION: $output .= aaaart_memex_render_button($item['title'], $item['uri'], 'comment', $btn); break;
-				case 'search': $output .= aaaart_memex_render_button($item['title'], $item['uri'], 'search', $btn); break;
+				case IMAGES_COLLECTION: $buttons[] = aaaart_memex_render_button($item['title'], $item['uri'], 'book', $btn); break;
+				case COLLECTIONS_COLLECTION: $buttons[] = aaaart_memex_render_button($item['title'], $item['uri'], 'list', $btn); break;
+				case MAKERS_COLLECTION: $buttons[] = aaaart_memex_render_button($item['title'], $item['uri'], 'user', $btn); break;
+				case COMMENTS_COLLECTION: $buttons[] = aaaart_memex_render_button($item['title'], $item['uri'], 'comment', $btn); break;
+				case 'search': $buttons[] = aaaart_memex_render_button($item['title'], $item['uri'], 'search', $btn); break;
 			}
 		}
 	}
 	if ($print_response) {
-		$response = array( 'memex' => $output );
+		$response = array( 'memex' => $buttons, 'pointer' => $m['pointer'] );
 		return aaaart_utils_generate_response($response);
 	} else {
 		return $output;
