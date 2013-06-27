@@ -95,7 +95,7 @@ function aaaart_memex_load_from_query_string() {
  *
  */
 function aaaart_memex_item_lookup($id) {
-	return aaaart_mongo_get_one(MEMEX_COLLECTION, $id, "path._id");
+	return aaaart_mongo_get_one(MEMEX_COLLECTION, aaaart_mongo_id($id), "path._id");
 }
 
 
@@ -104,7 +104,7 @@ function aaaart_memex_item_lookup($id) {
  */
 function aaaart_memex_get_item($memex, $id) {
 	foreach ($memex['path'] as $item) {
-		if (!empty($item['_id']) && ($id==$item['_id'])) {
+		if (!empty($item['_id']) && ($id==(string)$item['_id'])) {
 			return $item;
 		}
 	}
@@ -121,7 +121,7 @@ function aaaart_memex_save_note($arr) {
 		if (!empty($m)) {
 			$now = time();
 			foreach ($m['path'] as $key=>$item) {
-				if (!empty($item['_id']) && ($arr['item_id']==$item['_id'])) {
+				if (!empty($item['_id']) && ($arr['item_id']==(string)$item['_id'])) {
 					$m['path'][$key]['note'] = $arr['note'];
 				}
 			}
@@ -504,14 +504,14 @@ function aaaart_memex_render_button($item, $icon_type, $button_type, $readonly) 
 	$title = $item['title'];
 	$uri = $item['uri'];
 	$note = (!empty($item['note'])) ? $item['note'] : '';
-	$id = (!empty($item['_id'])) ? $item['_id'] : false;
+	$id = (!empty($item['_id'])) ? (string)$item['_id'] : false;
 
 	if ($readonly && !empty($note)) {
 		$dropdown = sprintf('<div class="dropdown-menu" style="padding: 15px;">%s</div>', Slimdown::render($note));
 	} else if (!$readonly && !empty($id)) {
 		$label = (empty($note)) ? 'Add a note' : 'Edit note';
 		$dropdown = sprintf('<ul class="dropdown-menu"><li><a data-toggle="modal" class="remove" data-url="%s" href="#"><i class="icon-remove"></i> Remove</a></li>
-	    <li><a data-toggle="modal" data-target="#memex-modal" href="%smemex/note.php?id=%s"><i class="icon-edit"></i> %s</a></li></ul>',  $uri, BASE_URL, (string)$id, $label);
+	    <li><a data-toggle="modal" data-target="#memex-modal" href="%smemex/note.php?id=%s"><i class="icon-edit"></i> %s</a></li></ul>',  $uri, BASE_URL, $id, $label);
 	}
 	if (empty($dropdown)) {
 		return sprintf('<li><div class="btn-group dropup">
