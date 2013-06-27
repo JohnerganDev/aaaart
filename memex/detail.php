@@ -3,11 +3,10 @@
 require_once('../config.php');
 
 $memex = aaaart_memex_load_from_query_string();
-print_r($memex);
 aaaart_memex_open_path($memex);
-print_r($memex);
 $first_item = (!empty($memex['path'])) ? current($memex['path']) : array();
-
+print_r($memex['path']);
+print_r($first_item);
 print aaaart_template_header( $memex['title'] );
 
 ?>
