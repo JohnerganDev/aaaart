@@ -95,7 +95,7 @@ function aaaart_memex_load_from_query_string() {
  *
  */
 function aaaart_memex_item_lookup($id) {
-	return aaaart_mongo_get_one(MEMEX_COLLECTION, aaaart_mongo_id($id), "path._id");
+	return aaaart_mongo_get_one(MEMEX_COLLECTION, $id, "path._id");
 }
 
 
@@ -104,7 +104,7 @@ function aaaart_memex_item_lookup($id) {
  */
 function aaaart_memex_get_item($memex, $id) {
 	foreach ($memex['path'] as $item) {
-		if (!empty($item['_id']) && ($id==(string)$item['_id'])) {
+		if (!empty($item['_id']) && ($id==$item['_id'])) {
 			return $item;
 		}
 	}
@@ -266,7 +266,7 @@ function aaaart_memex_update_path($url) {
 		}
 		// build addition
 		$addition = array(
-			'_id' => aaaart_mongo_new_id(),
+			'_id' => (string)aaaart_mongo_new_id(),
 			'time' => $now,
 			'uri' => $ref['uri'],
 			'type' => $ref['type'],
