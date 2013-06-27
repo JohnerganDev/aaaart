@@ -4,9 +4,8 @@ require_once('../config.php');
 
 $memex = aaaart_memex_load_from_query_string();
 aaaart_memex_open_path($memex);
-$first_item = (!empty($memex['path'])) ? current($memex['path']) : array();
-print_r($memex['path']);
-print_r($first_item);
+$first_item = (!empty($memex['path'])) ? array_shift(array_values($memex['path'])) : array();
+
 print aaaart_template_header( $memex['title'] );
 
 ?>
