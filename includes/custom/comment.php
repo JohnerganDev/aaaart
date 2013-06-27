@@ -293,7 +293,7 @@ function aaaart_comment_get_reference_link($thread) {
 		switch ($thread['ref']['$ref']) {
 			case IMAGES_COLLECTION: return '<a href="'.BASE_URL.'image/detail.php?id='.(string)$ref['_id'].'">'.$ref['title'].'</a>';
 			case COLLECTIONS_COLLECTION: return '<a href="'.BASE_URL.'collection/detail.php?id='.(string)$ref['_id'].'">'.$ref['title'].'</a>';
-			case MAKERS_COLLECTION: return '<a href="'.BASE_URL.'collection/detail.php?id='.(string)$ref['_id'].'">'.$ref['display'].'</a>';
+			case MAKERS_COLLECTION: return '<a href="'.BASE_URL.'collection/maker.php?id='.(string)$ref['_id'].'">'.$ref['display'].'</a>';
 		}
 	}
 	return false;

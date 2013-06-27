@@ -136,7 +136,7 @@ function aaaart_mongo_update($collection, $criterea, $data) {
   _aaaart_mongo_convert_ids($criterea);
 	if (!empty($criterea)) {
     $set = array('$set' => $data);
-		$c->update($criterea, $set);
+		return $c->update($criterea, $set);
 	}
 }
 

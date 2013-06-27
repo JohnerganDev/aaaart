@@ -21,6 +21,13 @@ $(function () {
         , pause: 'hover'
     }
 
+
+    // re-use the memex modal by flushing data on close
+    $('#memex-modal.modal').on('hidden', function () { 
+        $(this).off('.modal').removeData('modal') 
+    });
+
+
     $.fn.hiddenDimension = function(){
         if (arguments.length && typeof arguments[0] == 'string') {
           var dimension = arguments[0]
@@ -77,16 +84,14 @@ $(function () {
             dataType: 'json',
             success: function(data){
                 if (data.memex) {
-                    createSlides($slider, data.memex, data.pointer, 5);
-                    //$path.html(data.memex);
+                    createSlides($slider, data.memex, data.pointer);
                 }
                 $('#memex-carousel').carousel(data.pointer);
-                /*
-                $pathWrapper.lemmonSlider();
-                if (data.pointer) {
-                    $pathWrapper.trigger('slideTo', [data.pointer, 'fast']);
-                }
-                */
+                $actions.html(data.actions);
+                $actions.find('a.remove').click(function() {
+                    clearTrail();
+                    return false;
+                });
             },
             error: function(){
                 alert("Sorry, that didn't work!");
@@ -102,6 +107,7 @@ $(function () {
             dataType: 'json',
             success: function(data){
                 button.remove();
+                // @todo: re-add the remaining buttons to the slider
             },
             error: function(){
                 alert("Sorry, that didn't work!");
@@ -110,7 +116,7 @@ $(function () {
     }
 
     // Each "slide" in the Bootstrap carousel contains several buttons.
-    function createSlides(slider, buttons, pointer, buttons_per_slide) {
+    function createSlides(slider, buttons, pointer) {
         var slide_idx = 0;
         var $current_slide = null;
         var $current_path = null;
@@ -149,14 +155,29 @@ $(function () {
         slider.trigger('slid');
     }
 
+    // remove everything from current trail
+    function clearTrail() {
+        $.ajax({
+            type: "DELETE",
+            url: base_url + "memex/index.php",
+            dataType: 'json',
+            success: function(data){
+                $actions.empty();
+                $slider.find('.carousel-inner').empty();
+                $slider.find('.memex-controls .controls').hide();
+            }
+        });
+    }
+
     var $container = $('#footer');
     var $slider = null;
+    var $actions = null;
     if ($container.is(":visible")) {
         $container.addClass('row-fluid');
         var $prev = $('<a class="btn btn-mini controls memex-prev" data-slide="prev" href="#memex-carousel" type="button"><i class="icon-chevron-left"></i></a>');
         var $next = $('<a class="btn btn-mini controls memex-next" data-slide="next" href="#memex-carousel" type="button"><i class="icon-chevron-right"></i></a>');
         var $controls = $('<div>').addClass('memex-controls btn-group');
-        var $actions = $('<div>').addClass('memex-actions');
+        $actions = $('<div>').addClass('memex-actions');
         $controls.append($prev).append($next);
         $slider = $('<div>').attr("id","memex-carousel").attr("data-interval","false").addClass('carousel slide');
         var $path = $('<div>').addClass('carousel-inner');

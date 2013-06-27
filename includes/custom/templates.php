@@ -72,7 +72,6 @@ EOF;
 function aaaart_template_footer($js=array()) {
 	global $user;
 	$script_url = BASE_URL;
-	$js[] = "js/memex.js";
 	$js[] = "js/base-".LIST_TYPE.".js";
 	$js[] = "js/base.js";
 	if (LIST_TYPE=='grid') {
@@ -86,6 +85,7 @@ function aaaart_template_footer($js=array()) {
 	$output .= aaaart_template_form_invite($js);
 	$output .= aaaart_template_form_request($js);
 	$output .= aaaart_template_comment($js);
+	$output .= aaaart_template_memex($js);
 	$output .= aaaart_template_form_create_collection($js);
 
 	$js = array_unique($js);
@@ -99,13 +99,13 @@ function aaaart_template_footer($js=array()) {
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="{$script_url}js/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
-<script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script>
+<script src="{$script_url}js/tmpl.min.js"></script>
 <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
+<script src="{$script_url}js/load-image.min.js"></script>
 <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
+<script src="{$script_url}js/canvas-to-blob.min.js"></script>
 <!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
-<script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
+<script src="{$script_url}js/bootstrap.min.js"></script>
 <script src="{$script_url}js/aaaart.bootstrap-image-gallery.js"></script>
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 <script src="{$script_url}js/jquery.iframe-transport.js"></script>
@@ -344,6 +344,28 @@ function aaaart_template_comment($js=array()) {
         <div class="modal-header">
             <a class="close" data-dismiss="modal">×</a>  
             <h3>Comments</h3>
+        </div>
+        <div class="modal-body">
+        	
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+        </div>
+    </div>	
+EOF;
+}
+
+
+function aaaart_template_memex(&$js=array()) {
+	$script_url = BASE_URL;
+
+	$js[] = "js/memex.js";
+	return <<< EOF
+		<!-- modal memex / memex form -->
+    <div id="memex-modal" class="modal hide fade in" style="display: none; ">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal">×</a>  
+            <h3>Edit trail</h3>
         </div>
         <div class="modal-body">
         	
