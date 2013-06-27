@@ -145,13 +145,16 @@ function aaaart_memex_save_note($arr) {
  */
 function aaaart_memex_open_path(&$memex) {
 	global $user;
-	aaaart_memex_close_active_path();
 	$now = time();
 	if (aaaart_memex_user_is_owner($user, $memex)) {
+		if ($memex['active']!=1) {
+			aaaart_memex_close_active_path();
+		}
 		$memex['pointer'] = 0;
 		$memex['active'] = 1;
 		aaaart_mongo_update(MEMEX_COLLECTION, $memex['_id'], array('pointer' => $memex['pointer'], 'active' => $memex['active']));
 	} else {
+		aaaart_memex_close_active_path();
 		$memex['parent'] = $memex['_id'];
 		$memex['changed'] = $now;
 		$memex['owner'] = $user['_id'];
