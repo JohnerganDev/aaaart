@@ -207,7 +207,7 @@ function aaaart_image_get_files_for_image($id, $print_response=false) {
 				$upload_handler = new AaaartUploadHandler($IMAGE_UPLOAD_OPTIONS);
 				foreach ($doc['files'] as $file) {
 					if (!empty($file['name'])) {
-						$files[] = $upload_handler->get_file_object($file['name']);
+						$files[] = $upload_handler->make_file_object($file);
 					}
 				}
 			}
@@ -289,13 +289,13 @@ function aaaart_image_make_file_object($doc, $file_to_use = false) {
 	if ($file_to_use) {
 		$file_name = $file_to_use['name'];
 		$upload_handler = new AaaartUploadHandler($IMAGE_UPLOAD_OPTIONS);
-		$file = $upload_handler->get_file_object($file_name);
+		$file = $upload_handler->make_file_object($file_to_use);
 	} else if (empty($first_file['name'])) {
 		$file = new StdClass();	
 	} else {
 		$file_name = $first_file['name'];
 		$upload_handler = new AaaartUploadHandler($IMAGE_UPLOAD_OPTIONS);
-		$file = $upload_handler->get_file_object($file_name);
+		$file = $upload_handler->make_file_object($first_file);
 	}
 	if (!empty($file) || is_object($file)) {
 		// mark if this is a request

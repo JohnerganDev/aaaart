@@ -159,7 +159,7 @@ class AaaartUploadHandler {
         return aaaart_utils_get_query_separator($url);
     }
 
-    protected function get_download_url($file_name, $version = null) {
+    protected function get_download_url($file_name, $version = null, $subdirectory = '') {
         if ($this->options['download_via_php']) {
             $url = $this->options['script_url']
                 .$this->get_query_separator($this->options['script_url'])
@@ -170,8 +170,9 @@ class AaaartUploadHandler {
             return $url.'&download=1';
         }
         $version_path = empty($version) ? '' : rawurlencode($version).'/';
+
         return $this->options['upload_url'].$this->get_user_path()
-            .$version_path.rawurlencode($file_name);
+            .$version_path.$subdirectory.rawurlencode($file_name);
     }
 
     protected function set_file_delete_properties($file) {
@@ -201,13 +202,53 @@ class AaaartUploadHandler {
 
     }
 
-    protected function is_valid_file_object($file_name) {
+    protected function is_valid_file_object($file_name, $path_override=false) {
         $file_path = $this->get_upload_path($file_name);
         if (is_file($file_path) && $file_name[0] !== '.') {
             return true;
         }
         return false;
     }
+
+
+    /*
+    * The array will already have lots of useful information.
+    * This function returns a StdClass object with some extra fields.
+    * It also checks if there is a modification to the file path.
+    */
+    function make_file_object($file_array) {
+        if (!empty($file['name'])) {
+            $file_path = (!empty($file_array['full_path'])) ? $file_array['full_path'] : '';
+            $file_path = str_replace( array($this->options['upload_dir'], $file_array['name']), array('', ''), $file_path ); // change absolute to relative
+            if ($this->is_valid_file_object($file_path.$file_name)) {
+                $file = new stdClass();
+                $file->name = $file_array['name'];
+                $file->size = $file_array['size'];
+                $file->type = $file_array['type'];
+                if (!empty($file_path)) {
+                    $file->url = $this->get_download_url($file->name, null, $file_path);
+                    //$this->set_file_delete_properties($file);
+                    // @todo sort out delete and versions for files with a path
+                } else {
+                    $file->url = $this->get_download_url($file->name);
+                    $this->set_file_delete_properties($file);
+                    foreach($this->options['image_versions'] as $version => $options) {
+                        if (!empty($version)) {
+                            if (is_file($this->get_upload_path($file_name, $version))) {
+                                $file->{$version.'_url'} = $this->get_download_url(
+                                    $file->name,
+                                    $version
+                                );
+                            }
+                        }
+                    }
+                }
+                return $file;
+            }
+        }
+        return null;
+    }
+
 
     function get_file_object($file_name) {
         if ($this->is_valid_file_object($file_name)) {
