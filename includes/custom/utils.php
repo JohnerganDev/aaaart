@@ -81,6 +81,21 @@ function aaaart_utils_get_file_type($file_path) {
       return 'image/gif';
     case 'pdf':
       return 'application/pdf';
+    case 'epub':
+      return 'application/epub';
+    case 'zip':
+      return 'application/zip';
+    case 'rar':
+      return 'application/rar';
+    case 'djvu':
+      return 'image/djvu';
+    case 'doc':
+    case 'docx':
+      return 'image/msword';
+    case 'txt':
+      return 'text/plain';
+    case 'html':
+      return 'text/html';
     default:
       return '';
   }
