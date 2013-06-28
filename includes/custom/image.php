@@ -276,7 +276,7 @@ function aaaart_image_make_file_object($doc, $file_to_use = false) {
 	}
 	*/
 	if (!empty($doc['files'])) {
-		$first_file = current($doc['files']);
+		$first_file = array_shift(array_values($doc['files']));
 		if (empty($first_file['name'])) {
 			foreach ($doc['files'] as $f) {
 				if (!empty($f['name'])) {
@@ -496,7 +496,7 @@ function aaaart_image_process_makers_array($arr, &$doc) {
  * Looks for an existing maker, and creates it if it doesn't already exist
  */
 function aaaart_image_get_or_create_maker($name) {
-	$name_arr = (is_string($name)) ? current(aaaart_utils_parse_names($name)) : $name;
+	$name_arr = (is_string($name)) ? array_shift(array_values(aaaart_utils_parse_names($name))) : $name;
 	// match on first + last - other variations might just be detailed versions of the same name
 	$maker = aaaart_mongo_get_one(MAKERS_COLLECTION, array('first'=>$name['first'], 'last'=>$name['last']));
 	if (!empty($maker['_id'])) {
