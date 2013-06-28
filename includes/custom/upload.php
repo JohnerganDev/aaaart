@@ -218,6 +218,7 @@ class AaaartUploadHandler {
     */
     function make_file_object($file_array) {
         if (!empty($file_array['name'])) {
+            $file_name = $file_array['name'];
             $file_path = (!empty($file_array['full_path'])) ? $file_array['full_path'] : '';
             $file_path = str_replace( array($this->options['upload_dir'], $file_array['name']), array('', ''), $file_path ); // change absolute to relative
             if ($this->is_valid_file_object($file_path.$file_name)) {
