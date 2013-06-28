@@ -537,7 +537,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 		// This attributes array will be inserted
 	  $attributes = array(
 	  	'owner' => aaaart_mongo_id($uid),
-	  	'upload_date' => $now,
+	  	'created' => $now,
 	  	'last_edit' => $now,
 	  	'files' => array(
 	  		array(

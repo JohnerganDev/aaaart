@@ -518,7 +518,7 @@ function aaaart_collection_get_makers_for_collection($collection_id, $print_resp
  * Get all images
  */
 function aaaart_collection_get_all_images() {
-	$documents = aaaart_mongo_get_paged(IMAGES_COLLECTION, array(), array('upload_date' => -1));
+	$documents = aaaart_mongo_get_paged(IMAGES_COLLECTION, array(), array('_id' => -1));
 	return aaaart_collection_generate_response_from_documents($documents);
 }
 
