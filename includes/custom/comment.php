@@ -306,7 +306,7 @@ function aaaart_comment_prepare_for_display(&$post) {
 	array_walk_recursive($post, create_function('&$val', '$val = stripslashes($val);'));
 	$post['display_date'] = !empty($post['created']) ? aaaart_utils_format_date($post['created']) : '';
 	$post['display_user'] = !empty($post['owner']) ? aaaart_user_format_display_name($post['owner']) : '';		
-	$post['text'] = Slimdown::render($post['text']);
+	$post['text'] = stripslashes(Slimdown::render($post['text']));
 }
 
 

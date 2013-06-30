@@ -7,16 +7,17 @@ $(function () {
         $(this).off('.modal').removeData('modal') 
     });
 
+    var page = 0;
     var $list = $('table#discussions');
     function loadDiscussions(type) {
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
             url: base_url + 'comment/index.php',
-            data: {action: 'get_comments', type: type},
+            data: {action: 'get_comments', type: type, _p: page},
             dataType: 'json',
         }).done(function (result) {
-            $list.empty();
+            if (page==0) $list.empty();
             if (result.comments) {
                 $.each(result.comments, function (index, comment) {
                     $list.append(
@@ -30,7 +31,7 @@ $(function () {
                                     .html(comment.thread_title)
                             ))
                             .append($('<p>').addClass('lead').html(comment.text))
-                            .append($('<small>').html(comment.display_user + ' on ' + comment.display_date))
+                            .append($('<small>').addClass('muted').html(comment.display_user + ' on ' + comment.display_date))
                     ));
                 });
             }
@@ -40,5 +41,10 @@ $(function () {
     if ($list.length) {
         loadDiscussions("new");
     }
+
+    $("button#more").click(function() {
+        page = page + 1;
+        loadDiscussions("new");
+    });
 
 });
