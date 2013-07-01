@@ -19,8 +19,7 @@ Collections are groups of documents created by users.
 
 <div id="container" class="container">
 	<div class="page-header">
-    <h1><?php print SITE_TITLE; ?></h1>
-    <h2 class="lead">shared</h2>
+    <h3 class="lead">shared</h3>
   </div>
   <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>    
 </div>

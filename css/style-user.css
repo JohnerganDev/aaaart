@@ -2,14 +2,15 @@
 	position: fixed;
   left: 0;
   bottom: 0;
-  height: 27px;
+  height: 30px;
   width: 100%;
   background-color: #663300;
+  padding-top: 3px;
 }
 
 #footer #memex-carousel {
 	display: table-row;
-	height: 27px;
+	height: 30px;
 }
 
 #footer .carousel-inner {

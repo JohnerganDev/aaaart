@@ -7,6 +7,7 @@ function aaaart_template_header($title='Website') {
 	$nav = aaaart_template_nav();
 	$title_bar = sprintf('%s | %s', SITE_TITLE, $title);
 	$styles = array();
+	$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/style.css");
 	if (!empty($user)) {
 		$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/style-user.css");
 	} else {
@@ -27,8 +28,6 @@ function aaaart_template_header($title='Website') {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Bootstrap CSS Toolkit styles -->
 	<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
-	<!-- Generic page styles -->
-	{$style_additions}
 	<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
 	<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
 	<!-- Bootstrap CSS fixes for IE6 -->
@@ -39,30 +38,29 @@ function aaaart_template_header($title='Website') {
 	<link rel="stylesheet" href="{$script_url}css/jquery.fileupload-ui.css">
 	<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 	<link rel="stylesheet" href="{$script_url}css/bootstrap-markdown.min.css">
+	<!-- Generic page styles -->
+	{$style_additions}
 	<!-- CSS adjustments for browsers with JavaScript disabled -->
 	<noscript><link rel="stylesheet" href="{$script_url}css/jquery.fileupload-ui-noscript.css"></noscript>
 	</head>
 	<body>
-	<div class="navbar navbar-fixed-top">
-	    <div class="navbar-inner">
-	    <a class="brand" href="{$script_url}">{$site_name}</a>
-	        <div class="container">
-	            <div class="nav-collapse btn-group">
-	                <ul id="nav" class="nav">
-	                    {$nav}
-	                    <li class="btn-grp search">
-		                    <form class="form-search" action="{$script_url}collection/search.php" method="get">
-											  <div class="input-append">
-											    <input name="q" type="text" class="span2 search-query">
-											    <button type="submit" class="btn">Search</button>
-											  </div>
-											</form>
-										</li>
-	                </ul>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+		<div class="navbar navbar-fixed-top">
+		<a id="site-title" href="{$script_url}">{$site_name}</a>
+		<div class="container">
+			<ul id="nav" class="nav nav-pills">
+        {$nav}
+        <li class="search">
+          <form class="form-search" action="{$script_url}collection/search.php" method="get">
+				  <div class="input-append">
+				    <input name="q" type="text" class="span2 search-query">
+				    <button type="submit" class="btn">Search</button>
+				  </div>
+					</form>
+				</li>
+      </ul>
+	  </div>
+	  </div>
+	  
 EOF;
 
 	return $output;
@@ -141,55 +139,43 @@ function aaaart_template_nav() {
 	$library_title = MAKERS_LABEL.'s';
 	if (aaaart_user_verify_cookie()) {
 return <<< EOF
-      <li class="btn-group">
-	      	<a class="btn" data-toggle="dropdown" href="#">Library <span class="caret"></span></a>
+      <li class="dropdown">
+	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Library <b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
 				    <li><a href="{$script_url}collection/makers.php"><i class="icon-stop"></i> {$library_title}</a></li>
 				    <li><a href="{$script_url}upload/"><i class="icon-arrow-up"></i> Upload</a></li>
 				    <li><a data-toggle="modal" href="#request-form"><i class="icon-magnet"></i> Request</a></li>
 				  </ul>
       </li>
-      <li class="btn-group">
-	      	<a class="btn" data-toggle="dropdown" href="#">Collections
-	      	<span class="caret"></span></a>
+      <li class="dropdown">
+	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Collections
+	      	<b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
 				    <li><a href="{$script_url}collection/list.php"><i class="icon-list"></i> All</a></li>
 				    <li><a href="{$script_url}collection/list.php?show=mine"><i class="icon-list-alt"></i> Mine</a></li>
 				    <li><a data-toggle="modal" href="#create-collection-form"><i class="icon-plus-sign"></i> Create</a></li>
 				  </ul>
       </li>
-      <li class="btn-group">
-	      	<a class="btn" data-toggle="dropdown" href="#">Discussion
+      <li class="dropdown">
+	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Discussion
 	      	<span class="caret"></span></a>
 	      	<ul class="dropdown-menu">
 				    <li><a href="{$script_url}comment/discussions.php"><i class="icon-comment"></i> Recent</a></li>
 				    <li><a data-toggle="modal" data-target="#comments" class="comments" href="{$script_url}comment/thread.php"><i class="icon-plus-sign"></i> Create</a></li>
 				  </ul>
       </li>
-      <li  class="btn-group">
-      		<a class="btn" data-toggle="modal" href="#site-invite-form">+ Invite</a></li>
-      <li class="btn-group">
-      		<a class="btn" href="{$script_url}user/index.php?action=logout">Logout</a>
-      </li>
+      <li ><a data-toggle="modal" href="#site-invite-form">+ Invite</a></li>
+      <li><a href="{$script_url}user/index.php?action=logout">Logout</a></li>
 EOF;
 	} else {
 return <<< EOF
-			<li class="btn">
-	      	<a href="{$script_url}collection/makers.php">Library</a>
-      </li>
-      <li class="btn">
-		    <a href="{$script_url}collection/list.php">Collections</a>
-      </li>
-      <li class="btn">
-			  <a href="{$script_url}comment/discussions.php">Discussions</a>
-      </li>
-      <li class="btn">
-      		<a data-toggle="modal" href="#modal-login-form">Login</a>
-      </li>
+			<li><a href="{$script_url}collection/makers.php">Library</a></li>
+      <li><a href="{$script_url}collection/list.php">Collections</a></li>
+      <li><a href="{$script_url}comment/discussions.php">Discussions</a></li>
+      <li><a data-toggle="modal" href="#modal-login-form">Login</a></li>
 EOF;
 	}
 }
-
 
 
 function aaaart_template_form_create_collection(&$js = array()) {

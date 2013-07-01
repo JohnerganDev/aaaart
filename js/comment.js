@@ -22,16 +22,17 @@ $(function () {
                 $.each(result.comments, function (index, comment) {
                     $list.append(
                         $('<tr>').append($('<td>')
+                            .append($('<p>').addClass('lead').html(comment.text))
                             .append(
-                                $('<h4>').append($('<a>')
+                                $('<span>').append($('<a>')
                                     .attr('href', comment.thread_url)
                                     .attr('data-toggle','modal')
                                     .attr('data-target', '#comments')
                                     .addClass('comments')
+                                    .addClass('label label-inverse')
                                     .html(comment.thread_title)
                             ))
-                            .append($('<p>').addClass('lead').html(comment.text))
-                            .append($('<small>').addClass('muted').html(comment.display_user + ' on ' + comment.display_date))
+                            .append($('<small>').addClass('muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
                     ));
                 });
             }

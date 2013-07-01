@@ -23,11 +23,8 @@ Collections are groups of documents created by users.
 ?>
 
 <div id="container" class="container">
-    <div class="page-header">
-        <h2 class="lead">...</h2>
-    </div>
   <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
-  <button id="more" class="btn btn-mini btn-primary" type="button">More</button>
+  <button id="more" class="btn btn-mini btn-danger" type="button">More</button>
 </div>
 
 <!-- modal-gallery is the modal dialog used for the image gallery -->

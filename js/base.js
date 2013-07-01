@@ -23,6 +23,7 @@ function aaaart_add_maker_to_list(list, maker) {
     list.append(
         $('<li>').attr('id', maker._id).append(
             $('<a>')
+            .addClass('label label-warning')
             .attr('href', base_url + 'collection/maker.php?id=' + maker._id)
             .html(maker.display)
     ));
@@ -32,6 +33,7 @@ function aaaart_add_collection_to_list(list, collection) {
     list.append(
         $('<li>').attr('id', collection._id).append(
             $('<a>')
+            .addClass('label label-success')
             .attr('href', base_url + 'collection/detail.php?id=' + collection._id)
             .html(collection.title)
     ));

@@ -269,11 +269,11 @@ function aaaart_comment_get_new_comments($num = 50) {
 			if ($thread['title']=='General discussion') {
 				$ref = aaaart_mongo_get_reference($thread['ref']);
 				if (!empty($ref['makers_display']) && !empty($ref['title'])) {
-					$newest_post['thread_title'] = sprintf('<em>%s</em> - %s <small>general discussion</small>', $ref['title'], $ref['makers_display']);
+					$newest_post['thread_title'] = sprintf('<em>%s</em> - %s', $ref['title'], $ref['makers_display']);
 				} else if (!empty($ref['title'])) {
-					$newest_post['thread_title'] = sprintf('<em>%s</em> <small>general discussion</small>', $ref['title']);
+					$newest_post['thread_title'] = sprintf('<em>%s</em>', $ref['title']);
 				} else if (!empty($ref['display'])) {
-					$newest_post['thread_title'] = sprintf('%s <small>general discussion</small>', $ref['display']);
+					$newest_post['thread_title'] = sprintf('%s', $ref['display']);
 				}
 			}
 			$newest_post['thread_url'] = sprintf('%scomment/thread.php?id=%s', BASE_URL, $thread['_id']);

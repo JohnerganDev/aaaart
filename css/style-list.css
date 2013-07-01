@@ -56,7 +56,7 @@ ul#gallery {
 }
 ul#gallery li.image {
     list-style-type: none;
-    padding-bottom:15px;
+    margin-bottom: 25px;
 }
 
 ul#gallery li.image h4 {
@@ -67,8 +67,14 @@ ul#gallery li.image h5 {
   margin-bottom:0px;
 }
 
+ul#gallery li.image h6 {
+  margin-top:0px;
+  margin-bottom:0px;
+}
+
 ul#gallery li.image .lead {
   font-size: 1em;
+  margin-bottom: 0px;
 }
 
 .clearfix:after {

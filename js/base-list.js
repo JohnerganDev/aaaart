@@ -15,14 +15,14 @@ function aaaart_render_thumbnail_title(file) {
     .prop('href', file.detail_url)
     .prop('title',file.metadata.title)
     .html(file.metadata.title);
-  if (file.is_request) { $link.append($('<small>').addClass('muted').text(' [request]')); }
-  var $title = $('<h4>')
+  if (file.is_request) { $link.append(' ').append($('<small>').addClass('label').text('request')); }
+  var $title = $('<h5>')
     .append($link);
   return $title;
 }
 
 function aaaart_render_thumbnail_author(file) {
-	return $('<h5>').html(file.metadata.maker);
+	return $('<h6>').html(file.metadata.maker);
 }
 
 function aaaart_render_thumbnail(file, show_author) {

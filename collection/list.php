@@ -19,7 +19,7 @@ Collections are groups of documents created by users.
 
 <div id="container" class="container">
     <div class="page-header">
-    <h2 >collections</h2>
+    <h3 >collections</h3>
     </div>
     <?php if (COLLECTIONS_ARE_HUGE): ?>
     <div class="btn-toolbar">

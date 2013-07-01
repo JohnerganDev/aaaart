@@ -8,8 +8,7 @@ print aaaart_template_header('Upload');
 
 <div id="container" class="container">
 	<div class="page-header">
-    <h1><?php print SITE_TITLE; ?></h1>
-    <h2 class="lead">upload</h2>
+    <h3 class="lead">upload</h3>
   </div>
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">

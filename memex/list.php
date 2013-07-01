@@ -21,7 +21,7 @@ Collections are groups of documents created by users.
 
 <div id="container" class="container">
     <div class="page-header">
-    <h2 >trails</h2>
+    <h3 >trails</h3>
     </div>
   <ul class="collections unstyled clearfix" id="collections">
     <?php foreach ($trails as $trail) { ?>
