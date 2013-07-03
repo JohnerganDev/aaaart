@@ -298,3 +298,7 @@ input[type="color"],
   border-bottom: 1px solid:#EFEFEF;
   margin-bottom: 30px;
 }
+
+#gallery .section > p {
+  margin-bottom: 30px;
+}
