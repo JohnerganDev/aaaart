@@ -24,26 +24,90 @@ $(function () {
         url: action
     });
 
+    // re-use the memex modal by flushing data on close
+    $('#add-section-modal.modal').on('hidden', function () { 
+        $(this).off('.modal').removeData('modal') 
+    });
+
     $.ajax({
         // Uncomment the following to send cross-domain cookies:
         //xhrFields: {withCredentials: true},
         url: base_url + 'collection/index.php',
-        data: {action: 'documents', id: collection_id},
+        data: {action: 'documents_and_sections', id: collection_id},
         dataType: 'json',
     }).done(function (result) {
         var gallery = $('#gallery'),
             url;
+        var collection_sections = new Array();
+        // Sorting documents into sections
+        var $sortButton = $('<div class="btn-group" style="display:none;">').append($('<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">Move to section <span class="caret"></span></a>')).append($('<ul class="dropdown-menu">'));
+        // Adding sections
+        var $addSectionDiv = $('<div>')
+            .attr('id','add-section')
+            .attr('style' , 'display: none;')
+            .addClass('alert alert-success');
+        var $addSection = $('<a>')
+            .attr('data-toggle','modal')
+            .attr('data-target','#add-section-modal')
+            .attr('href',base_url + 'collection/section.php?collection=' + collection_id)
+            .text('click here');
+        var $addSectionList = $('<ul>');
+        // Loop through each section and do a few things:
+        $.each(result.sections, function (index, section) {
+            // a. create the section to put in a list of sections during "Edit contents"
+            var $section = $('<a>')
+                .attr('data-toggle','modal')
+                .attr('data-target','#add-section-modal')
+                .attr('href',base_url + 'collection/section.php?collection=' + collection_id + '&section=' + section.id)
+                .text(section.title);
+            $addSectionList.append(
+                $('<li>').append($section)
+            );
+            // b. Add to a dropdown list of sections
+            var $sortLink = $('<a>').attr('href','#').text(section.title);
+            $sortButton.find('ul.dropdown-menu').append(
+                $('<li>').append($sortLink)
+            );
+            $sortLink.click(function() {
+                $.ajax({
+                    // Uncomment the following to send cross-domain cookies:
+                    //xhrFields: {withCredentials: true},
+                    type: "POST",
+                    url: base_url + 'collection/index.php',
+                    data: {
+                        action: 'sort_section', 
+                        collection_id: collection_id,
+                        document_id: $(this).closest('li.image').attr('data-id'),
+                        section_id: section.id
+                    },
+                    dataType: 'json',
+                });
+            });
+            // c. Build an array of sections (ultimately displayed to user) 
+            collection_sections[section.id] = $('<li>')
+                .addClass('section well')
+                .html(section.description)
+                .prepend($('<h4>').text(section.title))
+                .append($('<ul>'));
+            gallery.append(collection_sections[section.id]);
+        });
+        // Create the administrative block for adding/ editing sections
+        $addSectionDiv.html('In addition to removing items from this collection, you can organize the collection into sections. To add a new section ');
+        $addSectionDiv.append($addSection);
+        $addSectionDiv.append($addSectionList);
+        gallery.prepend($addSectionDiv);
+
+        // Now loop through the documents and add them into sections            
         $.each(result.files, function (index, file) {
-            console.log(file);
             var $thumbnail = aaaart_render_thumbnail(file);
-            var $button = $('<button>')
+            var $removeButton = $('<button>')
                 .addClass('btn')
                 .addClass('btn-mini')
                 .addClass('btn-danger')
                 .attr('type','button')
                 .attr('style' , 'display: none;')
                 .html('<i class="icon-remove icon-white"></i> Remove');
-            $button.click(function() {
+            $removeButton.click(function() {
                 $.ajax({
                     type: "DELETE",
                     url: base_url + "collection/index.php?collection=" + collection_id + '&document=' + file.document_id,
@@ -55,8 +119,20 @@ $(function () {
                     }
                 });
             });
-            aaaart_add_item_to_gallery(file, gallery).prepend($button);
+            if (file.section && (file.section in collection_sections)) {
+                aaaart_add_item_to_gallery(file, collection_sections[file.section])
+                    .prepend($sortButton.clone(true))
+                    .prepend($removeButton);
+            } else {
+                aaaart_add_item_to_gallery(file, gallery)
+                    .prepend($sortButton.clone(true))
+                    .prepend($removeButton);
+            }
         });
+        // Now add sections to the display
+        //for (var sid in collection_sections) {
+        //    gallery.prepend(collection_sections[sid]);
+        //}
     });
 
     function loadMakersForCollection(collection_id) {
@@ -80,7 +156,7 @@ $(function () {
         });
     }
 
-    loadMakersForCollection(collection_id);
+    //loadMakersForCollection(collection_id);
 
     // Modal submit
     $("button#save").click(function(){
@@ -131,7 +207,9 @@ $(function () {
 
     // Toggle remove buttons
     $("#edit-contents-toggle").click(function(){
-        $('ul#gallery li.image .btn').toggle();
+        $('ul#gallery li.image button.btn').toggle();
+        $('ul#gallery li.image div.btn-group').toggle();
+        $('#add-section').toggle();
     });
 
 });

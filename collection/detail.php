@@ -10,7 +10,7 @@ print aaaart_template_header( $collection['title'] );
 
 ?>
 
-<div id="container" class="container">
+<div id="container" class="container collection">
 	<div class="page-header">
     <h2 ><?php print $collection['title']; ?></h2>
     <h3 class="lead"><?php print $collection['short_description']; ?></h3>
@@ -35,20 +35,34 @@ print aaaart_template_header( $collection['title'] );
             <input type="hidden" name="action" value="update" />
             <fieldset>
               <label><h5>Name</h5></label>
-	            <span class="help-block">Give a name for this new collection.</span>
-	            <input type="text" name="title" value="<?php print $collection['title'] ?>">
+	            <input type="text" class="input-xlarge" name="title" value="<?php print $collection['title'] ?>">
+
+                <label><h5>Type</h5></label>
+                <span class="help-block">Pick the type of collection you want to create. You can change it later.</span>
+                <?php print aaaart_collection_type_field($collection['type']); ?>
+
+	            <label><h5>Very Short Description</h5></label>
+	            <input type="text" class="input-xxlarge" name="short_description" value="<?php print $collection['short_description'] ?>">
 	            
-	            <label><h5>Describe</h5></label>
-	            <span class="help-block">A short description, just a few words, to say what this collection will contain.</span>
-	            <input type="text" name="short_description" value="<?php print $collection['short_description'] ?>">
-	            
-	            <label><h5>Type</h5></label>
-	            <span class="help-block">Pick the type of collection you want to create. You can change it later.</span>
-	            <?php print aaaart_collection_type_field($collection['type']); ?>
+                <label><h5>Longer Description</h5></label>
+                <textarea data-provide="markdown" rows="6" class="input-xxlarge" name="description"><?php print $collection['metadata']['description'] ?></textarea>
+                
             </fieldset>
         </form>
         <div class="modal-footer">
             <button class="btn btn-success" id="save">Save</button>
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>
+    <!-- modal add section form -->
+    <div id="add-section-modal" class="modal hide fade in" style="display: none; ">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal">×</a>  
+            <h3>Sections</h3>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+            <button class="btn btn-success" id="save-section">Save</button>
             <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         </div>
     </div>
@@ -87,15 +101,17 @@ print aaaart_template_header( $collection['title'] );
     </div>
     <?php endif; ?>
     <p></p>        
-        <small><ul class="inline" id="makers-list"></ul></small>
-        </small>
-  </div>
-  <div id="metadata">
-		<input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />	
-	</div>
-  <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+    <small><ul class="inline" id="makers-list"></ul></small>
+    </div>
+    <div id="metadata">
+        <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />	
+        <?php if (!empty($collection['metadata']['description'])): ?>
+        <blockquote><?php print Slimdown::render($collection['metadata']['description']); ?></blockquote>
+        <?php endif; ?>
+    </div>
+    <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
 
-  <?php if ($can_edit || $can_add): ?>
+    <?php if ($can_edit || $can_add): ?>
 	<!-- The file upload form used as target for the file upload widget -->
 	<form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
 	    <!-- Redirect browsers with JavaScript disabled to the origin page -->

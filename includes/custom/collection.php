@@ -148,6 +148,7 @@ function aaaart_collection_update($id, $values) {
   	'type' => $values['type'],
   	'title' => $values['title'],
   	'short_description' => $values['short_description'],
+  	'metadata' => array('description' => $values['description']),
 	);
 	aaaart_mongo_update(COLLECTIONS_COLLECTION, $collection['_id'], $updated_data);
 	aaaart_solr_add_to_queue(COLLECTIONS_COLLECTION, (string)$collection['_id']);
@@ -167,6 +168,93 @@ function aaaart_collection_delete($id) {
 		$response = array( 'message' => 'It didn\'t work');
 	}
 	return aaaart_utils_generate_response($response);
+}
+
+
+/*
+ * Adds a section into the collection
+ */
+function aaaart_collection_create_section($id, $values) {
+	$uid = aaaart_user_get_id();
+	$now = time();
+	$order = (!empty($values['order'])) ? $values['order'] : 1;
+	$collection = aaaart_collection_get($id);
+	$new_section = array(
+		'_id' => aaaart_mongo_new_id(),
+		'owner' => aaaart_mongo_id($uid),
+  	'created' => $now,
+  	'changed' => $now,
+  	'title' => $values['title'],
+  	'description' => $values['description'],
+  	'order' => $order,
+	);
+	// push other sections depending on order
+	if (!empty($collection['sections'])) {
+		foreach ($collection['sections'] as $key=>$section) {
+			if ($section['order']>=$order) {
+				// bump up the others
+				$collection['sections'][$key]['order'] = $collection['sections'][$key]['order'] + 1;
+			}
+		}
+		aaaart_mongo_update(COLLECTIONS_COLLECTION, $id, array('sections' => $collection['sections']));
+	} 
+	aaaart_mongo_push(COLLECTIONS_COLLECTION, $id, array('sections' => $new_section));	
+}
+
+
+/*
+ * Adds a section into the collection
+ */
+function aaaart_collection_update_section($id, $section_id, $arr) {
+	$now = time();
+	$order = (!empty($arr['order'])) ? $arr['order'] : 1;
+	$collection = aaaart_collection_get($id);
+	if (!empty($collection) && !empty($collection['sections'])) {
+		foreach ($collection['sections'] as $key=>$section) {
+			if ($section_id==(string)$section['_id']) {
+				$collection['sections'][$key]['title'] = $arr['title'];
+				$collection['sections'][$key]['description'] = $arr['description'];
+				$collection['sections'][$key]['changed'] = $now;
+				$collection['sections'][$key]['order'] = $order;
+			} else if ($section['order']>=$order) {
+				// bump up the others
+				$collection['sections'][$key]['order'] = $collection['sections'][$key]['order'] + 1;
+			}
+		}
+		aaaart_mongo_update(COLLECTIONS_COLLECTION, $id, array('sections' => $collection['sections']));
+	}
+}
+
+
+/*
+ * Sorts a document into a section within a collection
+ */
+function aaaart_collection_sort_into_section($collection_id, $section_id, $document_id) {
+	$collection = aaaart_collection_get($collection_id);
+	foreach ($collection['contents'] as $key=>$item) {
+		if ((string)$item['object']['$id']==$document_id) {
+			$collection['contents'][$key]['section'] = $section_id;
+			aaaart_mongo_update(COLLECTIONS_COLLECTION, $collection_id, array('contents' => $collection['contents']));
+			return true;
+		}
+	}
+	return false;
+}
+
+
+/*
+ * Gets a section from a collection
+ */
+function aaaart_collection_get_section($id, $section_id) {
+	$collection = aaaart_collection_get($id);
+	if (!empty($collection) && !empty($collection['sections'])) {
+		foreach ($collection['sections'] as $key=>$section) {
+			if ($section_id==(string)$section['_id']) {
+				return $section;
+			}
+		}
+	}
+	return false;
 }
 
 
@@ -776,6 +864,57 @@ function aaaart_collection_get_collected_documents($id, $print_response = false)
 
 
 /**
+ * Get all documents for a collection, along with section info
+ */
+function aaaart_collection_get_documents_and_sections($id, $print_response = false) {
+	$collection = aaaart_collection_get($id);
+	$sections = array();
+	$map = array();
+	if (!empty($collection['sections'])) {
+		foreach ($collection['sections'] as $s) {
+			$order = (!empty($s['order'])) ? (int)$s['order'] : 1;
+			$id = (string)$s['_id'];
+			$sections[$id] = array(
+				'id' => $id,
+				'order' => $order,
+				'title' => $s['title'],
+				'description' => Slimdown::render($s['description']), 
+			);
+		}
+		uasort($sections, create_function('$a, $b',
+   'if ($a["order"] == $b["order"]) return 0; return ($a["order"] < $b["order"]) ? -1 : 1;'));
+	}
+
+	if (!empty($collection)) {
+		$documents = array();
+		foreach ($collection['contents'] as $c) {
+			$document = aaaart_mongo_get_reference($c['object']);	
+			$documents[ $document['makers_orderby'] ] = $document;
+			// If the document is in a section consult the map
+			if (!empty($c['section']) && array_key_exists($c['section'], $sections)) {
+				$map[ (string)$document['_id'] ] = (string)$c['section'];
+			}
+		}
+		ksort($documents);
+	}
+	
+	if ($print_response) {
+		$files = array();
+		foreach ($documents as $document) {
+			$f = aaaart_image_make_file_object($document);
+			$id = $f->document_id;
+			if (array_key_exists($id, $map)) {
+				$f->section = $map[$id];
+			}
+			$files[] = $f;
+		}
+		$response = array( 'sections'=>$sections, 'files' => $files );
+		return aaaart_utils_generate_response($response);
+	}
+}
+
+
+/**
  * Get all images for a user
  */
 function aaaart_collection_get_images_for_user($key=false) {
@@ -789,12 +928,12 @@ function aaaart_collection_get_images_for_user($key=false) {
  * Generate a JSON response from an iterable collection of images
  * The iterable collection comes from a mongo query
  */
-function aaaart_collection_generate_response_from_documents($documents) {
+function aaaart_collection_generate_response_from_documents($documents, $extra=array()) {
 	$files = array();
 	foreach ($documents as $document) {
 		$files[] = aaaart_image_make_file_object($document);
 	}
-	$response = array( 'files' => $files );
+	$response = array_merge($extra, array( 'files' => $files ));
 	return aaaart_utils_generate_response($response);
 }
 

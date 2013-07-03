@@ -89,7 +89,7 @@ function aaaart_render_thumbnail(file, show_maker) {
 function aaaart_add_item_to_gallery(file, gallery, show_maker) {
 	show_maker = (typeof show_maker === "undefined") ? true : show_maker;
 	var $thumbnail = aaaart_render_thumbnail(file, show_maker);
-  var $box = $('<li class="image">').append($thumbnail);
+  var $box = $('<li class="image">').attr('data-id',file.document_id).append($thumbnail);
   if (!masonryInitialized) {
       gallery.append($box);
       $box.imagesLoaded(function() {

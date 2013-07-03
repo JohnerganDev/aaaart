@@ -1,32 +1,3 @@
-#site-title {
-  position: fixed;
-  top:0px;
-  left:0px;
-  margin-left:15px;
-  margin-top:42px;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 30px;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #000;
-}
-
-#discussions p.lead p,
-#discussions p.lead {
-  margin-bottom: 0px;
-  font-size: 18px;
-}
-
-.form-search .input-append .search-query,
-.form-search .btn {
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-.form-search .input-append .search-query {
-    border-radius: 12px 0 0 12px;
-}
-
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -290,4 +261,40 @@ input[type="color"],
 .label-info,
 .badge-info {
    background-color: #3a87ad;
+}
+
+/* additions */
+
+#site-title {
+  position: fixed;
+  top:0px;
+  left:0px;
+  margin-left:15px;
+  margin-top:42px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #000;
+}
+
+#discussions p.lead p,
+#discussions p.lead {
+  margin-bottom: 0px;
+  font-size: 18px;
+}
+
+.form-search .input-append .search-query,
+.form-search .btn {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.form-search .input-append .search-query {
+    border-radius: 12px 0 0 12px;
+}
+
+#container.collection .description {
+  border-bottom: 1px solid:#EFEFEF;
+  margin-bottom: 30px;
 }
