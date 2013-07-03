@@ -54,7 +54,14 @@ $(function () {
         var $addSectionList = $('<ul>');
         // Loop through each section and do a few things:
         $.each(result.sections, function (index, section) {
-            // a. create the section to put in a list of sections during "Edit contents"
+            // a. Build an array of sections (ultimately displayed to user) 
+            collection_sections[section.id] = $('<li>')
+                .addClass('section well')
+                .html(section.description)
+                .prepend($('<h4>').text(section.title))
+                .append($('<ul>').addClass('items'));
+            gallery.append(collection_sections[section.id]);
+            // b. create the section to put in a list of sections during "Edit contents"
             var $section = $('<a>')
                 .attr('data-toggle','modal')
                 .attr('data-target','#add-section-modal')
@@ -63,7 +70,7 @@ $(function () {
             $addSectionList.append(
                 $('<li>').append($section)
             );
-            // b. Add to a dropdown list of sections
+            // c. Add to a dropdown list of sections
             var $sortLink = $('<a>').attr('href','#').text(section.title);
             $sortButton.find('ul.dropdown-menu').append(
                 $('<li>').append($sortLink)
@@ -82,14 +89,10 @@ $(function () {
                     },
                     dataType: 'json',
                 });
+                var ele = $(this).closest('li.image').detach();
+                collection_sections[section.id].find('ul.items').append(ele);
+                return false;
             });
-            // c. Build an array of sections (ultimately displayed to user) 
-            collection_sections[section.id] = $('<li>')
-                .addClass('section well')
-                .html(section.description)
-                .prepend($('<h4>').text(section.title))
-                .append($('<ul>'));
-            gallery.append(collection_sections[section.id]);
         });
         // Create the administrative block for adding/ editing sections
         $addSectionDiv.html('In addition to removing items from this collection, you can organize the collection into sections. To add a new section ');
@@ -120,7 +123,7 @@ $(function () {
                 });
             });
             if (file.section && (file.section in collection_sections)) {
-                aaaart_add_item_to_gallery(file, collection_sections[file.section])
+                aaaart_add_item_to_gallery(file, collection_sections[file.section].find('ul.items'))
                     .prepend($sortButton.clone(true))
                     .prepend($removeButton);
             } else {
@@ -129,10 +132,6 @@ $(function () {
                     .prepend($removeButton);
             }
         });
-        // Now add sections to the display
-        //for (var sid in collection_sections) {
-        //    gallery.prepend(collection_sections[sid]);
-        //}
     });
 
     function loadMakersForCollection(collection_id) {
