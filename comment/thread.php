@@ -47,7 +47,7 @@ from: <?php print $ref_link; ?>
 
 
 <script type="text/javascript">
-	$("#comment-form textarea").markdown({autofocus:false,savable:false});
+	$("#comment-form textarea").markdown({autofocus:false, savable:false});
   $("#comment-form").on('submit', function(event) {
   	var $form = $(this);
   	$.ajax({
@@ -55,7 +55,7 @@ from: <?php print $ref_link; ?>
       url: base_url + "comment/index.php",
       data: $form.serialize(), 
       success: function(result){
-        window.location.reload();   
+        window.location.href = base_url + "comment/discussions.php";   
       },
       error: function(){
         alert("Sorry, that didn't work!");
