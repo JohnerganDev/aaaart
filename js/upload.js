@@ -33,4 +33,25 @@ $(function () {
         )
     );
 
+    $('form#import-video,form#import-html').submit(function() {
+        $.ajax({
+            type: "POST",
+            url: base_url + "image/index.php",
+            data: $(this).serialize(), 
+            dataType: 'json',
+            success: function(result){
+                console.log(result);
+                 if (result.success) {
+                    document.location.href = base_url + "image/detail.php?id=" + result.document_id;
+                 } else {
+                    alert("That didn't work! We might not be able to import URLs from that website");
+                 }
+            },
+            error: function(){
+                alert("Sorry, that didn't work! ");
+            }
+        });
+        return false;
+    });
+
 });

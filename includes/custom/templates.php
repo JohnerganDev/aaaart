@@ -143,7 +143,7 @@ return <<< EOF
 	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Library <b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
 				    <li><a href="{$script_url}collection/makers.php"><i class="icon-stop"></i> {$library_title}</a></li>
-				    <li><a href="{$script_url}upload/"><i class="icon-arrow-up"></i> Upload</a></li>
+				    <li><a href="{$script_url}upload/"><i class="icon-arrow-up"></i> Add</a></li>
 				    <li><a data-toggle="modal" href="#request-form"><i class="icon-magnet"></i> Request</a></li>
 				  </ul>
       </li>

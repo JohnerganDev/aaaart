@@ -8,60 +8,106 @@ print aaaart_template_header('Upload');
 
 <div id="container" class="container">
 	<div class="page-header">
-    <h3 class="lead">upload</h3>
-  </div>
-    <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
-        <!-- Redirect browsers with JavaScript disabled to the origin page -->
-        <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-        <div class="row fileupload-buttonbar">
-            <div class="span7">
-                <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button">
-                    <i class="icon-plus icon-white"></i>
-                    <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
-                </span>
-                <button type="submit" class="btn btn-primary start">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Start upload</span>
-                </button>
-                <button type="reset" class="btn btn-warning cancel">
-                    <i class="icon-ban-circle icon-white"></i>
-                    <span>Cancel upload</span>
-                </button>
-                <button type="button" class="btn btn-danger delete">
-                    <i class="icon-trash icon-white"></i>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" class="toggle">
-                <!-- The loading indicator is shown during file processing -->
-                <span class="fileupload-loading"></span>
-            </div>
-            <!-- The global progress information -->
-            <div class="span5 fileupload-progress fade">
-                <!-- The global progress bar -->
-                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="bar" style="width:0%;"></div>
-                </div>
-                <!-- The extended global progress information -->
-                <div class="progress-extended">&nbsp;</div>
-            </div>
-        </div>
-        <!-- The table listing the files available for upload/download -->
-        <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-    </form>
-    <br>
-    <div class="well">
-        <h3>Upload Notes</h3>
-        <ul>
-            <li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
-            <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>
-            <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
-            <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
-        </ul>
+        <h3 class="lead">upload</h3>
     </div>
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Upload a file</a></li>
+            <li><a href="#tab2" data-toggle="tab">Import HTML page</a></li>
+            <li><a href="#tab3" data-toggle="tab">Link to a video</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+
+            <!-- The file upload form used as target for the file upload widget -->
+            <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
+                <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
+                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                <div class="row fileupload-buttonbar">
+                    <div class="span7">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Add files...</span>
+                            <input type="file" name="files[]" multiple>
+                        </span>
+                        <button type="submit" class="btn btn-primary start">
+                            <i class="icon-upload icon-white"></i>
+                            <span>Start upload</span>
+                        </button>
+                        <button type="reset" class="btn btn-warning cancel">
+                            <i class="icon-ban-circle icon-white"></i>
+                            <span>Cancel upload</span>
+                        </button>
+                        <button type="button" class="btn btn-danger delete">
+                            <i class="icon-trash icon-white"></i>
+                            <span>Delete</span>
+                        </button>
+                        <input type="checkbox" class="toggle">
+                        <!-- The loading indicator is shown during file processing -->
+                        <span class="fileupload-loading"></span>
+                    </div>
+                    <!-- The global progress information -->
+                    <div class="span5 fileupload-progress fade">
+                        <!-- The global progress bar -->
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                        <!-- The extended global progress information -->
+                        <div class="progress-extended">&nbsp;</div>
+                    </div>
+                </div>
+                <!-- The table listing the files available for upload/download -->
+                <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+            </form>
+            <br>
+            <div class="well">
+                <h3>Upload Notes</h3>
+                <ul>
+                    <li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
+                    <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>
+                    <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
+                    <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="tab-pane" id="tab2">
+            <form id="import-html" action="<?php print BASE_URL; ?>image/index.php" method="POST" >
+                <input type="hidden" name="action" value="html">
+                <label>URL of the page</label>
+                <input name="url" type="url" class="input-xxlarge" required>
+                <label>Title (this will have in the library)</label>
+                <input name="title" type="text" class="input-xlarge" required>
+                <label><?php print MAKERS_LABEL; ?></label>
+                <input name="maker" type="text" class="input-xlarge" required>
+                <label>Short description (just a few words)</label>
+                <input name="one_liner" type="text" class="input-xxlarge" required>
+                <br />
+                <button class="btn btn-primary"><span>Save</span></button>
+            </form>
+        </div>
+
+        <div class="tab-pane" id="tab3">
+            <form id="import-video" action="<?php print BASE_URL; ?>image/index.php" method="POST" >
+                <input type="hidden" name="action" value="video">
+                <label>URL of video (or audio)</label>
+                <input name="url" type="url" class="input-xxlarge" required>
+                <label>Title (this will have in the library)</label>
+                <input name="title" type="text" class="input-xlarge" required>
+                <label><?php print MAKERS_LABEL; ?></label>
+                <input name="maker" type="text" class="input-xlarge" required>
+                <label>Short description (just a few words)</label>
+                <input name="one_liner" type="text" class="input-xxlarge" required>
+                <br />
+                <button class="btn btn-primary"><span>Save</span></button>
+            </form>
+        </div>
+    </div>
+
 </div>
 <!-- modal-gallery is the modal dialog used for the image gallery -->
 <div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd" tabindex="-1">

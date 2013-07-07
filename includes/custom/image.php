@@ -147,6 +147,13 @@ function aaaart_image_display_image($document, $version=false) {
 	if (is_string($document)) {
 		$document = aaaart_image_get($document);
 	}
+	// is this linked media?
+	if (!empty($document['media'])) {
+		$media = array_shift(array_values($document['media']));
+		if (!empty($media['embed'])) {
+			return $media['embed'];
+		}
+	}
 	$image_file = aaaart_image_find_first_image($document);
 	$file = aaaart_image_make_file_object($document, $image_file);
 	if (empty($file)) {
@@ -210,6 +217,15 @@ function aaaart_image_get_files_for_image($id, $print_response=false) {
 						$files[] = $upload_handler->make_file_object($file);
 					}
 				}
+			}
+			// add in special case of where we have content that is not in a file
+			if (!empty($doc['content']['content'])) {
+				$html = new StdClass();
+				$html->name = 'HTML';
+				$html->type = 'text/html';
+				$html->size = strlen($doc['content']['content']);
+				$html->url = sprintf('%simage/detail.php?id=%s&_v=html', BASE_URL, (string)$doc['_id']);
+				$files[] = $html;
 			}
 		}
 	}
@@ -299,7 +315,9 @@ function aaaart_image_make_file_object($doc, $file_to_use = false) {
 	}
 	if (!empty($file) || is_object($file)) {
 		// mark if this is a request
-		if (empty($doc['files'])) {
+		if (!empty($doc['media'])) {
+			$file->is_media = true;
+		} else if (empty($doc['files'])) {
 			$file->is_request = true;
 		}
 		// document id
@@ -567,6 +585,86 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 	  $file->document_id = (string)$image['_id'];
 	  $file->document_url = BASE_URL . 'image/detail.php?id=' . (string)$image['_id'];
 	  aaaart_solr_add_to_queue(IMAGES_COLLECTION, (string)$image['_id']);
+	}
+}
+
+/*
+ * Imports a video
+ */
+function aaaart_image_import_video($arr) {
+	$embevi = new EmbeVi();
+	if($embevi->parseUrl($arr['url'])){
+		$now = time();
+		$uid = aaaart_user_get_id();
+    $media = array(
+    	'url' => $arr['url'],
+    	'embed' => $embevi->getCode(),
+    	'embed_generated' => $now
+    );
+    $attributes = array(
+	  	'owner' => aaaart_mongo_id($uid),
+	  	'created' => $now,
+	  	'last_edit' => $now,
+	  	'files' => array(),
+	  	'title' => $arr['title'],
+	  	'media' => array($media), // embed in array so we could potentially have multiple? 
+	  	'metadata' => array(
+	  		'one_liner' => $arr['one_liner'],
+	  	),
+	  );
+	  aaaart_image_process_makers_string($arr['maker'], $attributes);
+		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
+		$response = array( 'success' => true, 'document_id' => (string)$image['_id'] );
+		return aaaart_utils_generate_response($response);
+  } else {
+  	// Can't import it!
+  	$response = array( 'success' => false );
+		return aaaart_utils_generate_response($response);
+  }
+}
+
+
+/*
+ * Imports a video
+ */
+function aaaart_image_import_html($arr) {
+	$result = json_decode(file_get_contents(sprintf('http://www.readability.com/api/content/v1/parser?url=%s&token=%s', $arr['url'], READABILITY_API_KEY)));
+	$data = (array)$result;
+	if(!empty($data['content'])){
+		$now = time();
+		$uid = aaaart_user_get_id();
+    $content = $data;
+    $attributes = array(
+	  	'owner' => aaaart_mongo_id($uid),
+	  	'created' => $now,
+	  	'last_edit' => $now,
+	  	'files' => array(),
+	  	'title' => $arr['title'],
+	  	'metadata' => array(
+	  		'one_liner' => $arr['one_liner'],
+	  	),
+	  	'content' => $content,
+	  );
+	  aaaart_image_process_makers_string($arr['maker'], $attributes);
+		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
+		$response = array( 'success' => true, 'document_id' => (string)$image['_id'] );
+		return aaaart_utils_generate_response($response);
+  } else {
+  	// Can't import it!
+  	$response = array( 'success' => false );
+		return aaaart_utils_generate_response($response);
+  }
+}
+
+
+/*
+ * Prints out html content, if available
+ */
+function aaaart_image_get_html($document) {
+	if (!empty($document['content']['content'])) {
+		printf('<h1>%s</h1>', $document['title']); 
+		print $document['content']['content'];
+		exit;
 	}
 }
 

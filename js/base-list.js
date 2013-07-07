@@ -16,6 +16,7 @@ function aaaart_render_thumbnail_title(file) {
     .prop('title',file.metadata.title)
     .html(file.metadata.title);
   if (file.is_request) { $link.append(' ').append($('<small>').addClass('label').text('request')); }
+  if (file.is_media) { $link.append(' ').append($('<small>').addClass('label').text('video')); }
   var $title = $('<h5>')
     .append($link);
   return $title;

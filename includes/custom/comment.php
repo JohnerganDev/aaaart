@@ -261,6 +261,7 @@ function aaaart_comment_get_new_comments($num = 50) {
 		array('posts.created'=> -1)
 	);
 	foreach ($threads as $thread) {
+		debug($thread['title']);
 		$newest_post = current(aaaart_comment_get_ordered_posts($thread));
 		if (!empty($newest_post)) {
 			aaaart_comment_prepare_for_display($newest_post);

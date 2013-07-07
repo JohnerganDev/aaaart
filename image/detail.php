@@ -3,6 +3,11 @@
 require_once('../config.php');
 
 $image = aaaart_image_load_from_query_string();
+
+if (!empty($_GET['_v']) && $_GET['_v']=='html') {
+    aaaart_image_get_html($image);
+}
+
 $can_edit = (aaaart_image_check_perm('update', $image)) ? true : false;
 $can_upload = (aaaart_image_check_perm('upload')) ? true : false;
 

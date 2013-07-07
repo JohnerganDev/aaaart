@@ -45,6 +45,16 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
 						aaaart_image_update_image($_POST['id'], $_POST);
 					}
 				break;
+				case 'video':
+					if (!empty($_POST['url'])) {
+						aaaart_image_import_video($_POST);
+					}
+				break;
+				case 'html':
+					if (!empty($_POST['url'])) {
+						aaaart_image_import_html($_POST);
+					}
+				break;
 			}
 		}
     break;
