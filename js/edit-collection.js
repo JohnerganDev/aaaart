@@ -60,7 +60,7 @@ $(function () {
                 .html(section.description)
                 .prepend($('<h4>').text(section.title))
                 .append($('<ul>').addClass('items'));
-            gallery.append(collection_sections[section.id]);
+            //gallery.append(collection_sections[section.id]);
             // b. create the section to put in a list of sections during "Edit contents"
             var $section = $('<a>')
                 .attr('data-toggle','modal')
@@ -153,6 +153,9 @@ $(function () {
                     .append($noteField);
             }
         });
+        for (s in collection_sections) {
+            gallery.append(collection_sections[s]);
+        }
     });
 
     function loadMakersForCollection(collection_id) {
