@@ -155,6 +155,22 @@ function aaaart_collection_update($id, $values) {
 }
 
 
+/*
+ * Updates a note
+ */
+function aaaart_collection_update_note($collection_id, $document_id, $note) {
+	$collection = aaaart_collection_get($collection_id);
+	foreach ($collection['contents'] as $key=>$item) {
+		if ((string)$item['object']['$id']==$document_id) {
+			$collection['contents'][$key]['notes'] = $note;
+			aaaart_mongo_update(COLLECTIONS_COLLECTION, $collection_id, array('contents' => $collection['contents']));
+			return true;
+		}
+	}
+	return false;
+}
+
+
 /**
  * Delete a collection
  * JSON response 
@@ -878,7 +894,7 @@ function aaaart_collection_get_documents_and_sections($id, $print_response = fal
 				'id' => $id,
 				'order' => $order,
 				'title' => $s['title'],
-				'description' => Slimdown::render($s['description']), 
+				'description' => aaaart_first_paragraph_teaser($s['description']), 
 			);
 		}
 		uasort($sections, create_function('$a, $b',
@@ -892,7 +908,10 @@ function aaaart_collection_get_documents_and_sections($id, $print_response = fal
 			$documents[ $document['makers_orderby'] ] = $document;
 			// If the document is in a section consult the map
 			if (!empty($c['section']) && array_key_exists($c['section'], $sections)) {
-				$map[ (string)$document['_id'] ] = (string)$c['section'];
+				$map[ (string)$document['_id'] ]['section'] = (string)$c['section'];
+			}
+			if (!empty($c['notes'])) {
+				$map[ (string)$document['_id'] ]['notes'] = $c['notes'];
 			}
 		}
 		ksort($documents);
@@ -904,7 +923,13 @@ function aaaart_collection_get_documents_and_sections($id, $print_response = fal
 			$f = aaaart_image_make_file_object($document);
 			$id = $f->document_id;
 			if (array_key_exists($id, $map)) {
-				$f->section = $map[$id];
+				if (!empty($map[$id]['section'])) {
+					$f->section = $map[$id]['section'];
+				}
+				if (!empty($map[$id]['notes'])) {
+					$f->metadata->one_liner .= ' '.stripslashes($map[$id]['notes']);
+					$f->metadata->additional_notes = stripslashes($map[$id]['notes']);
+				}
 			}
 			$files[] = $f;
 		}

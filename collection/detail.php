@@ -42,10 +42,10 @@ print aaaart_template_header( $collection['title'] );
                 <?php print aaaart_collection_type_field($collection['type']); ?>
 
 	            <label><h5>Very Short Description</h5></label>
-	            <input type="text" class="input-xxlarge" name="short_description" value="<?php print $collection['short_description'] ?>">
+	            <input type="text" class="input-xxlarge" name="short_description" value="<?php print stripslashes($collection['short_description']) ?>">
 	            
                 <label><h5>Longer Description</h5></label>
-                <textarea data-provide="markdown" rows="6" class="input-xxlarge" name="description"><?php print $collection['metadata']['description'] ?></textarea>
+                <textarea data-provide="markdown" rows="6" class="input-xxlarge" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
                 
             </fieldset>
         </form>
@@ -106,7 +106,7 @@ print aaaart_template_header( $collection['title'] );
     <div id="metadata">
         <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />	
         <?php if (!empty($collection['metadata']['description'])): ?>
-        <blockquote><?php print Slimdown::render($collection['metadata']['description']); ?></blockquote>
+        <?php print aaaart_first_paragraph_teaser($collection['metadata']['description']); ?>
         <?php endif; ?>
     </div>
     <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  

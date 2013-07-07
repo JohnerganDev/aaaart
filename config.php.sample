@@ -96,6 +96,7 @@ $IMAGE_UPLOAD_OPTIONS = array(
 
 
 // misc
+define( 'READABILITY_API_KEY', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 define( 'MAKERS_LABEL', 'Author'); // Author, Artist, etc.
 define( 'MAKERS_ARE_HUGE', true); // true makes an alphabet nav show up in makers list
 define( 'COLLECTIONS_ARE_HUGE', true); // true makes an alphabet nav show up in collections list

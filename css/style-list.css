@@ -75,6 +75,7 @@ ul#gallery li.image h6 {
 ul#gallery li.image .lead {
   font-size: 1em;
   margin-bottom: 0px;
+  line-height: 14px;
 }
 
 .clearfix:after {

@@ -495,6 +495,41 @@ function aaaart_truncate($str, $limit) {
   }
 }
 
+/*
+ * Returns first paragraph of a markdown
+ */
+function aaaart_first_paragraph_teaser($str) {
+  $paragraphs = explode("\n\r",$str);
+  $min_lead_length = 150;
+  $count = 0;
+  $curoff = 0;
+  foreach ($paragraphs as $key=>$paragraph) {
+    $count = $count + strlen($paragraph);
+    $cutoff = $key;
+    if ($count>=$min_lead_length) {
+      break;
+    }
+  }
+  $id = uniqid();
+  $lead = implode( "\n\r", array_slice($paragraphs, 0, $cutoff + 1));
+  $lead_html = sprintf('<blockquote style="cursor:pointer;" data-toggle="collapse" data-target="#%s">%s</blockquote>', $id, md2html($lead));
+  if (count($paragraphs)>1 && $cutoff<count($paragraphs)) {
+    $rest = implode( "\n\r", array_slice($paragraphs, $cutoff + 1));
+    $rest_html = sprintf('<div id="%s" class="collapse out">%s</div>', $id, md2html($rest));
+  } else {
+    $rest_html = '';
+  }
+  return $lead_html . $rest_html;
+}
+
+/*
+ * I feel bad doing this, but it seems like too many slashes are being added!
+ */
+function md2html($str) {
+  $str = stripslashes($str);
+  $str = Slimdown::render($str);
+  return stripslashes($str);
+}
 
 /*
  *

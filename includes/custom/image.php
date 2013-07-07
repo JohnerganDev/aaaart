@@ -317,7 +317,7 @@ function aaaart_image_make_file_object($doc, $file_to_use = false) {
 		// mark if this is a request
 		if (!empty($doc['media'])) {
 			$file->is_media = true;
-		} else if (empty($doc['files'])) {
+		} else if (empty($doc['files']) && empty($doc['content']['content'])) {
 			$file->is_request = true;
 		}
 		// document id

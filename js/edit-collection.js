@@ -122,14 +122,35 @@ $(function () {
                     }
                 });
             });
+            var $noteField = $('<input type="text" placeholder="Additional notes" class="notes input-xxlarge">').attr('style' , 'display: none;');
+            if (file.metadata.additional_notes) {
+                $noteField.val(file.metadata.additional_notes);
+            }
+            $noteField.keypress(function(e) {
+                if (e.which == 13) {
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "collection/index.php",
+                        data: { action: 'update_note', collection_id: collection_id, document_id: file.document_id, note: $(this).val()}, 
+                        success: function(msg){
+                            alert('Updated!');    
+                        },
+                        error: function(){
+                            alert("Sorry, that didn't work!");
+                        }
+                    });
+                }
+            });
             if (file.section && (file.section in collection_sections)) {
                 aaaart_add_item_to_gallery(file, collection_sections[file.section].find('ul.items'))
                     .prepend($sortButton.clone(true))
-                    .prepend($removeButton);
+                    .prepend($removeButton)
+                    .append($noteField);
             } else {
                 aaaart_add_item_to_gallery(file, gallery)
                     .prepend($sortButton.clone(true))
-                    .prepend($removeButton);
+                    .prepend($removeButton)
+                    .append($noteField);
             }
         });
     });
@@ -207,6 +228,7 @@ $(function () {
     // Toggle remove buttons
     $("#edit-contents-toggle").click(function(){
         $('ul#gallery li.image button.btn').toggle();
+        $('ul#gallery li.image input.notes').toggle();
         $('ul#gallery li.image div.btn-group').toggle();
         $('#add-section').toggle();
     });

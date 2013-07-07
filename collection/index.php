@@ -85,6 +85,11 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
 						aaaart_collection_update($_POST['id'], $_POST);
 					}
 				break;
+        case 'update_note':
+          if (!empty($_POST['document_id']) && !empty($_POST['collection_id']) && aaaart_collection_check_perm('add', $_POST['collection_id'])) {
+            aaaart_collection_update_note($_POST['collection_id'], $_POST['document_id'], $_POST['note']);
+          }
+        break;
         case 'add_section':
           if (!empty($_POST['collection_id']) && aaaart_collection_check_perm('update', $_POST['collection_id'])) {
             aaaart_collection_create_section($_POST['collection_id'], $_POST);
