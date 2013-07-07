@@ -153,7 +153,7 @@ $(function () {
                     .append($noteField);
             }
         });
-        for (s in collection_sections) {
+        for (var s in collection_sections) {
             gallery.append(collection_sections[s]);
         }
     });
