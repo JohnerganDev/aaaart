@@ -414,7 +414,7 @@ function aaaart_memex_cleanup_user_paths($id=false) {
 	$u = ($id) ? aaaart_user_get($id) : $user;
 	// delete old active paths
 	$cutoff_time = time() - MEMEX_LIFESPAN;
-	aaaart_mongo_remove(MEMEX_COLLECTION, array('owner'=>$u['_id'], 'saved'=>0, 'active'=> 1, 'changed' => array('$lt', $cutoff_time)));
+	aaaart_mongo_remove(MEMEX_COLLECTION, array('saved'=>0, 'changed' => array('$lt', $cutoff_time)));
 }
 
 
