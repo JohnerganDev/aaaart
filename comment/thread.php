@@ -47,6 +47,7 @@ from: <?php print $ref_link; ?>
 
 
 <script type="text/javascript">
+  $("#comments .modal-header h3").text("<?php print (empty($thread)) ? 'Comment' : $thread['title']; ?>");
 	$("#comment-form textarea").markdown({autofocus:false, savable:false});
   $("#comment-form").on('submit', function(event) {
   	var $form = $(this);

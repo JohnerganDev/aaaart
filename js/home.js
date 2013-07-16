@@ -35,7 +35,26 @@ $(function () {
         });
     }
 
+    function loadCollections() {
+        $.ajax({
+            type: "GET",
+            url: base_url + 'collection/index.php',
+            data: {action: 'list_collections', show: 'active'},
+            dataType: 'json',
+            success: function(result) {
+                aaaart_build_collections_list($('#active-collections'), result.collections);
+                if (result.collections) {
+                    $('#active-collections').prepend($('<li><span class="label">active collections</span></li>'));   
+                }
+            },
+            error: function(){
+                //alert("Sorry, that didn't work!");
+            }
+        });
+    }
+
     loadDocs();
+    loadCollections();
     
     $("button#more").click(function() {
         page = page + 1;

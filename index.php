@@ -23,6 +23,7 @@ Collections are groups of documents created by users.
 ?>
 
 <div id="container" class="container">
+  <ul id="active-collections" class="inline"></ul>
   <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
   <button id="more" class="btn btn-mini btn-danger" type="button">More</button>
 </div>

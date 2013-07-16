@@ -423,6 +423,18 @@ function aaaart_collection_search($query, $print_response=false) {
 
 
 /**
+ * Gets recently active collections
+ */
+function aaaart_collections_get_active_collections($num=15) {
+	$ret_arr = iterator_to_array(
+		aaaart_mongo_get(COLLECTIONS_COLLECTION, array('type' => array('$ne' => 'private')), array('contents.added'=>-1, 'title'=> 1), array('metadata'=>0))
+	);
+	$ret_arr = array_slice($ret_arr, 0, $num);
+	return $ret_arr;
+}
+
+
+/**
  * Gets collections that a user owns
  */
 function aaaart_collections_get_nonprivate_collections($filter_letter=false) {
@@ -524,6 +536,9 @@ function aaaart_collection_list_collections($show, $arg=false, $print_response =
 			break;
 			case 'document':
 				$result = aaaart_collection_get_document_collections($arg);
+			break;
+			case 'active':
+				$result = aaaart_collections_get_active_collections();
 			break;
 			default:
 				$result = array();
@@ -863,16 +878,24 @@ function aaaart_collection_format_document_collections($key, $include_private=fa
 /**
  * Get all images for a collection
  */
-function aaaart_collection_get_collected_documents($id, $print_response = false) {
+function aaaart_collection_get_collected_documents($id, $order_by_maker = true, $print_response = false) {
 	$collection = aaaart_collection_get($id);
 	if (!empty($collection)) {
 		$documents = array();
 		foreach ($collection['contents'] as $c) {
 			$document = aaaart_mongo_get_reference($c['object']);	
-			$key = $document['makers_orderby'] . '-' . $document['title'] . '-' . (string)$document['_id'];
+			if ($order_by_maker) {
+				$key = $document['makers_orderby'] . '-' . $document['title'] . '-' . (string)$document['_id'];
+			} else {
+				$key = $c['added']. '-' . (string)$document['_id'];
+			}
 			$documents[ $key ] = $document;
 		}
-		ksort($documents);
+		if ($order_by_maker) {
+			ksort($documents);
+		} else {
+			krsort($documents);
+		}
 	}
 	if ($print_response) {
 		aaaart_collection_generate_response_from_documents($documents);

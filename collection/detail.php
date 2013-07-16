@@ -109,6 +109,8 @@ print aaaart_template_header( $collection['title'] );
         <?php print aaaart_first_paragraph_teaser($collection['metadata']['description']); ?>
         <?php endif; ?>
     </div>
+    
+    <span class="sorter muted">order by: <a href="#" data-toggle="tooltip" title="<?php print MAKERS_LABEL; ?> name" class="maker"><i class="icon-user"></i></a> / <a href="#" data-toggle="tooltip" title="Most recent" class="date"><i class="icon-calendar"></i></a></span>
     <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
 
     <?php if ($can_edit || $can_add): ?>

@@ -39,13 +39,21 @@ $(function () {
         });
     }
 
+    function loadMoreComments() {
+        if (getURLParameter("show")=="commented") {
+            loadDiscussions("commented");
+        } else {
+            loadDiscussions("new");
+        }
+    }
+
     if ($list.length) {
-        loadDiscussions("new");
+        loadMoreComments();
     }
 
     $("button#more").click(function() {
         page = page + 1;
-        loadDiscussions("new");
+        loadMoreComments();
     });
 
 });

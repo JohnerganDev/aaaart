@@ -213,6 +213,7 @@ function aaaart_user_attempt_first_login($name, $params) {
 		$data = array(
 			'pass' => md5($params['pass']),
 			'display_name' => $params['display_name'],
+			'reset' => array(),
 		);
 		aaaart_mongo_update(PEOPLE_COLLECTION, $name, $data);
 		// finish login
@@ -224,6 +225,35 @@ function aaaart_user_attempt_first_login($name, $params) {
 		aaaart_utils_generate_response(array('result' => false, 'message' => 'that didn\'t work'));
 	}
 }
+
+
+/*
+ * Reset password
+ */
+function aaaart_user_reset($key) {
+	if (strpos($key, '@')>0) {
+		$u = aaaart_user_get($key, 'email');
+	} else {
+		$u = aaaart_user_get($key);
+	}
+	if (!empty($u)) {
+		$reset = array(
+			'key' => uniqid(),
+			'expires' => time() + 24*60*60 // expires in one day
+		);
+		aaaart_mongo_update(PEOPLE_COLLECTION, $u['_id'], array('reset' => $reset));
+		$message = sprintf("you (or someone using your email address) has requested a password reset for %s. if you do want to reset your password, visit\n\n%suser/login.php?key=%s&reset=%s\n\n where you can log in and pick a new password. this link will expire in 24 hours.\n\n",
+			SITE_TITLE,
+			BASE_URL,
+			(string)$u['_id'],
+			$reset['key']);
+		aaaart_utils_send_email($u['email'], sprintf('%s password reset', SITE_TITLE), $message);
+		aaaart_utils_generate_response(array('result' => true, 'message' => 'success'));
+	} else {
+		aaaart_utils_generate_response(array('result' => false, 'message' => 'There is no account like that'));
+	}
+}
+
 
 ############################
 # INVITATION STUFF

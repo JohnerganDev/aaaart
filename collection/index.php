@@ -13,7 +13,7 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
   		switch ($_GET['action']) {
   			case 'documents':
   				if (!empty($_GET['id'])) {
-  					aaaart_collection_get_collected_documents($_GET['id'], true);
+  					aaaart_collection_get_collected_documents($_GET['id'], false, true);
   				}
   			break;
         case 'documents_and_sections':

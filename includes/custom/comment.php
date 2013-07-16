@@ -205,7 +205,9 @@ function aaaart_comment_list_comments($show, $arg=false, $print_response = false
 	if ($show=="new") {
 		$result = aaaart_comment_get_new_comments();
 	} else if ($show=="thread") {
-		$result = aaaart_comment_get_comments($$arg);
+		$result = aaaart_comment_get_comments($arg);
+	} else if ($show=="commented") {
+		$result = aaaart_comment_get_new_comments(true);
 	} else {
 		$result = array();
 	}
@@ -253,11 +255,13 @@ function aaaart_comment_get_threads($type, $id, $create_if_none=false) {
 /**
  * Gets a list of new comments
  */
-function aaaart_comment_get_new_comments($num = 50) {
+function aaaart_comment_get_new_comments($filter_by_user = false, $num = 50) {
 	$result = array();
+	global $user;
+	$condition = ($filter_by_user) ? array('posts.owner' => $user['_id']) : array();
 	$threads = aaaart_mongo_get_paged(
 		COMMENTS_COLLECTION, 
-		array(),
+		$condition,
 		array('posts.created'=> -1)
 	);
 	foreach ($threads as $thread) {

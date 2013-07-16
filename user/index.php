@@ -42,6 +42,11 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
             aaaart_user_attempt_login($_POST['key'], $_POST['pass']);
           }
         break;
+        case 'reset':
+          if (!empty($_POST['key'])) {
+            aaaart_user_reset($_POST['key']);
+          }
+        break;
 			}
 		}
     break;

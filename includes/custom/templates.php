@@ -160,12 +160,20 @@ return <<< EOF
 	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Discussion
 	      	<span class="caret"></span></a>
 	      	<ul class="dropdown-menu">
-				    <li><a href="{$script_url}comment/discussions.php"><i class="icon-comment"></i> Recent</a></li>
+				    <li><a href="{$script_url}comment/discussions.php?show=commented"><i class="icon-comment"></i> Recent (mine)</a></li>
+				    <li><a href="{$script_url}comment/discussions.php"><i class="icon-comment"></i> Recent (all)</a></li>
 				    <li><a data-toggle="modal" data-target="#comments" class="comments" href="{$script_url}comment/thread.php"><i class="icon-plus-sign"></i> Create</a></li>
 				  </ul>
       </li>
-      <li ><a data-toggle="modal" href="#site-invite-form">+ Invite</a></li>
-      <li><a href="{$script_url}user/index.php?action=logout">Logout</a></li>
+      <li class="dropdown">
+	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Website
+	      	<span class="caret"></span></a>
+	      	<ul class="dropdown-menu">
+	      		<li><a href="{$script_url}user/edit.php"><i class="icon-pencil"></i> Your account</a></li>
+				    <li ><a data-toggle="modal" href="#site-invite-form"><i class="icon-plus-sign"></i> Invite someone</a></li>
+				  	<li><a href="{$script_url}user/index.php?action=logout"><i class="icon-road"></i> Logout</a></li>
+				  </ul>
+      </li>
 EOF;
 	} else {
 return <<< EOF
@@ -267,9 +275,11 @@ function aaaart_template_form_login(&$js=array()) {
 	            <label>Password</label>
 			    		<input type="password" name="pass" />
             </fieldset>
+            <a href="#" class="forgot">Forgotten your password?</a>
         </form>
         <div class="modal-footer">
             <button class="btn btn-success login">Login</button>
+            <button class="btn btn-primary reset" style="display:none;">Reset password</button>
             <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         </div>
     </div>	

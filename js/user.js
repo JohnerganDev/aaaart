@@ -36,6 +36,7 @@ $(function () {
     return false;
   });
 
+  // Initiates login process
   $('#modal-login-form .modal-footer button.login').click(function() {
     $.ajax({
       type: "POST",
@@ -54,6 +55,44 @@ $(function () {
         alert("Sorry, that didn't work!");
       }
     });
+    return false;
+  });
+
+  // Initiates reset password process
+  $('#modal-login-form .modal-footer button.reset').click(function() {
+    $('#modal-login-form > form input[name="action"]').val('reset');
+    $.ajax({
+      type: "POST",
+      url: base_url + "user/index.php",
+      data: $('#modal-login-form > form').serialize(), 
+      dataType: 'json',
+      success: function(data){
+        if (data.result) {
+          $("#modal-login-form").find('.message').text('Check your email for information about resetting your password');
+        } else {
+          $("#modal-login-form").find('.message').text(data.message);
+        }
+      },
+      error: function(){
+        $("#modal-login-form").modal('hide');
+        alert("Sorry, that didn't work!");
+      }
+    });
+    toggleLoginReset();
+    return false;
+  });  
+
+  // Toggle between login and forgot my password
+  function toggleLoginReset() {
+    $('#modal-login-form > form input[name="pass"]').toggle();
+    $('#modal-login-form > form input[name="pass"]').prev('label').toggle();
+    $('#modal-login-form > .modal-footer button.reset').toggle();
+    $('#modal-login-form > .modal-footer button.login').toggle();
+  }
+
+  // Forgot my password link
+  $('#modal-login-form > form > a.forgot').click(function() {
+    toggleLoginReset();
     return false;
   });
 
