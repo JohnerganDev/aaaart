@@ -24,10 +24,13 @@ $(function () {
         url: action
     });
 
-    // re-use the memex modal by flushing data on close
+    // re-use the add section modal by flushing data on close
     $('#add-section-modal.modal').on('hidden', function () { 
         $(this).off('.modal').removeData('modal') 
     });
+
+    // Add markdown to descrption
+    $('#edit-form form textarea[name="description"]').markdown({autofocus:false, savable:false, additionalButtons: aaaart_markdown_buttons() });
 
     // mode can be "documents" or "documents_and_sections"
     function loadContents(mode) {

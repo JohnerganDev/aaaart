@@ -45,7 +45,7 @@ print aaaart_template_header( $collection['title'] );
 	            <input type="text" class="input-xxlarge" name="short_description" value="<?php print stripslashes($collection['short_description']) ?>">
 	            
                 <label><h5>Longer Description</h5></label>
-                <textarea data-provide="markdown" rows="6" class="input-xxlarge" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
+                <textarea rows="6" class="input-xxlarge" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
                 
             </fieldset>
         </form>
@@ -109,7 +109,7 @@ print aaaart_template_header( $collection['title'] );
         <?php print aaaart_first_paragraph_teaser($collection['metadata']['description']); ?>
         <?php endif; ?>
     </div>
-    
+
     <span class="sorter muted">order by: <a href="#" data-toggle="tooltip" title="<?php print MAKERS_LABEL; ?> name" class="maker"><i class="icon-user"></i></a> / <a href="#" data-toggle="tooltip" title="Most recent" class="date"><i class="icon-calendar"></i></a></span>
     <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
 

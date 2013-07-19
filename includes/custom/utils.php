@@ -388,7 +388,8 @@ function aaaart_utils_format_input_field($field, $name, $values=array()) {
     switch ($field['type']) {
       case 'textarea':
         $field_markup = sprintf(
-          '<label>%s</label><textarea data-provide="markdown" data-width="400" name="%s">%s</textarea><span class="help-block">%s</span>',
+          //'<label>%s</label><textarea data-provide="markdown" data-width="400" name="%s">%s</textarea><span class="help-block">%s</span>',
+          '<label>%s</label><textarea rows="8" name="%s">%s</textarea><span class="help-block">%s</span>',
           (!empty($field['label'])) ? $field['label'] : '',
           $name,
           $default_value,
@@ -441,7 +442,7 @@ function aaaart_utils_format_display_field($field, $data) {
       case 'textarea':
         return sprintf('<tr><td><h6 class="muted">%s</h6><p>%s</p></td></tr>',
           (!empty($field['label'])) ? $field['label'] : '',
-          Slimdown::render($data));
+          md2html($data));
       break;
       case 'text':
       default:

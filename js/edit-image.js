@@ -24,6 +24,9 @@ $(function () {
         url: action
     });
 
+    // Add markdown to descrption
+    $('textarea').markdown({width:500, autofocus:false, savable:false, additionalButtons: aaaart_markdown_buttons() });
+
     // Load existing files:
     $('#fileupload').addClass('fileupload-processing');
     $.ajax({
