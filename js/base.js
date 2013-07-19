@@ -129,6 +129,7 @@ $(function () {
         var q = $("form.form-search .search-query").val();
         if (str.length) {
             if ($list.length) {
+                $list.html('Looking...');
                 doSearch(str);
             } else {
                 document.location.href = base_url + 'collection/search.php?q=' + encodeURI(str);

@@ -50,9 +50,6 @@ $(function () {
         data: {action: 'search', q: q},
         dataType: 'json',
       }).done(function (result) {
-      	$list.html('');
-      	$makers.html('');
-      	$collections.html('');
         $.each(result.files, function (index, file) {
           aaaart_add_item_to_gallery(file, $list);
         });
@@ -65,6 +62,9 @@ $(function () {
     $button.on('click', function(e) {
       var q = $query.val();
       if (q.length) {
+      	$list.html('Searching...');
+      	$makers.html('');
+      	$collections.html('');
         doSearch(q);
       }
       return false;

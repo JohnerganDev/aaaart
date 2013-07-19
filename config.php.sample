@@ -32,7 +32,7 @@ $IMAGE_FIELDS = array(
 );
 
 // authentication stuff
-define( 'COOKIE_DOMAIN', ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false); 
+define( 'COOKIE_DOMAIN', (!empty($_SERVER['HTTP_HOST']) && ($_SERVER['HTTP_HOST'] != 'localhost')) ? $_SERVER['HTTP_HOST'] : false); 
 define( 'SECRET_KEY', 'ou812');
 define( 'COOKIE_PATH', '/aaaart' ); 
 define( 'COOKIE_AUTH', 'auth' ); 
