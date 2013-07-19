@@ -32,6 +32,8 @@ function aaaart_template_header($title='Website') {
 	<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
 	<!-- Bootstrap CSS fixes for IE6 -->
 	<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+	<!-- Stackable modals -->
+	<link rel="stylesheet" href="{$script_url}css/bootstrap-modal.css">
 	<!-- Bootstrap Image Gallery styles -->
 	<link rel="stylesheet" href="http://blueimp.github.com/Bootstrap-Image-Gallery/css/bootstrap-image-gallery.min.css">
 	<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
@@ -82,6 +84,7 @@ function aaaart_template_footer($js=array()) {
 	$output .= aaaart_template_form_login($js);
 	$output .= aaaart_template_form_invite($js);
 	$output .= aaaart_template_form_request($js);
+	$output .= aaaart_template_form_reference($js);
 	$output .= aaaart_template_comment($js);
 	$output .= aaaart_template_memex($js);
 	$output .= aaaart_template_form_create_collection($js);
@@ -102,9 +105,12 @@ function aaaart_template_footer($js=array()) {
 <script src="{$script_url}js/load-image.min.js"></script>
 <!-- The Canvas to Blob plugin is included for image resizing functionality -->
 <script src="{$script_url}js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
+<!-- Bootstrap JS and Bootstrap Image Gallery -->
 <script src="{$script_url}js/bootstrap.min.js"></script>
 <script src="{$script_url}js/aaaart.bootstrap-image-gallery.js"></script>
+<!-- Stackable modals -->
+<script src="{$script_url}js/bootstrap-modal.js"></script>
+<script src="{$script_url}js/bootstrap-modalmanager.js"></script>
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 <script src="{$script_url}js/jquery.iframe-transport.js"></script>
 <!-- The basic File Upload plugin -->
@@ -280,6 +286,40 @@ function aaaart_template_form_login(&$js=array()) {
         <div class="modal-footer">
             <button class="btn btn-success login">Login</button>
             <button class="btn btn-primary reset" style="display:none;">Reset password</button>
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        </div>
+    </div>	
+EOF;
+}
+
+
+function aaaart_template_form_reference(&$js=array()) {
+	$script_url = BASE_URL;
+	if (!aaaart_collection_check_perm('create')) {
+		return '';
+	}
+	$js[] = 'js/reference.js';
+	return <<< EOF
+		<!-- modal reference form -->
+    <div id="create-reference-form" class="modal hide fade in" style="display: none; ">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal">×</a>  
+            <h3>le reference maker</h3>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" name="action" value="find" />
+            <fieldset>
+	            <span class="help-block">Search for something on the site.</span>
+	            <div class="input-append">
+						    <input name="q" type="text" class="input-xlarge">
+						    <button type="submit" class="btn search">Search</button>
+						  </div>
+            </fieldset>
+            <ul class="makers inline"></ul>
+            <ul class="collections inline"></ul>
+            <ul class="images"></ul>
+        </div>
+        <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         </div>
     </div>	

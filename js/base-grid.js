@@ -66,6 +66,7 @@ function aaaart_render_thumbnail_title(file, show_maker) {
 	*/
 	var $title = $('<small>')
     .append($("<a>")
+    .addClass('title')
     .prop('href', file.detail_url)
     .prop('title',file.metadata.title)
     .html(file.metadata.title));

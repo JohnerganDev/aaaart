@@ -114,10 +114,10 @@ $ACCESS_CONTROL_ALLOW_HEADERS = array('Content-Type', 'Content-Range', 'Content-
 ###############################################################
 # Don't edit below - this is where the application gets started
 
-foreach (glob(BASE_PATH."/includes/custom/*.php") as $filename) {
+foreach (glob(BASE_PATH."/includes/contrib/*.php") as $filename) {
   include $filename;
 }
-foreach (glob(BASE_PATH."/includes/contrib/*.php") as $filename) {
+foreach (glob(BASE_PATH."/includes/custom/*.php") as $filename) {
   include $filename;
 }
 include SOLR_LIBRARY_PATH;

@@ -24,6 +24,7 @@ function aaaart_add_maker_to_list(list, maker) {
         $('<li>').attr('id', maker._id).append(
             $('<a>')
             .addClass('label label-warning')
+            .prop('title',maker.display)
             .attr('href', base_url + 'collection/maker.php?id=' + maker._id)
             .html(maker.display)
     ));
@@ -34,6 +35,7 @@ function aaaart_add_collection_to_list(list, collection) {
         $('<li>').attr('id', collection._id).append(
             $('<a>')
             .addClass('label label-success')
+            .prop('title',collection.title)
             .attr('href', base_url + 'collection/detail.php?id=' + collection._id)
             .html(collection.title)
     ));
@@ -55,7 +57,6 @@ function aaaart_build_collections_list(list, arr) {
 
 
 // For adding reference button to markdown
-/*
 function aaaart_markdown_buttons() {
     return [
     [{
@@ -66,32 +67,33 @@ function aaaart_markdown_buttons() {
             title: "Add a Reference",
             icon: "icon icon-share",
             callback: function(e){
-              // Replace selection with some drinks
-              var chunk, cursor, 
-                  selected = e.getSelection(), content = e.getContent(),
-                  drinks = ["Heinekken", "Budweiser", 
-                            "Iron City", "Amstel Light", 
-                            "Red Stripe", "Smithwicks", 
-                            "Westvleteren", "Sierra Nevada", 
-                            "Guinness", "Corona", "Calsberg"],
-                  index = Math.floor((Math.random()*10)+1)
+                // Replace selection with some drinks
+                var chunk, cursor, 
+                  selected = e.getSelection(), 
+                  content = e.getContent(),
+                  $modal = $('#create-reference-form')
 
+                $modal.on('hide', function() {
+                    // Set the insertion text
+                    var id = $modal.attr("data-found"), display = $modal.attr("data-display")
+                    if (id!='') {
+                        chunk = '['+display+']{'+id+'}'
+                        // transform selection and set the cursor into chunked text
+                        e.replaceSelection(chunk)
+                        cursor = selected.start
 
-              // Give random drink
-              chunk = drinks[index]
+                        // Set the cursor
+                        e.setSelection(cursor,cursor+chunk.length)
+                    }
+                })
 
-              // transform selection and set the cursor into chunked text
-              e.replaceSelection(chunk)
-              cursor = selected.start
-
-              // Set the cursor
-              e.setSelection(cursor,cursor+chunk.length)
+                $('#create-reference-form').modal()
             }
           }]
     }]
   ];
 }
-*/
+
 
 $(function () {
     'use strict';

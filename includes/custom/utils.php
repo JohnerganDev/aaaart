@@ -19,6 +19,9 @@ if (!empty($_GET['_n']) && is_numeric($_GET['_n']) && $_GET['_n']>=0) {
   $pager['amount'] = $_GET['_n'];
 }
 
+// Add a slimdown rule (requires slimdown.php)
+Slimdown::add_rule ('/\[(.*?)\]\{(.*?)\}/e', 'aaaart_utils_slimdown_internal_link(\'\\1\',\'\\2\')');
+
 /**
  * Gets full URL of script
  */
@@ -530,6 +533,27 @@ function md2html($str) {
   $str = Slimdown::render($str);
   return stripslashes($str);
 }
+
+/*
+ * Callback for onverting our custom markdown into html
+ */
+function aaaart_utils_slimdown_internal_link($text, $id) {
+  $id_parts = explode(':', $id);
+  $url = false;
+  if (count($id_parts)==2) {
+    switch ($id_parts[0]) {
+      case IMAGES_COLLECTION: 
+        return sprintf('<a href="%s" class="reference %s">%s</a>', BASE_URL . 'image/detail.php?id='.$id_parts[1], $id_parts[0], $text);
+      case MAKERS_COLLECTION: 
+        return sprintf('<a href="%s" class="reference %s">%s</a>', BASE_URL . 'collection/maker.php?id='.$id_parts[1], $id_parts[0], $text);
+      case COLLECTIONS_COLLECTION:
+        return sprintf('<a href="%s" class="reference %s">%s</a>', BASE_URL . 'collection/detail.php?id='.$id_parts[1], $id_parts[0], $text);
+    }
+  }
+  // fallback
+  return $text;
+}
+
 
 /*
  *

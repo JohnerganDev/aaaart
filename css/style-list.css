@@ -47,32 +47,38 @@ body {
   display: table-cell;
 }
 
-ul#gallery {
+ul#gallery,
+#create-reference-form ul.images {
     list-style-type: none;
     list-style: none;
     display: block;
     margin-bottom: 60px;
     margin-left: 0px;
 }
-ul#gallery li.image {
+ul#gallery li.image,
+#create-reference-form ul.images li.image {
     list-style-type: none;
     margin-bottom: 25px;
 }
 
-ul#gallery li.image h4 {
+ul#gallery li.image h4,
+#create-reference-form ul.images li.image h4 {
   margin-bottom:0px;
 }
 
-ul#gallery li.image h5 {
+ul#gallery li.image h5,
+#create-reference-form ul.images li.image h5 {
   margin-bottom:0px;
 }
 
-ul#gallery li.image h6 {
+ul#gallery li.image h6,
+#create-reference-form ul.images li.image h6 {
   margin-top:0px;
   margin-bottom:0px;
 }
 
-ul#gallery li.image .lead {
+ul#gallery li.image .lead,
+#create-reference-form ul.images li.image .lead {
   font-size: 1em;
   margin-bottom: 0px;
   line-height: 14px;

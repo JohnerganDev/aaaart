@@ -12,6 +12,7 @@ function aaaart_render_thumbnail_subtext(file) {
 
 function aaaart_render_thumbnail_title(file) {
 	var $link = $("<a>")
+    .addClass('title')
     .prop('href', file.detail_url)
     .prop('title',file.metadata.title)
     .html(file.metadata.title);
