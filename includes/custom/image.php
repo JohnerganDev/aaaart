@@ -614,6 +614,7 @@ function aaaart_image_import_video($arr) {
 	  );
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
+		aaaart_solr_add_to_queue(IMAGES_COLLECTION, (string)$image['_id']);
 		$response = array( 'success' => true, 'document_id' => (string)$image['_id'] );
 		return aaaart_utils_generate_response($response);
   } else {
@@ -647,6 +648,7 @@ function aaaart_image_import_html($arr) {
 	  );
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
+		aaaart_solr_add_to_queue(IMAGES_COLLECTION, (string)$image['_id']);
 		$response = array( 'success' => true, 'document_id' => (string)$image['_id'] );
 		return aaaart_utils_generate_response($response);
   } else {
