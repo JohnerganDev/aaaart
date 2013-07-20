@@ -282,18 +282,22 @@ class Solr {
 	/**
 	* Indexes every document in the solr queue
 	*/
-	function processQueue() {
+	function processQueue($num=25) {
 		$queue = aaaart_mongo_get_one(SYSTEM_COLLECTION, array('name' => 'solr_queue'));
 		$todo = array();
+		$count = 0;
 		if (!empty($queue['queue'])) {
 			foreach ($queue['queue'] as $item) {
-				$obj = aaaart_mongo_get_one($item['coll'], $item['id']);
-				switch ($item['coll']) {
-					case IMAGES_COLLECTION: $this->indexDocument($obj); break;
-					case COLLECTIONS_COLLECTION: $this->indexCollection($obj); break;
-					case COMMENTS_COLLECTION: $this->indexDiscussion($obj); break;
+				if ($count<$num) {
+					$obj = aaaart_mongo_get_one($item['coll'], $item['id']);
+					switch ($item['coll']) {
+						case IMAGES_COLLECTION: $this->indexDocument($obj); break;
+						case COLLECTIONS_COLLECTION: $this->indexCollection($obj); break;
+						case COMMENTS_COLLECTION: $this->indexDiscussion($obj); break;
+					}
+					aaaart_mongo_pull(SYSTEM_COLLECTION, array('name' => 'solr_queue'), array('queue' => array('id'=>$item['id'])));
+					$count = $count + 1;
 				}
-				aaaart_mongo_pull(SYSTEM_COLLECTION, array('name' => 'solr_queue'), array('queue' => array('id'=>$item['id'])));
 			}
 		}
 	}
