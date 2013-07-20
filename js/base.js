@@ -101,6 +101,7 @@ $(function () {
     var $list = $("#gallery.search-results");
     var $list2 = $("#makers-and-collections-list");
     function doSearch(q) {
+        $list.html('Looking...');
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
@@ -129,7 +130,6 @@ $(function () {
         var q = $("form.form-search .search-query").val();
         if (str.length) {
             if ($list.length) {
-                $list.html('Looking...');
                 doSearch(str);
             } else {
                 document.location.href = base_url + 'collection/search.php?q=' + encodeURI(str);
