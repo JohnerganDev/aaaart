@@ -109,10 +109,9 @@ $(function () {
             data: {action: 'search', q: q},
             dataType: 'json',
         }).done(function (result) {
-            var gallery = $('#gallery.search-results'),
-                url;
+            $list.html('');
             $.each(result.files, function (index, file) {
-                aaaart_add_item_to_gallery(file, gallery);
+                aaaart_add_item_to_gallery(file, $list);
             });
             aaaart_build_makers_list($list2, result.makers);
             aaaart_build_collections_list($list2, result.collections);
