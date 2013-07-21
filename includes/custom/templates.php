@@ -150,6 +150,8 @@ return <<< EOF
 	      	<ul class="dropdown-menu">
 				    <li><a href="{$script_url}collection/makers.php"><i class="icon-stop"></i> {$library_title}</a></li>
 				    <li><a href="{$script_url}upload/"><i class="icon-arrow-up"></i> Add</a></li>
+				    <li class="divider"></li>
+				    <li><a href="{$script_url}collection/requests.php"><i class="icon-th"></i> Requests</a></li>
 				    <li><a data-toggle="modal" href="#request-form"><i class="icon-magnet"></i> Request</a></li>
 				  </ul>
       </li>

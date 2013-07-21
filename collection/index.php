@@ -11,6 +11,11 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
   case 'GET':
   	if (!empty($_GET['action'])) {
   		switch ($_GET['action']) {
+        case 'requests':
+          if (isset($_GET['sort']) && isset($_GET['filter'])) {
+            aaaart_collection_get_requests($_GET['sort'], $_GET['filter']);
+          }
+        break;
   			case 'documents':
   				if (!empty($_GET['id'])) {
   					aaaart_collection_get_collected_documents($_GET['id'], false, true);
