@@ -44,7 +44,7 @@ print aaaart_template_header('requests');
       </div>
     </div>
     <?php endif; ?>  
-  <ul class="requests unstyled clearfix" id="requests"></ul>  
+  <ul class="requests unstyled clearfix" id="gallery"></ul>  
   <button id="more" class="btn btn-mini btn-danger" type="button">More</button>
 </div>
 

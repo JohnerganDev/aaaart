@@ -17,7 +17,7 @@ $(function () {
 
     var page = 0;
     var letter = 'a';
-    var $list = $('#requests');
+    var $list = $('#gallery');
     // mode can be "documents" or "documents_and_sections"
     function loadRequests(sort, filter) {
         $.ajax({
