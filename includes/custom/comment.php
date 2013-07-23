@@ -137,7 +137,29 @@ function aaaart_comment_create($thread_id, $arr) {
 		'changed' => $now
 	);
 	aaaart_mongo_push(COMMENTS_COLLECTION, $thread_id, array('posts' => $post));
+	aaaart_comment_push_activity($thread_id, $post);
 	aaaart_solr_add_to_queue(COMMENTS_COLLECTION, $thread_id);
+}
+
+
+/*
+ * Formats activity and pushes it to all relevant users
+ */
+function aaaart_comment_push_activity($thread_id, $post) {
+	$thread = aaaart_comment_get_thread($thread_id);
+	$formatted = sprintf('<span class="user">%s</span> posted a comment to <span class="thread">%s</span>: "%s"',
+		aaaart_user_format_display_name($post['owner']),
+		aaaart_comment_format_thread_title($thread),
+		stripslashes(Slimdown::render(aaaart_truncate($post['text'], 50)))
+	);
+	// now find the users that this activity applies to
+	$users = array();
+	foreach ($thread['posts'] as $p) {
+		if ($post['owner']!=$p['owner']) {
+			$users[ (string)$p['owner'] ] = $p['owner'];
+		}
+	}
+	aaaart_user_push_activity($users, $formatted, 'comment/thread.php?id='.$thread_id, '#comments');
 }
 
 /**
@@ -265,22 +287,11 @@ function aaaart_comment_get_new_comments($filter_by_user = false, $num = 50) {
 		array('posts.created'=> -1)
 	);
 	foreach ($threads as $thread) {
-		debug($thread['title']);
 		$newest_post = current(aaaart_comment_get_ordered_posts($thread));
 		if (!empty($newest_post)) {
 			aaaart_comment_prepare_for_display($newest_post);
 			$newest_post['thread_id'] = (string)$thread['_id'];
-			$newest_post['thread_title'] = $thread['title'];
-			if ($thread['title']=='General discussion') {
-				$ref = aaaart_mongo_get_reference($thread['ref']);
-				if (!empty($ref['makers_display']) && !empty($ref['title'])) {
-					$newest_post['thread_title'] = sprintf('<em>%s</em> - %s', $ref['title'], $ref['makers_display']);
-				} else if (!empty($ref['title'])) {
-					$newest_post['thread_title'] = sprintf('<em>%s</em>', $ref['title']);
-				} else if (!empty($ref['display'])) {
-					$newest_post['thread_title'] = sprintf('%s', $ref['display']);
-				}
-			}
+			$newest_post['thread_title'] = aaaart_comment_format_thread_title($thread);
 			$newest_post['thread_url'] = sprintf('%scomment/thread.php?id=%s', BASE_URL, $thread['_id']);
 			$result[] = $newest_post;
 		}
@@ -288,6 +299,24 @@ function aaaart_comment_get_new_comments($filter_by_user = false, $num = 50) {
 	return $result;
 }
 
+
+/*
+ * Format a thread title
+ */
+function aaaart_comment_format_thread_title($thread) {
+	$title = $thread['title'];
+	if ($thread['title']=='General discussion') {
+		$ref = aaaart_mongo_get_reference($thread['ref']);
+		if (!empty($ref['makers_display']) && !empty($ref['title'])) {
+			$title = sprintf('<em>%s</em> - %s', $ref['title'], $ref['makers_display']);
+		} else if (!empty($ref['title'])) {
+			$title = sprintf('<em>%s</em>', $ref['title']);
+		} else if (!empty($ref['display'])) {
+			$title = sprintf('%s', $ref['display']);
+		}
+	}
+	return $title;
+}
 
 /*
  *

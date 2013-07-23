@@ -8,11 +8,16 @@ $can_add = (aaaart_collection_check_perm('add', $collection)) ? true : false;
 
 print aaaart_template_header( $collection['title'] );
 
+$followers = aaaart_collection_get_followers($collection);
+$followers_count = count($followers);
+$followers_str = ($followers_count==1) ? '1 follower' : sprintf('%s followers', $followers_count);
+$followers_list = aaaart_user_format_simple_list($followers);
+
 ?>
 
 <div id="container" class="container collection">
 	<div class="page-header">
-    <h2 ><?php print $collection['title']; ?></h2>
+    <h2 ><?php print $collection['title']; ?> <small class="muted" rel="tooltip" data-toggle="tooltip" title="<?php print $followers_list; ?>"><?php print $followers_str; ?></small></h2>
     <h3 class="lead"><?php print $collection['short_description']; ?></h3>
 
 	<?php if ($can_edit): ?>

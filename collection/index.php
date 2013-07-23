@@ -117,7 +117,7 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
 				break;
 				case 'add':
 					if (!empty($_POST['document_id']) && !empty($_POST['collection_id']) && aaaart_collection_check_perm('add', $_POST['collection_id'])) {
-            aaaart_collection_add_document($_POST['collection_id'], $_POST['document_id']);
+            aaaart_collection_add_document($_POST['collection_id'], $_POST['document_id'], true);
 					}
 				break;
 				case 'request':

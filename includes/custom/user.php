@@ -75,6 +75,82 @@ function aaaart_user_format_display_name($key) {
 }
 
 
+/*
+ * Outputs a comma separated list
+ */
+function aaaart_user_format_simple_list($users) {
+	$anon_count = 0;
+	$names_list = array();
+	foreach ($users as $u) {
+		if (!empty($u['display_name']) && $u['display_name']!='x') {
+			$names_list[] = $u['display_name'];
+		} else $anon_count++;
+	}
+	$ret_str = (count($names_list)>0) ? implode(', ', $names_list) : '';
+	$ret_str .= (count($names_list)>0 && $anon_count>0) ? ' and ' : '';
+	$ret_str .= ($anon_count>0) ? sprintf('%s anonymous', $anon_count) : '';
+	return $ret_str;
+}
+
+/*
+
+*/
+function aaaart_user_get_activity_count() {
+	global $user;
+	if (empty($user['activity'])) {
+		return 0;
+	} else {
+		$count = 0;
+		foreach ($user['activity'] as $a) {
+			if ($a['unread']==1) $count++;
+		}
+		return $count;
+	}
+}
+
+
+/*
+ * Mark activity as read
+ */
+function aaaart_user_pull_activity($path) {
+	global $user;
+	foreach ($user['activity'] as $k=>$a) {
+		if ($a['path']==$path && $a['unread']!==0) {
+			$user['activity'][$k]['unread'] = 0;
+			aaaart_user_update(array('activity'=>$user['activity']), $user);
+		}
+	}
+}
+
+
+/*
+ * Pushed activity onto a user's stack
+ */
+function aaaart_user_push_activity($users, $html, $path=false, $modal_target=false) {
+	$addition = array(
+		'time' => time(),
+		'html' => $html,
+		'path' => $path,
+		'modal' => $modal_target,
+		'unread' => 1,
+	);
+	aaaart_mongo_push(PEOPLE_COLLECTION, array('_id'=>array('$in'=>$users)), array('activity' => $addition), array('multiple'=>TRUE));
+}
+
+
+/*
+ * Pushed activity onto a user's stack
+ */
+function aaaart_user_format_activity($item) {
+	if (!empty($item['modal'])) {
+		return sprintf('<a href="%s" data-toggle="modal" data-target="%s">%s</a><span class="date">%s</span>', BASE_URL.$item['path'], $item['modal'], $item['html'], aaaart_utils_format_date($item['time']));
+	} else if (!empty($item['path'])) {
+		return sprintf('<a href="%s">%s</a>', BASE_URL.$item['path'], $item['html'], aaaart_utils_format_date($item['time']));
+	} else {
+		return sprintf('<span>%s</span><span class="date">%s</span>', $item['html'], aaaart_utils_format_date($item['time']));
+	}
+}
+
 /**
  * Certain capabilities can be set in user object
  */

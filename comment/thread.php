@@ -5,7 +5,8 @@ require_once('../config.php');
 $thread = aaaart_comment_load_thread_from_query_string();
 $can_edit = (aaaart_comment_check_perm('update_thread', $thread)) ? true : false;
 $ref_link = aaaart_comment_get_reference_link($thread);
-//print aaaart_template_modal_header( $thread['title'] );
+// remove from user activity
+aaaart_user_pull_activity('comment/thread.php?id='.(string)$thread['_id']);
 
 ?>
 <?php if ($ref_link): ?>

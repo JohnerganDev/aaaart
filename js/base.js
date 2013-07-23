@@ -97,6 +97,9 @@ function aaaart_markdown_buttons() {
 
 $(function () {
     'use strict';
+    
+    // tooltips
+    $("[rel='tooltip']").tooltip();
 
     var $list = $("#gallery.search-results");
     var $list2 = $("#makers-and-collections-list");

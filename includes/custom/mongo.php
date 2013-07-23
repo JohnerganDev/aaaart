@@ -144,13 +144,13 @@ function aaaart_mongo_update($collection, $criterea, $data) {
 /**
  * Pushes data into a field in the collection
  */
-function aaaart_mongo_push($collection, $criterea, $data) {
+function aaaart_mongo_push($collection, $criterea, $data, $options=array()) {
   global $db;
   $c = $db->selectCollection($collection);
   _aaaart_mongo_convert_ids($criterea);
   if (!empty($criterea)) {
     $push = array('$push' => $data);
-    $c->update($criterea, $push);
+    $c->update($criterea, $push, $options);
   }
 }
 

@@ -314,6 +314,7 @@ function aaaart_collection_add_document($collection_id, $document_id, $print_res
 				'adder' => aaaart_mongo_id($uid),
 				'object' => aaaart_mongo_create_reference(IMAGES_COLLECTION, $document_id),
 				'added' => $now,
+				'notes' => '',
 			);
 			aaaart_mongo_push(COLLECTIONS_COLLECTION, $collection_id, array('contents' => $addition));
 			$response = array( 'message' => 'Added!', 'collection' => $collection);
@@ -323,12 +324,34 @@ function aaaart_collection_add_document($collection_id, $document_id, $print_res
 	} else {
 		$response = array( 'message' => 'You can\'t add to this collection');
 	}
+	aaaart_collection_push_activity($collection, $addition);
 	aaaart_solr_add_to_queue(IMAGES_COLLECTION, $document_id);
 	if ($print_response) {
 		return aaaart_utils_generate_response($response);
 	}
 }
 
+/*
+ * Formats activity and pushes it to all relevant users
+ */
+function aaaart_collection_push_activity($collection, $addition) {
+	$document = aaaart_mongo_get_reference($addition['object']);	
+	$formatted = sprintf('<span class="user">%s</span> added <span class="document">%s</span> to <span class="collection">%s</span><span class="note">%s</span>',
+		aaaart_user_format_display_name($addition['adder']),
+		$document['title'],
+		$collection['title'],
+		aaaart_truncate($addition['notes'], 200)
+	);
+	// now find the users that this activity applies to
+	$users = array();
+	$followers = aaaart_collection_get_followers($collection);
+	foreach ($followers as $f) {
+		if ($addition['adder']!=(string)$f['_id'] ) {
+			$users[ (string)$f['_id'] ] = $f['_id'];
+		}
+	}
+	aaaart_user_push_activity($users, $formatted, 'image/detail.php?id='.(string)$document['_id']);
+}
 
 /**
  * Adds a document to a collection
@@ -702,6 +725,18 @@ function aaaart_collection_invite_collaborator($id, $email) {
 				(string)$collection['_id']);
 		aaaart_utils_send_email($email, sprintf('an invitation: %s', $collection['title']), $message);
 	}
+}
+
+
+/*
+ * Gets a list of followers
+ */
+function aaaart_collection_get_followers($collection) {
+	return iterator_to_array(
+		aaaart_mongo_get(
+			PEOPLE_COLLECTION, 
+			array('following.collections.ref' => aaaart_mongo_create_reference(COLLECTIONS_COLLECTION, (string)$collection['_id']))
+	));
 }
 
 /**

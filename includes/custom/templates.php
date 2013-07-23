@@ -86,6 +86,7 @@ function aaaart_template_footer($js=array()) {
 	$output .= aaaart_template_form_request($js);
 	$output .= aaaart_template_form_reference($js);
 	$output .= aaaart_template_comment($js);
+	$output .= aaaart_template_activity($js);
 	$output .= aaaart_template_memex($js);
 	$output .= aaaart_template_form_create_collection($js);
 
@@ -144,7 +145,8 @@ function aaaart_template_nav() {
 	$script_url = BASE_URL;
 	$library_title = MAKERS_LABEL.'s';
 	if (aaaart_user_verify_cookie()) {
-return <<< EOF
+		$activity_count = aaaart_user_get_activity_count();
+$output = <<< EOF
       <li class="dropdown">
 	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Library <b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
@@ -183,6 +185,10 @@ return <<< EOF
 				  </ul>
       </li>
 EOF;
+		if ($activity_count>0) {
+			$output .= 	sprintf('<li><a data-toggle="modal" data-target="#activity" href="%suser/activity.php" class="no-hover"><span class="label label-warning">%s</span></a></li> </li>',$script_url,$activity_count);
+		} 
+		return $output;
 	} else {
 return <<< EOF
 			<li><a href="{$script_url}collection/makers.php">Library</a></li>
@@ -382,6 +388,25 @@ function aaaart_template_comment($js=array()) {
         <div class="modal-header">
             <a class="close" data-dismiss="modal">×</a>  
             <h3>Comments</h3>
+        </div>
+        <div class="modal-body">
+        	
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+        </div>
+    </div>	
+EOF;
+}
+
+function aaaart_template_activity($js=array()) {
+	$script_url = BASE_URL;
+	return <<< EOF
+		<!-- modal activity form -->
+    <div id="activity" class="modal hide fade in" style="display: none; ">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal">×</a>  
+            <h3>Activity</h3>
         </div>
         <div class="modal-body">
         	

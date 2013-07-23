@@ -10,6 +10,8 @@ if (!empty($_GET['_v']) && $_GET['_v']=='html') {
 
 $can_edit = (aaaart_image_check_perm('update', $image)) ? true : false;
 $can_upload = (aaaart_image_check_perm('upload')) ? true : false;
+// pull from activity
+aaaart_user_pull_activity('image/detail.php?id='.(string)$image['_id']);
 
 print aaaart_template_header( $image['title'] );
 
