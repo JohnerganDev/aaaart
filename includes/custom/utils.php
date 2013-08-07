@@ -472,10 +472,15 @@ function aaaart_utils_format_display_fields($fields, $doc=array()) {
 
 
 /**
- *
+ * $how can be s,m,l
  */
-function aaaart_utils_format_date($time) {
-  return date("F j, Y, g:i a", $time);
+function aaaart_utils_format_date($time, $how='l') {
+  switch ($how) {
+    case 's': return date("F j", $time);
+    case 'm': return date("F j, Y", $time);
+    case 'l': 
+    default: return date("F j, Y, g:i a", $time);
+  }
 }
 
 

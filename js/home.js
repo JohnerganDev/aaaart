@@ -27,7 +27,7 @@ $(function () {
             var gallery = $('#gallery'),
                 url;
             $.each(result.files, function (index, file) {
-                aaaart_add_item_to_gallery(file, gallery);
+                aaaart_add_item_to_gallery(file, gallery, true, true);
             });
             if (result.files.length===0) {
                 $("button#more").hide();

@@ -320,6 +320,8 @@ function aaaart_image_make_file_object($doc, $file_to_use = false) {
 		} else if (empty($doc['files']) && empty($doc['content']['content'])) {
 			$file->is_request = true;
 		}
+		// creation date
+		$file->date = aaaart_utils_format_date($doc['created'],'s');
 		// document id
 		$file->document_id = (string)$doc['_id'];
 		// Add in a link to detail page
