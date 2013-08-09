@@ -10,6 +10,7 @@ if (!empty($_GET['_v']) && $_GET['_v']=='html') {
 
 $can_edit = (aaaart_image_check_perm('update', $image)) ? true : false;
 $can_upload = (aaaart_image_check_perm('upload')) ? true : false;
+$can_download = (aaaart_image_check_perm('download')) ? true : false;
 // pull from activity
 aaaart_user_pull_activity('image/detail.php?id='.(string)$image['_id']);
 // get sharers string
@@ -85,7 +86,9 @@ print aaaart_template_header( $image['title'] );
             <?php print aaaart_image_display_image($image, 'medium'); ?>
         </div>
     </div>
-    <?php if ($can_upload): ?>
+    <?php if ($can_download && !$can_upload): ?>
+    <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+    <?php else if ($can_upload): ?>
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
