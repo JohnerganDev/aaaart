@@ -34,9 +34,12 @@ body {
   min-width: 400px;
 }
 
+#document-display .image {
+  min-width: 400px;
+}
+
 #document-display .image img {
   padding-bottom: 20px;
-  min-width: 400px;
 }
 
 #document-display .col {
