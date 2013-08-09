@@ -88,7 +88,7 @@ print aaaart_template_header( $image['title'] );
     </div>
     <?php if ($can_download && !$can_upload): ?>
     <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-    <?php else if ($can_upload): ?>
+    <?php elseif ($can_upload): ?>
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
