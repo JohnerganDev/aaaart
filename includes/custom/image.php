@@ -143,7 +143,7 @@ function aaaart_image_load_from_query_string() {
 /**
  * Returns HTML for a version of the image (version, as defined in config.php)
  */
-function aaaart_image_display_image($document, $version=false) {
+function aaaart_image_display_image($document, $version=false, $download_full=false) {
 	if (is_string($document)) {
 		$document = aaaart_image_get($document);
 	}
@@ -166,7 +166,8 @@ function aaaart_image_display_image($document, $version=false) {
 	} else {
 		$url = $file->url;
 	}
-	return sprintf('<img src="%s">', $url);	
+	if ($download_full && !empty($file->url)) return sprintf('<a href="%s"><img src="%s"></a>', $file->url, $url);
+	else return sprintf('<img src="%s">', $url);	
 }
 
 
