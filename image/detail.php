@@ -83,7 +83,7 @@ print aaaart_template_header( $image['title'] );
             </div>
         </div>
       	<div class="image" class="col">
-            <?php print aaaart_image_display_image($image, 'medium'); ?>
+            <?php print aaaart_image_display_image($image, 'medium', $can_download); ?>
         </div>
     </div>
 
