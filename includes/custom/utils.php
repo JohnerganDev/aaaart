@@ -459,12 +459,17 @@ function aaaart_utils_format_display_field($field, $data) {
  * $fields are defined in config.php
  * $doc is an optional mongo object that might have fields (within FIELDS_KEY)
  */
-function aaaart_utils_format_display_fields($fields, $doc=array()) {
+function aaaart_utils_format_display_fields($fields, $doc=array(), $additional_fields_to_show=array()) {
   $output = '<table class="table">';
   foreach ($fields as $name=>$arr) { 
     if (!empty($doc[FIELDS_KEY]) && !empty($doc[FIELDS_KEY][$name])) {
       $output .= aaaart_utils_format_display_field($arr, $doc[FIELDS_KEY][$name]);
     }
+  }
+  foreach ($additional_fields_to_show as $key=>$val) {
+    $output .= sprintf('<tr><td><h6 class="muted">%s</h6><p>%s</p></td></tr>',
+          $key,
+          $val);
   }
   $output .= '</table>';
   return $output;

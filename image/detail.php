@@ -12,6 +12,8 @@ $can_edit = (aaaart_image_check_perm('update', $image)) ? true : false;
 $can_upload = (aaaart_image_check_perm('upload')) ? true : false;
 // pull from activity
 aaaart_user_pull_activity('image/detail.php?id='.(string)$image['_id']);
+// get sharers string
+$sharers = aaaart_image_get_sharers($image);
 
 print aaaart_template_header( $image['title'] );
 
@@ -72,7 +74,7 @@ print aaaart_template_header( $image['title'] );
       	<div id="metadata" class="col">
       		<input type="hidden" id="document-id" name="id" value="<?php print $image['_id']; ?>" />
       		<div class ="other">
-            <?php print aaaart_utils_format_display_fields($IMAGE_FIELDS, $image); ?>
+            <?php print aaaart_utils_format_display_fields($IMAGE_FIELDS, $image, array('Contributors'=>$sharers)); ?>
             </div>
             <div id="in-collections" data-objectid="<?php print $image['_id']; ?>">
                 <small><ul class="collections inline"></ul></small>

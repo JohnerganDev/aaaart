@@ -200,6 +200,21 @@ function aaaart_image_add_placeholders(&$file, $doc=false) {
 	}
 }
 
+/*
+ * Gets a string of all users who have contributed to a document
+ */
+function aaaart_image_get_sharers($image) {
+	$users = array();
+	if (!empty($image['owner'])) {
+		$users[] = aaaart_user_get($image['owner']);
+	}
+	foreach ($image['files'] as $f) {
+		if (!empty($f['uploader'])) {
+			$users[] = aaaart_user_get($f['uploader']);
+		}
+	}
+	return aaaart_user_format_simple_list($users);
+}
 
 /**
  * Get all versions of files for an image 
