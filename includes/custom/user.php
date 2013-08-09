@@ -114,6 +114,7 @@ function aaaart_user_get_activity_count() {
  */
 function aaaart_user_pull_activity($path) {
 	global $user;
+	if (empty($user['activity'])) return;
 	foreach ($user['activity'] as $k=>$a) {
 		if ($a['path']==$path && $a['unread']!==0) {
 			$user['activity'][$k]['unread'] = 0;

@@ -209,7 +209,7 @@ function aaaart_image_get_sharers($image) {
 		$users[] = aaaart_user_get($image['owner']);
 	}
 	foreach ($image['files'] as $f) {
-		if (!empty($f['uploader'])) {
+		if (!empty($f['uploader']) && $f['uploader']!=$image['owner']) {
 			$users[] = aaaart_user_get($f['uploader']);
 		}
 	}
