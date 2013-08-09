@@ -36,12 +36,12 @@ function aaaart_render_thumbnail_image(file) {
 	    .prop('download', file.name);
 	}
 	*/
-	var $image = $('<a data-gallery="gallery"/>')
+	var $image = $('<a>')
 	    .append($('<img>').prop('src', file.thumbnail_url))
-	    .attr('data-detail', file.detail_url)
-		  .prop('href', file.url)
-	    .prop('title', file.metadata.title)
-	    .prop('download', file.name);
+	    //.attr('data-detail', file.detail_url)
+		  .prop('href', file.detail_url)
+	    .prop('title',file.metadata.title)
+	    //.prop('download', file.name);
   return $image;
 }
 
