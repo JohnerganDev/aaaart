@@ -594,6 +594,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 		}
 		
 	  if (empty($file->name) || empty($file->size) || empty($file->type)) {
+	  	$attributes['files'] = array();
 	      // Don't bother saving into the database if the image is messed up
 	      // - note: commenting this out because this is basically a "request"
 	      //return;
