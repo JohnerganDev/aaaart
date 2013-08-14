@@ -143,7 +143,7 @@ function aaaart_image_load_from_query_string() {
 /**
  * Returns HTML for a version of the image (version, as defined in config.php)
  */
-function aaaart_image_display_image($document, $version=false, $download_full=false) {
+function aaaart_image_display_image($document, $version=false, $download_full=false, $show_placeholder=true) {
 	if (is_string($document)) {
 		$document = aaaart_image_get($document);
 	}
@@ -157,6 +157,9 @@ function aaaart_image_display_image($document, $version=false, $download_full=fa
 	$image_file = aaaart_image_find_first_image($document);
 	$file = aaaart_image_make_file_object($document, $image_file);
 	if (empty($file)) {
+		return '';
+	}
+	if (!$show_placeholder && empty($image_file)) {
 		return '';
 	}
 	if (!empty($version) && !empty($file->{$version.'_url'})) {

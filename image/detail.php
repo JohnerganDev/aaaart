@@ -77,13 +77,70 @@ print aaaart_template_header( $image['title'] );
       		<div class ="other">
             <?php print aaaart_utils_format_display_fields($IMAGE_FIELDS, $image, array('Contributors'=>$sharers)); ?>
             </div>
+        </div>
+      	<div class="image" class="col">
+            <?php print aaaart_image_display_image($image, 'medium', $can_download, false); ?>
+
+            <h6 class="muted">Collections</h6>
             <div id="in-collections" data-objectid="<?php print $image['_id']; ?>">
                 <small><ul class="collections inline"></ul></small>
                 <?php print aaaart_collection_sort_element(); ?>
             </div>
-        </div>
-      	<div class="image" class="col">
-            <?php print aaaart_image_display_image($image, 'medium', $can_download); ?>
+            <?php if ($can_upload): ?>
+            <h6 class="muted">Files</h6>
+            <!-- The file upload form used as target for the file upload widget -->
+            <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
+                <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
+                <!-- The table listing the files available for upload/download -->
+                <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                <div class="row fileupload-buttonbar">
+                    <div class="span7">
+                        <i class="icon-question-sign uploading-help-trigger"></i> 
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-small btn-success fileinput-button">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Add a new version...</span>
+                            <input type="file" name="files[]" multiple>
+                        </span>
+                        <!--
+                        <button type="submit" class="btn btn-primary start">
+                            <i class="icon-upload icon-white"></i>
+                            <span>Start upload</span>
+                        </button>
+                        <button type="reset" class="btn btn-warning cancel">
+                            <i class="icon-ban-circle icon-white"></i>
+                            <span>Cancel upload</span>
+                        </button>
+                        -->
+                        <!-- The loading indicator is shown during file processing -->
+                        <span class="fileupload-loading"></span>
+                    </div>
+                    <!-- The global progress information -->
+                    <div class="span5 fileupload-progress fade">
+                        <!-- The global progress bar -->
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                        <!-- The extended global progress information -->
+                        <div class="progress-extended">&nbsp;</div>
+                    </div>
+                </div>
+
+            </form>
+            <br>
+            <div id="uploading-help" class="well" style="display:none">
+                <ul>
+                    <li>You can upload alternate versions here.</li>
+                    <!--<li>The maximum file size for uploads is <strong>20 MB</strong>.</li>-->
+                    <!--<li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>-->
+                    <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
+                    <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
+                </ul>
+            </div>
+            <?php endif; ?>
+            
         </div>
     </div>
 
@@ -91,56 +148,6 @@ print aaaart_template_header( $image['title'] );
     <form id="fileupload">
     <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
     </form>
-    <?php elseif ($can_upload): ?>
-    <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
-        <!-- Redirect browsers with JavaScript disabled to the origin page -->
-        <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
-        <!-- The table listing the files available for upload/download -->
-        <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-        <div class="row fileupload-buttonbar">
-            <div class="span7">
-                <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button">
-                    <i class="icon-plus icon-white"></i>
-                    <span>Add a new version...</span>
-                    <input type="file" name="files[]" multiple>
-                </span>
-                <button type="submit" class="btn btn-primary start">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Start upload</span>
-                </button>
-                <button type="reset" class="btn btn-warning cancel">
-                    <i class="icon-ban-circle icon-white"></i>
-                    <span>Cancel upload</span>
-                </button>
-                <!-- The loading indicator is shown during file processing -->
-                <span class="fileupload-loading"></span>
-            </div>
-            <!-- The global progress information -->
-            <div class="span5 fileupload-progress fade">
-                <!-- The global progress bar -->
-                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="bar" style="width:0%;"></div>
-                </div>
-                <!-- The extended global progress information -->
-                <div class="progress-extended">&nbsp;</div>
-            </div>
-        </div>
-
-    </form>
-    <br>
-    <div class="well">
-        <h3>Upload Notes</h3>
-        <ul>
-            <li>You can upload alternate versions here.</li>
-            <li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
-            <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>
-            <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
-            <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
-        </ul>
-    </div>
     <?php endif; ?>
 </div>
 <!-- modal-gallery is the modal dialog used for the image gallery -->
@@ -235,7 +242,7 @@ print aaaart_template_header( $image['title'] );
         </td>
         <?php if ($can_edit): ?>
         <td>
-            <button class="btn btn-danger delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+            <button class="btn btn-danger btn-mini delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                 <i class="icon-trash icon-white"></i>
                 <span>Delete</span>
             </button>

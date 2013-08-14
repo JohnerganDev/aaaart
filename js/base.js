@@ -101,6 +101,13 @@ $(function () {
     // tooltips
     $("[rel='tooltip']").tooltip();
 
+    // help popover
+    $('.uploading-help-trigger').popover({
+        title: 'Upload notes',
+        content: $("#uploading-help").html(),
+        html: true
+    });
+
     var $list = $("#gallery.search-results");
     var $list2 = $("#makers-and-collections-list");
     function doSearch(q) {
