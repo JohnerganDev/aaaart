@@ -59,7 +59,7 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
         break;
         case 'active_collections':
           aaaart_utils_generate_response(
-            array( 'list' => aaaart_collection_format_active_collections() )
+            array( 'list' => aaaart_collection_format_active_collections(10, 4*24*60*60) )
           );
         break;
         case 'search':
