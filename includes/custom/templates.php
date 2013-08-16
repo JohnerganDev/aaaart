@@ -179,6 +179,9 @@ $output = <<< EOF
 	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Website
 	      	<span class="caret"></span></a>
 	      	<ul class="dropdown-menu">
+	      		<li><a href="{$script_url}about.php">About</a></li>
+			      <li><a href="{$script_url}help.php">Help</a></li>
+			      <li class="divider"></li>
 	      		<li><a href="{$script_url}user/edit.php"><i class="icon-pencil"></i> Your account</a></li>
 				    <li ><a data-toggle="modal" href="#site-invite-form"><i class="icon-plus-sign"></i> Invite someone</a></li>
 				  	<li><a href="{$script_url}user/index.php?action=logout"><i class="icon-road"></i> Logout</a></li>
@@ -195,6 +198,8 @@ return <<< EOF
       <li><a href="{$script_url}collection/list.php">Collections</a></li>
       <li><a href="{$script_url}comment/discussions.php">Discussions</a></li>
       <li><a data-toggle="modal" href="#modal-login-form">Login</a></li>
+      <li><a href="{$script_url}about.php">About</a></li>
+      <li><a href="{$script_url}help.php">Help</a></li>
 EOF;
 	}
 }
