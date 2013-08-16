@@ -57,6 +57,11 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
             aaaart_collection_list_collections($_GET['show'], true);
           }
         break;
+        case 'active_collections':
+          aaaart_utils_generate_response(
+            array( 'list' => aaaart_collection_format_active_collections() )
+          );
+        break;
         case 'search':
           if (!empty($_GET['q'])) {
             aaaart_collection_search($_GET['q'], true);

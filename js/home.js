@@ -16,6 +16,8 @@ $(function () {
     'use strict';
 
     var page = 0;
+    var $collections_ele = $('#active-collections');
+
     function loadDocs() {
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
@@ -39,13 +41,10 @@ $(function () {
         $.ajax({
             type: "GET",
             url: base_url + 'collection/index.php',
-            data: {action: 'list_collections', show: 'active'},
+            data: {action: 'active_collections'},
             dataType: 'json',
             success: function(result) {
-                aaaart_build_collections_list($('#active-collections'), result.collections);
-                if (result.collections) {
-                    $('#active-collections').prepend($('<li><span class="label">active collections</span></li>'));   
-                }
+                $collections_ele.html(result.list);
             },
             error: function(){
                 //alert("Sorry, that didn't work!");
@@ -54,7 +53,9 @@ $(function () {
     }
 
     loadDocs();
-    loadCollections();
+    if ($collections_ele.length) {
+        loadCollections();
+    }
     
     $("button#more").click(function() {
         page = page + 1;

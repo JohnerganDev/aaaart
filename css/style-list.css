@@ -23,6 +23,28 @@ body {
   margin-bottom: 50px;
 }
 
+ul#active-collections {
+  float: right;
+  width: 200px;
+  font-size: 0.8em;
+}
+
+ul#active-collections h4 {
+  font-size: 1em;
+  line-height: 1.1em;
+  border-top: 1px dotted #DDD;
+  padding-top: 15px;
+}
+
+ul#active-collections ul,
+ul#active-collections li {
+  list-style-type: none;
+  list-style: none;  
+  line-height: 1em;
+  margin-left: 0px;
+}
+
+
 #nav li.search {
   margin-top: 10px;
   padding-left:75px;

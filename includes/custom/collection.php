@@ -456,6 +456,55 @@ function aaaart_collections_get_active_collections($num=15) {
 	return $ret_arr;
 }
 
+/*
+ * Formats a set of active collections, showing recently added texts
+ */
+function aaaart_collection_format_active_collections($num=15, $time_window=86400, $max_per_collection=4) {
+	$collections = aaaart_collections_get_active_collections($num);
+	$cutoff = time() - $time_window;
+	$output = '';
+	foreach ($collections as $collection) {
+		$count = 0;
+		$to_display = array();
+		$most_recent_collection = false;
+		foreach ($collection['contents'] as $c) {
+			if ($c['added']>$cutoff) {
+				$to_display[ $c['added'] ] = $c;
+			}
+			if (!$most_recent_collection || (!empty($most_recent_collection['added']) && ($most_recent_collection['added']<$c['added']))) {
+				$most_recent_collection = $c;
+			}
+		}
+		if (empty($to_display) && $most_recent_collection) {
+			$to_display[ $most_recent_collection['added'] ] = $most_recent_collection;
+		}
+		if (!empty($to_display)) {
+			$output_title = sprintf('<h4><a href="%scollection/detail.php?id=%s">%s</a></h4>', BASE_URL, (string)$collection['_id'], $collection['title']);
+			$output_inner = '';
+			$count = 0;
+			krsort($to_display);
+			foreach ($to_display as $c) {
+				if ($count<$max_per_collection) {
+					$document = aaaart_mongo_get_reference($c['object']);	
+					$output_inner .= sprintf('<li><a href="%simage/detail.php?id=%s">%s</a>%s</li>', 
+						BASE_URL, 
+						(string)$document['_id'], 
+						$document['title'],
+						(!empty($document['metadata']['one_liner'])) ? '<p class="muted">'.$document['metadata']['one_liner'].'</p>' : ''
+					);
+					$count++;
+				}
+			}
+			if (!empty($output_inner)) {
+				$output .= sprintf('<li>%s<ul>%s</ul></li>', $output_title, $output_inner);
+			}
+		}
+	}
+	if (!empty($output)) {
+		$output = sprintf('<li>%s</li>%s','<h5 class="muted">recently sorted</h5>',$output);
+	}
+	return $output;
+}
 
 /**
  * Gets collections that a user owns
