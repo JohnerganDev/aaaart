@@ -17,6 +17,7 @@ $(function () {
 
     var page = 0;
     var $collections_ele = $('#active-collections');
+    var $discussions_ele = $('#active-discussions');
 
     function loadDocs() {
         $.ajax({
@@ -52,11 +53,44 @@ $(function () {
         });
     }
 
+    function loadDiscussions() {
+        $.ajax({
+            type: "GET",
+            url: base_url + 'comment/index.php',
+            data: {action: 'get_comments', type: 'new', _p: 0},
+            dataType: 'json',
+            success: function(result) {
+                if (result.comments) {
+                    $discussions_ele.append('<h5 class="muted">recent comments</h5>');
+                    $.each(result.comments, function (index, comment) {
+                        $discussions_ele.append(
+                            $('<li>')
+                                .append($('<h4>').append($('<a>')
+                                    .attr('href', comment.thread_url)
+                                    .attr('data-toggle','modal')
+                                    .attr('data-target', '#comments')
+                                    .addClass('comments')
+                                    .html(comment.thread_title)))
+                                .append($('<p>').html(comment.text))
+                                .append($('<small>').addClass('muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
+                        );
+                    });
+                }
+            },
+            error: function(){
+                //alert("Sorry, that didn't work!");
+            }
+        });
+    }
+
     loadDocs();
     if ($collections_ele.length) {
         loadCollections();
     }
-    
+    if ($discussions_ele.length) {
+        loadDiscussions();
+    }
+
     $("button#more").click(function() {
         page = page + 1;
         loadDocs();

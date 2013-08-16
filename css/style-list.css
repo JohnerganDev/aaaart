@@ -23,13 +23,15 @@ body {
   margin-bottom: 50px;
 }
 
-ul#active-collections {
+ul#active-collections,
+ul#active-discussions {
   float: right;
   width: 200px;
   font-size: 0.8em;
 }
 
-ul#active-collections h4 {
+ul#active-collections h4,
+ul#active-discussions h4 {
   font-size: 1em;
   line-height: 1.1em;
   border-top: 1px dotted #DDD;
@@ -37,7 +39,9 @@ ul#active-collections h4 {
 }
 
 ul#active-collections ul,
-ul#active-collections li {
+ul#active-collections li,
+ul#active-discussions ul,
+ul#active-discussions li {
   list-style-type: none;
   list-style: none;  
   line-height: 1em;
