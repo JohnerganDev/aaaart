@@ -450,13 +450,16 @@ function aaaart_template_comment_button($ref_type, $id) {
 	$script_url = BASE_URL;
 	$threads = aaaart_comment_get_threads($ref_type, $id, true);
 	$thread_items = array();
+	$total_count = 0;
 	// list
 	foreach ($threads as $thread) {
+		$post_count = (empty($thread['posts'])) ? 0 : count($thread['posts']);
+		$total_count += $post_count;
 		$thread_items[] = sprintf(
 			'<li><a data-toggle="modal" data-target="#comments" class="comments" href="%scomment/thread.php?id=%s"><i class="icon-comment"></i> %s</a></li>',
 			BASE_URL,
 			$thread['_id'],
-			$thread['title']
+			$thread['title'] . ' ('.$post_count.')'
 		);
 	}
 	// add
@@ -471,12 +474,15 @@ function aaaart_template_comment_button($ref_type, $id) {
 	}
 
 	return sprintf('<div class="btn-group">
-		<a href="#" class="btn btn-mini btn-primary" data-toggle="dropdown" type="button"><i class="icon-comment icon-white"></i> comments</a>
+		<a href="#" class="btn btn-mini btn-primary" data-toggle="dropdown" type="button"><i class="icon-comment icon-white"></i> comments %s</a>
 		<a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 		<ul class="dropdown-menu">
 	    %s
 	    %s
 	  </ul>
-	</div>', implode("\n", $thread_items), $add_thread);
+	</div>', 
+		'('.$total_count.')',
+		implode("\n", $thread_items), 
+		$add_thread);
 }
 ?>
