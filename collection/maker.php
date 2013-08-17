@@ -30,6 +30,7 @@ print aaaart_template_header( $maker['display'] );
 	    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
 	    <div class="row fileupload-buttonbar">
 	        <div class="span7">
+                <i class="icon-question-sign uploading-help-trigger"></i> 
 	            <!-- The fileinput-button span is used to style the file input field as button -->
 	            <span class="btn btn-success fileinput-button">
 	                <i class="icon-plus icon-white"></i>
@@ -59,12 +60,12 @@ print aaaart_template_header( $maker['display'] );
 	    </div>
 	</form>
 	<br>
-	<div class="well">
+	<div id="uploading-help" class="well" style="display:none">
 	    <h3>Upload Notes</h3>
 	    <ul>
 	        <li>Files you upload here will be assigned to this author.</li>
-	        <li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
-	        <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>
+	        <!--<li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
+	        <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>-->
 	        <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
 	        <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
 	    </ul>
