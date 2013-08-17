@@ -417,6 +417,12 @@ function aaaart_collection_search($query, $print_response=false) {
 				$makers = array();
 			}
 		}
+		// direct maker query
+		$regexObj = new MongoRegex("/".$query."/i"); 
+		$names = aaaart_mongo_get( MAKERS_COLLECTION, array('display'=>$regexObj), array('last'=>1));
+		foreach ($names as $name) {
+			array_unshift($makers, $name);
+		}
 		if (!empty($results['facets']['collections'])) {
 			$look_for = array();
 			foreach ($results['facets']['collections'] as $id=>$count) {
