@@ -485,7 +485,7 @@ function aaaart_collection_format_active_collections($num=15, $time_window=86400
 			$to_display[ $most_recent_collection['added'] ] = $most_recent_collection;
 		}
 		if (!empty($to_display)) {
-			$output_title = sprintf('<h4><a href="%scollection/detail.php?id=%s">%s</a></h4>', BASE_URL, (string)$collection['_id'], $collection['title']);
+			$output_title = sprintf('<h4><a class="text-error" href="%scollection/detail.php?id=%s">%s</a></h4>', BASE_URL, (string)$collection['_id'], $collection['title']);
 			$output_inner = '';
 			$count = 0;
 			krsort($to_display);

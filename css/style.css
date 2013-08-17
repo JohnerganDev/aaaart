@@ -7,7 +7,8 @@ body {
 }
 
 a {
-  color: #EF3038;
+  /*color: #EF3038;*/
+  color: #0000DD;
 } 
 
 p {
@@ -307,3 +308,8 @@ input[type="color"],
   margin-bottom: 30px;
 }
 
+.comments-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}

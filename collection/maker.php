@@ -61,7 +61,6 @@ print aaaart_template_header( $maker['display'] );
 	</form>
 	<br>
 	<div id="uploading-help" class="well" style="display:none">
-	    <h3>Upload Notes</h3>
 	    <ul>
 	        <li>Files you upload here will be assigned to this author.</li>
 	        <!--<li>The maximum file size for uploads is <strong>20 MB</strong>.</li>

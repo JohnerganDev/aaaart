@@ -159,11 +159,10 @@ $followers_list = aaaart_user_format_simple_list($followers);
 	</form>
 	<br>
 	<div id="uploading-help" class="well" style="display:none">
-	    <h3>Upload Notes</h3>
 	    <ul>
 	        <li>Files you upload here will be added to this collection.</li>
-	        <li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
-	        <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>
+	        <!--<li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
+	        <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>-->
 	        <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
 	        <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
 	    </ul>

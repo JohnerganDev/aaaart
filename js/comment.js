@@ -29,7 +29,7 @@ $(function () {
                                     .attr('data-toggle','modal')
                                     .attr('data-target', '#comments')
                                     .addClass('comments')
-                                    .addClass('label label-inverse')
+                                    .addClass('comments-title')
                                     .html(comment.thread_title)
                             ))
                             .append($('<small>').addClass('muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
