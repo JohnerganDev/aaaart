@@ -25,6 +25,13 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
 						print ''; exit;
 					}
 				break;
+				case 'saved_documents':
+					if (!MAKERS_ARE_HUGE) {
+            aaaart_image_filter_saved_documents('', true);
+          } else if (!empty($_GET['filter'])) {
+  					aaaart_image_filter_saved_documents($_GET['filter'], true);
+  				}
+				break;
 				case 'get_files':
 					if (!empty($_GET['id'])) {
 						aaaart_image_get_files_for_image($_GET['id'], true);

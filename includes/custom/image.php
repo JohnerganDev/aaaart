@@ -528,6 +528,47 @@ function aaaart_image_filter_makers($filter, $print_response=false) {
 
 
 /**
+ * Gets a list of "saved" (by a user) texts whose makers beginning with a certain pattern
+ * $filter can be a single letter or a range (like ab-an)
+ */
+function aaaart_image_filter_saved_documents($filter, $print_response=false) {
+	global $user;
+	if (empty($user['_id'])) {
+		$results = array();
+	} else {
+		if (!empty($filter)) {
+			$parts = explode('-', $filter);
+			if (count($parts)==2) {
+				$filter_str = substr($parts[0], 0, strlen($parts[0])-1);
+				$filter_str .= '['.substr($parts[0], strlen($parts[0])-1, 1).'-'.substr($parts[1], strlen($parts[1])-1, 1).']';
+			} else if (count($parts)==1) {
+				$filter_str = $filter;
+			} else return array();
+			if ($filter_str=='.etc') {
+				$regexObj = new MongoRegex("/^[^a-zA-z]/i"); 
+			} else {
+				$regexObj = new MongoRegex("/^".$filter_str."/i"); 
+			}
+			//$regexObj = new MongoRegex("/^a[b-f]/i"); 
+			$names = aaaart_mongo_get( IMAGES_COLLECTION, array('saved_by' => $user['_id'], 'makers_sortby'=>$regexObj), array('makers_sortby'=>1));
+		} else {
+			$names = aaaart_mongo_get( IMAGES_COLLECTION, array('saved_by' => $user['_id']), array('makers_sortby'=>1));
+		}
+		$results = array();
+		foreach ($names as $obj) {
+			$results[] = $obj;
+		}
+	}
+	if ($print_response) {
+		aaaart_mongo_stringify_ids($results);
+		return aaaart_image_generate_response_from_documents($results);
+	} else {
+		return $results;
+	}
+}
+
+
+/**
  * Given a text string and a document
  * Parses the string into an array of names (with title, first, middle, last, suffix, display, sortby)
  * If the name is new, it creates a new name in the makers collection; otherwise it gets an existing reference
@@ -578,6 +619,7 @@ function aaaart_image_get_or_create_maker($name) {
  */
 function aaaart_image_handle_form_data($request_data, $file, $index) {
 	$uid = aaaart_user_get_id();
+	$owner = aaaart_mongo_id($uid);
 	$now = time();
 	if (!empty($request_data['document-id'])) {
 		$comment = (!empty($request_data['comment'])) ? $request_data['comment'] : '';
@@ -587,7 +629,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
       'size' => (!empty($file->size)) ? $file->size : false,
       'type' => (!empty($file->type)) ? $file->type : false,
       'sha1' => (!empty($file->sha1)) ? $file->sha1 : false,
-      'uploader' => aaaart_mongo_id($uid),
+      'uploader' => $owner,
       'upload_date' => $now,
       'comment' => $comment,
 		);
@@ -601,7 +643,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 		$makers_str = aaaart_utils_get_field_data($request_data, 'maker', $file->original_name);
 		// This attributes array will be inserted
 	  $attributes = array(
-	  	'owner' => aaaart_mongo_id($uid),
+	  	'owner' => $owner,
 	  	'created' => $now,
 	  	'last_edit' => $now,
 	  	'files' => array(
@@ -610,12 +652,13 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 		      'size' => (!empty($file->size)) ? $file->size : false,
 		      'type' => (!empty($file->type)) ? $file->type : false,
 		      'sha1' => (!empty($file->sha1)) ? $file->sha1 : false,
-      		'uploader' => aaaart_mongo_id($uid),
+      		'uploader' => $owner,
 		      'upload_date' => $now,
 		      'comment' => 'original upload',
 	  		)
 	  	),
 	  	'title' => $file->metadata->title,
+	  	'saved_by' => $owner,
 	  );
 	  aaaart_image_process_makers_string($makers_str, $attributes);
 		if (!empty($attributes['makers_display'])) {
@@ -644,13 +687,14 @@ function aaaart_image_import_video($arr) {
 	if($embevi->parseUrl($arr['url'])){
 		$now = time();
 		$uid = aaaart_user_get_id();
+		$owner = aaaart_mongo_id($uid);
     $media = array(
     	'url' => $arr['url'],
     	'embed' => $embevi->getCode(),
     	'embed_generated' => $now
     );
     $attributes = array(
-	  	'owner' => aaaart_mongo_id($uid),
+	  	'owner' => $owner,
 	  	'created' => $now,
 	  	'last_edit' => $now,
 	  	'files' => array(),
@@ -659,6 +703,7 @@ function aaaart_image_import_video($arr) {
 	  	'metadata' => array(
 	  		'one_liner' => $arr['one_liner'],
 	  	),
+	  	'saved_by' => array( $owner )
 	  );
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
@@ -682,9 +727,10 @@ function aaaart_image_import_html($arr) {
 	if(!empty($data['content'])){
 		$now = time();
 		$uid = aaaart_user_get_id();
+		$owner = aaaart_mongo_id($uid);
     $content = $data;
     $attributes = array(
-	  	'owner' => aaaart_mongo_id($uid),
+	  	'owner' => $owner,
 	  	'created' => $now,
 	  	'last_edit' => $now,
 	  	'files' => array(),
@@ -693,6 +739,7 @@ function aaaart_image_import_html($arr) {
 	  		'one_liner' => $arr['one_liner'],
 	  	),
 	  	'content' => $content,
+	  	'saved_by' => array( $owner ),
 	  );
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
@@ -716,6 +763,20 @@ function aaaart_image_get_html($document) {
 		print $document['content']['content'];
 		exit;
 	}
+}
+
+
+/**
+ * Generate a JSON response from an iterable collection of images
+ * The iterable collection comes from a mongo query
+ */
+function aaaart_image_generate_response_from_documents($documents, $extra=array()) {
+	$files = array();
+	foreach ($documents as $document) {
+		$files[] = aaaart_image_make_file_object($document);
+	}
+	$response = array_merge($extra, array( 'files' => $files ));
+	return aaaart_utils_generate_response($response);
 }
 
 ?>

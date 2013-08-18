@@ -635,12 +635,12 @@ function aaaart_collection_list_collections($show, $arg=false, $print_response =
 function aaaart_collection_get_requests($sort, $filter=false) {
 	if ($sort=='date') {
 		$documents = aaaart_mongo_get_paged(IMAGES_COLLECTION, array('files'=>array(), 'content'=>array('$exists'=>false), 'media'=>array('$exists'=>false)), array('_id' => -1));
-		return aaaart_collection_generate_response_from_documents($documents);
+		return aaaart_image_generate_response_from_documents($documents);
 	} else if ($sort=='maker') {
 		if (!$filter) $filter=='a';
 		$regexObj = new MongoRegex("/^".$filter."/i"); 
 		$documents = aaaart_mongo_get( IMAGES_COLLECTION, array('makers_sortby'=>$regexObj, 'files'=>array(), 'content'=>array('$exists'=>false), 'media'=>array('$exists'=>false)), array('last'=>1));
-		return aaaart_collection_generate_response_from_documents($documents);
+		return aaaart_image_generate_response_from_documents($documents);
 	}
 } 
 
@@ -657,7 +657,7 @@ function aaaart_collection_get_documents_by_maker($key, $print_response=false) {
 				array('title'=> 1)
 		);
 	}
-	return aaaart_collection_generate_response_from_documents($docs);
+	return aaaart_image_generate_response_from_documents($docs);
 }
 
 
@@ -732,7 +732,7 @@ function aaaart_collection_get_makers_for_collection($collection_id, $print_resp
  */
 function aaaart_collection_get_all_images() {
 	$documents = aaaart_mongo_get_paged(IMAGES_COLLECTION, array(), array('_id' => -1));
-	return aaaart_collection_generate_response_from_documents($documents);
+	return aaaart_image_generate_response_from_documents($documents);
 }
 
 
@@ -1004,7 +1004,7 @@ function aaaart_collection_get_collected_documents($id, $order_by_maker = true, 
 		}
 	}
 	if ($print_response) {
-		aaaart_collection_generate_response_from_documents($documents);
+		aaaart_image_generate_response_from_documents($documents);
 	}
 }
 
@@ -1076,21 +1076,7 @@ function aaaart_collection_get_documents_and_sections($id, $print_response = fal
 function aaaart_collection_get_images_for_user($key=false) {
 	if (!$key) $key = aaaart_user_get_id();
 	$documents = aaaart_mongo_get(IMAGES_COLLECTION, array("uploader" => aaaart_mongo_id($key)));
-	return aaaart_collection_generate_response_from_documents($documents);
-}
-
-
-/**
- * Generate a JSON response from an iterable collection of images
- * The iterable collection comes from a mongo query
- */
-function aaaart_collection_generate_response_from_documents($documents, $extra=array()) {
-	$files = array();
-	foreach ($documents as $document) {
-		$files[] = aaaart_image_make_file_object($document);
-	}
-	$response = array_merge($extra, array( 'files' => $files ));
-	return aaaart_utils_generate_response($response);
+	return aaaart_image_generate_response_from_documents($documents);
 }
 
 
