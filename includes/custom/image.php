@@ -140,6 +140,32 @@ function aaaart_image_load_from_query_string() {
 }
 
 
+/*
+ * Returns a document from a file
+ */
+function aaaart_image_get_document_from_file($mode, $id, $print_response=false) {
+	$doc = array();
+	switch ($mode) {
+		case 'sha1':
+			$doc = aaaart_image_sha1_lookup($id);
+		break;
+		case 'filename':
+			$doc = aaaart_image_file_lookup($id);
+		break;
+	}
+	if ($print_response) {
+		if (empty($doc)) {
+			$response = array( 'success' => false, 'message' => 'no document for that file' );
+		} else {
+			$response = array( 'success' => true, 'document' => $doc );	
+		}
+		return aaaart_utils_generate_response($response);
+	} else {
+		return $doc;
+	}
+}
+
+
 /**
  * Returns HTML for a version of the image (version, as defined in config.php)
  */

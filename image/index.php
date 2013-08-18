@@ -16,6 +16,15 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
   case 'GET':
     if (!empty($_GET['action'])) {
 			switch ($_GET['action']) {
+				case 'info':
+					if (!empty($_GET['sha1'])) {
+						aaaart_image_get_document_from_file('sha1', $_GET['sha1'], true);
+					} else if (!empty($_GET['filename'])) {
+						aaaart_image_get_document_from_file('filename', $_GET['filename'], true);
+					} else {
+						print ''; exit;
+					}
+				break;
 				case 'get_files':
 					if (!empty($_GET['id'])) {
 						aaaart_image_get_files_for_image($_GET['id'], true);
