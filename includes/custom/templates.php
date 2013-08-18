@@ -143,7 +143,7 @@ EOF;
 
 function aaaart_template_nav() {
 	$script_url = BASE_URL;
-	$library_title = MAKERS_LABEL.'s';
+	$library_title = 'View ' .MAKERS_LABEL.'s';
 	if (aaaart_user_verify_cookie()) {
 		$activity_count = aaaart_user_get_activity_count();
 $output = <<< EOF
@@ -151,10 +151,12 @@ $output = <<< EOF
 	      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Library <b class="caret"></b></a>
 	      	<ul class="dropdown-menu">
 				    <li><a href="{$script_url}collection/makers.php"><i class="icon-stop"></i> {$library_title}</a></li>
-				    <li><a href="{$script_url}upload/"><i class="icon-arrow-up"></i> Add</a></li>
+				    <li><a href="{$script_url}upload/"><i class="icon-arrow-up"></i> Add to Library</a></li>
 				    <li class="divider"></li>
-				    <li><a href="{$script_url}collection/requests.php"><i class="icon-th"></i> Requests</a></li>
-				    <li><a data-toggle="modal" href="#request-form"><i class="icon-magnet"></i> Request</a></li>
+				    <li><a href="{$script_url}image/saved.php"><i class="icon-bookmark"></i> Saved</a></li>
+				    <li class="divider"></li>
+				    <li><a href="{$script_url}collection/requests.php"><i class="icon-th"></i> View Requests</a></li>
+				    <li><a data-toggle="modal" href="#request-form"><i class="icon-magnet"></i> Make Request</a></li>
 				  </ul>
       </li>
       <li class="dropdown">
