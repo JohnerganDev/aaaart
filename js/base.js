@@ -12,6 +12,11 @@
 /*jslint nomen: true, unparam: true, regexp: true */
 /*global $, window, document */
 
+// Default function parameter
+function valOrDefault(v, d) {
+    return (typeof v === "undefined") ? d : v;
+}
+
 // Gets a URL parameter
 function getURLParameter(name) {
     return decodeURI(
@@ -57,49 +62,56 @@ function aaaart_build_collections_list(list, arr) {
     });
 }
 
+
+// Toggles a document in and out of a user's library
+function aaaart_save_document(id) {
+    // @todo: this should have error checking, waiting properly, etc
+    $.ajax({
+        type: "POST",
+        url: base_url + "image/index.php",
+        data: { 
+            action: 'save_document', 
+            id: id
+        }, 
+    });
+}
+
+
 // adds save buttons to documents in a list
 function aaaart_add_save_buttons(list, saved, remove_from_list) {
-    remove_from_list = (typeof remove_from_list === "undefined") ? false : remove_from_list;
+    remove_from_list = valOrDefault(remove_from_list, false);
     list.children('li.image').each( function(i, item) {
         var $item = $(item);
         var id = $item.attr("data-id");
-        var add_button_text = 'save';
-        var remove_button_text = 'remove from saved list';
+        var add_button_text = 'add to your library';
+        var remove_button_text = 'saved!';
         if ($item.hasClass('request')) {
             add_button_text = '+1 this request';
-            remove_button_text = '-1 this request';
+            remove_button_text = 'requested!';
         } 
         if (id) {
             var $button = $('<button class="btn btn-small saver" type="button">'); 
             if ($.inArray(id, saved)==-1) {
                 $button.text(add_button_text);
-                $button.addClass('do-add btn-primary');
+                $button.addClass('do-add');
             } else {
                 $button.text(remove_button_text);
-                $button.addClass('do-remove');
+                $button.addClass('do-remove btn-success');
             }
             $item.append($button);
-            $item.hover( function () {
+            $item.hoverIntent( function () {
                 $button.toggle();
             });
             $button.click(function() {
-                // @todo: this should have error checking, waiting properly, etc
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "image/index.php",
-                    data: { 
-                        action: 'save_document', 
-                        id: id
-                    }, 
-                });
+                aaaart_save_document(id);
                 if ($button.hasClass('do-add')) {
                     $button.text(remove_button_text);
-                    $button.addClass('do-remove');
-                    $button.removeClass('do-add btn-primary');
+                    $button.addClass('do-remove btn-success');
+                    $button.removeClass('do-add');
                 } else {
                     $button.text(add_button_text);
-                    $button.addClass('do-add btn-primary');
-                    $button.removeClass('do-remove');
+                    $button.addClass('do-add');
+                    $button.removeClass('do-remove btn-success');
                     if (remove_from_list) {
                         $item.hide();
                     }

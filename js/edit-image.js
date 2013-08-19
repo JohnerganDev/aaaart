@@ -73,4 +73,29 @@ $(function () {
             }
         });
     });
+
+    // Save/ un-save to user library
+    $(document).on("click", ".image-detail .btn.saver", function(){
+        var $ele = $(this);
+        $.ajax({
+            type: "POST",
+            url: base_url + "image/index.php",
+            data: {  action: 'save_document', id: document_id }, 
+            dataType: 'json',
+            success: function(result) {
+                if ($ele.hasClass('do-add')) {
+                    $ele.text($ele.attr('data-remove'));
+                    $ele.addClass('do-remove btn-success');
+                    $ele.removeClass('do-add');
+                } else {
+                    $ele.text($ele.attr('data-add'));
+                    $ele.addClass('do-add');
+                    $ele.removeClass('do-remove btn-success');
+                }
+            },
+            error: function(){
+                alert("Sorry, that didn't work!");
+            }
+        });
+    });    
 });

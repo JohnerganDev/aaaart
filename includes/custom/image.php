@@ -170,6 +170,14 @@ function aaaart_image_get_document_from_file($mode, $id, $print_response=false) 
 }
 
 
+/*
+ * Is this a request?
+ */
+function aaaart_image_is_request($doc) {
+	return (empty($doc['media']) && empty($doc['files']) && empty($doc['content']['content']));
+}
+
+
 /**
  * Returns HTML for a version of the image (version, as defined in config.php)
  */
@@ -580,10 +588,10 @@ function aaaart_image_save_document($id) {
 	if ($user && aaaart_image_check_perm('save')) {
 		$doc = aaaart_image_get($id);
 		if ($doc && !empty($doc['saved_by'])) {
-			foreach ($doc['saved_by'] as $u) {
-				if ($u['_id']==$user['_id']) {
-					aaaart_mongo_pull(IMAGES_COLLECTION, $doc['_id'], array("saved_by" => $user['_id']) );
-				}
+			$uids = array_map('strval', $doc['saved_by']);
+			if (in_array((string)$user['_id'], $uids)) {
+				aaaart_mongo_pull(IMAGES_COLLECTION, $doc['_id'], array("saved_by" => $user['_id']) );
+				return;
 			}
 		}
 		// If we got this far, we have to add it!
@@ -591,6 +599,28 @@ function aaaart_image_save_document($id) {
 	}
 }
 
+/*
+ * Makes a save button
+ */
+function aaaart_image_format_save_button($doc) {
+	$uid = aaaart_user_get_id();
+	if ($uid) {
+		$already_saved = false;
+		if (!empty($doc['saved_by'])) {
+			$uids = array_map('strval', $doc['saved_by']);
+			$already_saved = in_array($uid, $uids);
+		}
+		$is_request = aaaart_image_is_request($doc);
+		$text_on = $is_request ? '+1 this request' : 'add to your library';
+		$text_off = $is_request ? 'requested!' : 'saved!';
+		return sprintf('<button class="btn btn-mini saver %s" data-add="%s" data-remove="%s">%s</button>',
+			($already_saved) ? 'btn-success do-remove' : 'do-add',
+			$text_on,
+			$text_off,
+			($already_saved) ? $text_off : $text_on
+		);
+	} else return '';
+}
 
 /**
  * Given a text string and a document

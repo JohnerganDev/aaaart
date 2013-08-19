@@ -11,6 +11,7 @@ if (!empty($_GET['_v']) && $_GET['_v']=='html') {
 $can_edit = (aaaart_image_check_perm('update', $image)) ? true : false;
 $can_upload = (aaaart_image_check_perm('upload')) ? true : false;
 $can_download = (aaaart_image_check_perm('download')) ? true : false;
+$can_save = (aaaart_image_check_perm('save')) ? true : false;
 // pull from activity
 aaaart_user_pull_activity('image/detail.php?id='.(string)$image['_id']);
 // get sharers string
@@ -20,7 +21,7 @@ print aaaart_template_header( $image['title'] );
 
 ?>
 
-<div id="container" class="container">
+<div id="container" class="container image-detail">
     <div class="page-header">
     <h2 ><?php print $image['title']; ?></h2>
     <h3 class="lead"><?php print $image['makers_display']; ?></h3>
@@ -28,6 +29,9 @@ print aaaart_template_header( $image['title'] );
     <?php if ($can_edit): ?>
         <a data-toggle="modal" href="#edit-form" class="btn btn-mini text-right" type="button">Edit</a>
         <a data-toggle="modal" href="#delete-form" class="btn btn-mini btn-danger text-right" type="button">Delete</a>
+    <?php endif; ?>
+    <?php if ($can_save): ?>
+        <?php print aaaart_image_format_save_button($image); ?>
     <?php endif; ?>
     <?php print aaaart_template_comment_button(IMAGES_COLLECTION, $image['_id']); ?>
     <?php if ($can_edit): ?>

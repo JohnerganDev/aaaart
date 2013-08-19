@@ -23,10 +23,18 @@ body {
   margin-bottom: 50px;
 }
 
+#container .left {
+  float: left;
+}
+
+#container .right {
+  width: 475px;
+}
+
 ul#active-collections,
 ul#active-discussions {
-  float: right;
-  width: 200px;
+  /*float: right;*/
+  /*width: 200px;*/
   font-size: 0.8em;
 }
 

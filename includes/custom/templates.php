@@ -105,6 +105,8 @@ function aaaart_template_footer($js=array()) {
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="{$script_url}js/vendor/jquery.ui.widget.js"></script>
+<!-- The jQuery hover intent for better hovering -->
+<script src="{$script_url}js/jquery.hoverIntent.minified.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
 <script src="{$script_url}js/tmpl.min.js"></script>
 <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
