@@ -176,9 +176,12 @@ class AaaartUploadHandler {
     }
 
     protected function set_file_delete_properties($file) {
+        /*
         $file->delete_url = $this->options['script_url']
             .$this->get_query_separator($this->options['script_url'])
             .'file='.rawurlencode($file->name);
+        */
+        $file->delete_url = BASE_URL . 'image/index.php?file='.rawurlencode($file->name);
         $file->delete_type = $this->options['delete_type'];
         if ($file->delete_type !== 'DELETE') {
             $file->delete_url .= '&_method=DELETE';
