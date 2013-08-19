@@ -231,7 +231,7 @@ class AaaartUploadHandler {
                 $file->type = $file_array['type'];
                 if (!empty($file_path)) {
                     $file->url = $this->get_download_url($file->name, null, $file_path);
-                    //$this->set_file_delete_properties($file);
+                    $this->set_file_delete_properties($file);
                     // @todo sort out delete and versions for files with a path
                 } else {
                     $file->url = $this->get_download_url($file->name);
