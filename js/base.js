@@ -80,6 +80,7 @@ function aaaart_save_document(id) {
 // adds save buttons to documents in a list
 function aaaart_add_save_buttons(list, saved, remove_from_list) {
     remove_from_list = valOrDefault(remove_from_list, false);
+    if ($('body').hasClass('logged-out')) return;
     list.children('li.image').each( function(i, item) {
         var $item = $(item);
         var id = $item.attr("data-id");
