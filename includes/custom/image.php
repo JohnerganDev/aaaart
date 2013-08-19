@@ -406,11 +406,21 @@ function aaaart_image_delete_file($file_name) {
 	global $IMAGE_UPLOAD_OPTIONS;
 	$image = aaaart_image_file_lookup($file_name);
 	$file = false;
+	$count = 0;
 	foreach ($image['files'] as $id=>$f) {
 		if (!empty($f['name']) && ($f['name']==$file_name)) {
 			$file = $f;
+			$count++;
 		}
 	} 
+	// special case so we dont delete files when we are just clearing our redundancies!
+	if (!empty($image) && !empty($file) && aaaart_image_check_perm('delete_file', $image, $file) && $count>1) {
+		aaaart_mongo_pull(IMAGES_COLLECTION, $image['_id'], array("files" => array("name" => $file_name)) );
+		aaaart_mongo_push(IMAGES_COLLECTION, $image['_id'], array('files' => $file));
+		$response = array( 'message' => 'It worked' );
+		return aaaart_utils_generate_response($response);
+	}
+	// normal operation
 	if (!empty($image) && !empty($file) && aaaart_image_check_perm('delete_file', $image, $file)) {
 		$upload_handler = new AaaartUploadHandler($IMAGE_UPLOAD_OPTIONS);
 		$success = $upload_handler->delete($file_name);
@@ -688,7 +698,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
       'comment' => $comment,
 		);
 		aaaart_mongo_push(IMAGES_COLLECTION, $request_data['document-id'], array('files' => $file));
-		aaaart_solr_add_to_queue(IMAGES_COLLECTION, $request_data['document-id']);
+		//aaaart_solr_add_to_queue(IMAGES_COLLECTION, $request_data['document-id']);
 	} else {
 		// this is a brand new image
 		// $file->original_name is used so that we can recover the correct extra field information ($index doesn't work)
