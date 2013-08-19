@@ -15,6 +15,11 @@ function aaaart_template_header($title='Website') {
 	}
 	$styles[] = sprintf('<link rel="stylesheet" href="%s%s">', $script_url, "css/style-".LIST_TYPE.".css");
 	$style_additions = implode("\n", $styles);
+	if ($user) {
+		$body_classes = "logged-in";
+	} else {
+		$body_classes = "logged-out";
+	}
 	$output = <<< EOF
 
 	<!DOCTYPE HTML>
@@ -45,7 +50,7 @@ function aaaart_template_header($title='Website') {
 	<!-- CSS adjustments for browsers with JavaScript disabled -->
 	<noscript><link rel="stylesheet" href="{$script_url}css/jquery.fileupload-ui-noscript.css"></noscript>
 	</head>
-	<body>
+	<body class="{$body_classes}">
 		<div class="navbar navbar-fixed-top">
 		<a id="site-title" href="{$script_url}">{$site_name}</a>
 		<div class="container">

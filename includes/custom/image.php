@@ -64,6 +64,10 @@ function aaaart_image_check_perm($op, $image=false, $file=false) {
 			if (aaaart_user_check_capability('ban_document_download')) return false;
 			else return true;
 		break;
+		case 'save': // save to personal library
+			if (aaaart_user_check_capability('ban_save')) return false;
+			else return true;
+		break;
 		default:
 			return true;
 		break;
@@ -568,6 +572,26 @@ function aaaart_image_filter_saved_documents($filter, $print_response=false) {
 }
 
 
+/*
+ * Saves a document to a user's "saved" library (or unsaves it)
+ */
+function aaaart_image_save_document($id) {
+	global $user;
+	if ($user && aaaart_image_check_perm('save')) {
+		$doc = aaaart_image_get($id);
+		if ($doc && !empty($doc['saved_by'])) {
+			foreach ($doc['saved_by'] as $u) {
+				if ($u['_id']==$user['_id']) {
+					aaaart_mongo_pull(IMAGES_COLLECTION, $doc['_id'], array("saved_by" => $user['_id']) );
+				}
+			}
+		}
+		// If we got this far, we have to add it!
+		aaaart_mongo_push(IMAGES_COLLECTION, $doc['_id'], array('saved_by' => $user['_id']));
+	}
+}
+
+
 /**
  * Given a text string and a document
  * Parses the string into an array of names (with title, first, middle, last, suffix, display, sortby)
@@ -771,11 +795,19 @@ function aaaart_image_get_html($document) {
  * The iterable collection comes from a mongo query
  */
 function aaaart_image_generate_response_from_documents($documents, $extra=array()) {
+	$uid = aaaart_user_get_id();
 	$files = array();
+	$saved = array(); // an array of the documents that the user has already saved
 	foreach ($documents as $document) {
 		$files[] = aaaart_image_make_file_object($document);
+		if (!empty($uid) && !empty($document['saved_by'])) {
+			$uids = array_map('strval', $document['saved_by']);
+			if (in_array($uid, $uids)) {
+				$saved[] = (string)$document['_id'];
+			}
+		}
 	}
-	$response = array_merge($extra, array( 'files' => $files ));
+	$response = array_merge($extra, array( 'files' => $files, 'saved' => $saved ));
 	return aaaart_utils_generate_response($response);
 }
 

@@ -16,7 +16,7 @@ $(function () {
     'use strict';
 
     var letter = 'a';
-    var $list = $('#gallery');
+    var gallery = $('#gallery');
     function loadDocs() {
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
@@ -25,10 +25,14 @@ $(function () {
             data: {'action': 'saved_documents', 'filter': letter},
             dataType: 'json',
         }).done(function (result) {
-            $list.empty();
+            gallery.empty();
             $.each(result.files, function (index, file) {
-                aaaart_add_item_to_gallery(file, $list, true);
+                aaaart_add_item_to_gallery(file, gallery, true);
             });
+            // add save buttons
+            if (result.saved) {
+               aaaart_add_save_buttons(gallery, result.saved, true); 
+            }
         });
     }
 

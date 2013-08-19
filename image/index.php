@@ -71,6 +71,15 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
 						aaaart_image_import_html($_POST);
 					}
 				break;
+				// note: this saves to a user's "saved" library (or unsaves it)
+				case 'save_document':
+					if (!empty($_POST['id'])) {
+						aaaart_image_save_document($_POST['id']);
+						aaaart_utils_generate_response(
+              array( 'result' => true )
+            );
+					}
+				break;
 			}
 		}
     break;

@@ -32,6 +32,10 @@ $(function () {
             $.each(result.files, function (index, file) {
                 aaaart_add_item_to_gallery(file, gallery, true, true);
             });
+            // add save buttons
+            if (result.saved) {
+               aaaart_add_save_buttons(gallery, result.saved); 
+            }
             if (result.files.length===0) {
                 $("button#more").hide();
             }

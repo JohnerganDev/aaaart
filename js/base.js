@@ -57,6 +57,57 @@ function aaaart_build_collections_list(list, arr) {
     });
 }
 
+// adds save buttons to documents in a list
+function aaaart_add_save_buttons(list, saved, remove_from_list) {
+    remove_from_list = (typeof remove_from_list === "undefined") ? false : remove_from_list;
+    list.children('li.image').each( function(i, item) {
+        var $item = $(item);
+        var id = $item.attr("data-id");
+        var add_button_text = 'save';
+        var remove_button_text = 'remove from saved list';
+        if ($item.hasClass('request')) {
+            add_button_text = '+1 this request';
+            remove_button_text = '-1 this request';
+        } 
+        if (id) {
+            var $button = $('<button class="btn btn-small saver" type="button">'); 
+            if ($.inArray(id, saved)==-1) {
+                $button.text(add_button_text);
+                $button.addClass('do-add btn-primary');
+            } else {
+                $button.text(remove_button_text);
+                $button.addClass('do-remove');
+            }
+            $item.append($button);
+            $item.hover( function () {
+                $button.toggle();
+            });
+            $button.click(function() {
+                // @todo: this should have error checking, waiting properly, etc
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "image/index.php",
+                    data: { 
+                        action: 'save_document', 
+                        id: id
+                    }, 
+                });
+                if ($button.hasClass('do-add')) {
+                    $button.text(remove_button_text);
+                    $button.addClass('do-remove');
+                    $button.removeClass('do-add btn-primary');
+                } else {
+                    $button.text(add_button_text);
+                    $button.addClass('do-add btn-primary');
+                    $button.removeClass('do-remove');
+                    if (remove_from_list) {
+                        $item.hide();
+                    }
+                }
+            });
+        }
+    });
+}
 
 // For adding reference button to markdown
 function aaaart_markdown_buttons() {

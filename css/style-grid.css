@@ -76,6 +76,12 @@ ul#gallery li .title a {
     font-weight: bold;
     color: #666;
 }
+
+ul#gallery li.image button.saver {
+  display:none;
+  margin-top: 6px;
+}
+
 .clearfix:after {
   content: "";
   display: table;

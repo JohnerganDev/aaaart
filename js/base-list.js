@@ -52,6 +52,7 @@ function aaaart_add_item_to_gallery(file, gallery, show_maker, show_date) {
   }
   var $thumbnail = aaaart_render_thumbnail(file, show_maker);
   var $item = $('<li class="image">').attr('data-id',file.document_id).append($thumbnail);
+  if (file.is_request) $item.addClass('request');
   gallery.append($item);
   return $item;
 }
