@@ -54,7 +54,7 @@ Collections are groups of documents created by users.
       </div>
       <?php endif; ?>
     </div>
-  <ul class="collections unstyled clearfix" id="collections"></ul>  
+  <ul class="collections list-unstyled clearfix" id="collections"></ul>  
 </div>
 
 <?php

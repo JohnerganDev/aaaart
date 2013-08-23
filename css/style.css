@@ -313,3 +313,13 @@ input[type="color"],
   font-weight: bold;
   color: #333;
 }
+
+.bootstrap-select.btn-group {
+  margin-bottom: 0px;
+}
+
+.image .collections.wrapper {
+  border-bottom: 1px solid #DDD;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}

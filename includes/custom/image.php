@@ -623,7 +623,7 @@ function aaaart_image_format_save_button($doc) {
 		$is_request = aaaart_image_is_request($doc);
 		$text_on = $is_request ? '+1 this request' : 'add to your library';
 		$text_off = $is_request ? 'requested!' : 'saved!';
-		return sprintf('<button class="btn btn-mini saver %s" data-add="%s" data-remove="%s">%s</button>',
+		return sprintf('<button class="btn btn-default btn-xs saver %s" data-add="%s" data-remove="%s">%s</button>',
 			($already_saved) ? 'btn-success do-remove' : 'do-add',
 			$text_on,
 			$text_off,

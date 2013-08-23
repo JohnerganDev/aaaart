@@ -11,9 +11,9 @@ print aaaart_template_header( 'looking for: ' . $search_string );
 <div id="container" class="container">
     <div class="page-header">
         <h2 >search: <?php print $search_string; ?></h2>
-        <small><ul class="inline" id="makers-and-collections-list"></ul></small>
+        <small><ul class="list-inline" id="makers-and-collections-list"></ul></small>
     </div>
-  <ul class="files clearfix search-results" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+  <ul class="files clearfix search-results list-unstyled" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
 </div>
 
 <!-- modal-gallery is the modal dialog used for the image gallery -->

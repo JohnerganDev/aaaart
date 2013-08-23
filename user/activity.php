@@ -11,7 +11,7 @@ $activity = array_reverse( $user['activity'] );
 
 ?>
 
-<ul class="activity">
+<ul class="activity list-unstyled">
 
 <?php foreach ($activity as $item) { ?>
 <li>

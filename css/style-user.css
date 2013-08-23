@@ -3,7 +3,6 @@
   left: 0;
   bottom: 0;
   height: 30px;
-  width: 100%;
   background-color: #663300;
   padding-top: 3px;
 }
@@ -16,7 +15,7 @@
 #footer .carousel-inner {
 	overflow: visible;
 	display: table-cell;
-	width: 92%;
+	
 }
 
 #footer .memex-controls,
@@ -26,10 +25,15 @@
 
 #footer .memex-controls,
 #footer .memex-actions {
-	width: 60px;	
+	min-width: 70px;	
 	vertical-align: top;
 	padding-top: 2px;
 }
+
+#footer .memex-actions {
+	padding-left: 20px;
+}
+
 
 #footer .memex-controls a {
 	float: left;

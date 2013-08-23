@@ -27,8 +27,8 @@ print aaaart_template_header( $image['title'] );
     <h3 class="lead"><?php print $image['makers_display']; ?></h3>
 
     <?php if ($can_edit): ?>
-        <a data-toggle="modal" href="#edit-form" class="btn btn-mini text-right" type="button">Edit</a>
-        <a data-toggle="modal" href="#delete-form" class="btn btn-mini btn-danger text-right" type="button">Delete</a>
+        <a data-toggle="modal" href="#edit-form" class="btn btn-default btn-xs text-right" type="button">Edit</a>
+        <a data-toggle="modal" href="#delete-form" class="btn btn-xs btn-danger text-right" type="button">Delete</a>
     <?php endif; ?>
     <?php if ($can_save): ?>
         <?php print aaaart_image_format_save_button($image); ?>
@@ -36,75 +36,86 @@ print aaaart_template_header( $image['title'] );
     <?php print aaaart_template_comment_button(IMAGES_COLLECTION, $image['_id']); ?>
     <?php if ($can_edit): ?>
         <!-- modal edit form -->
-        <div id="edit-form" class="modal hide fade in" style="display: none; ">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">×</a>  
-                <h3>Edit</h3>
-            </div>
-            <form class="modal-body" action="<?php print BASE_URL; ?>image/index.php" method="POST">
-                <input type="hidden" id="document-id" name="id" value="<?php print $image['_id']; ?>" />
-                <input type="hidden" name="action" value="update" />
-                <fieldset>
-                    <legend>information</legend>
-                    <label>Title</label><input type="text" name="title" value="<?php print $image['title']; ?>">
-                    <label><?php print MAKERS_LABEL; ?>s</label><input type="text" name="maker" value="<?php print $image['makers_display']; ?>">
-                    <span class="help-block">Separate multiple people with commas.</span>
-                    <?php print aaaart_utils_format_input_fields($IMAGE_FIELDS, $image); ?>
-                </fieldset>
-            </form>
-            <div class="modal-footer">
-                <button class="btn btn-success" id="save">Save</button>
-                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <div id="edit-form" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal">×</a>  
+                        <h4>Edit</h4>
+                    </div>
+                    <form class="modal-body" action="<?php print BASE_URL; ?>image/index.php" method="POST">
+                        <input type="hidden" id="document-id" name="id" value="<?php print $image['_id']; ?>" />
+                        <input type="hidden" name="action" value="update" />
+                            <div class="form-group">  
+                                <label>Title</label><input type="text" class="form-control" name="title" value="<?php print $image['title']; ?>">
+                            </div>
+                            <div class="form-group">  
+                                <label><?php print MAKERS_LABEL; ?>s</label><input type="text" class="form-control" name="maker" value="<?php print $image['makers_display']; ?>">
+                                <p class="help-block">Separate multiple people with commas.</p>
+                            </div>
+                            <?php print aaaart_utils_format_input_fields($IMAGE_FIELDS, $image); ?>
+                    </form>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" id="save">Save</button>
+                        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- modal delete form -->
         <div id="delete-form" class="modal hide fade in" style="display: none; ">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">×</a>  
-                <h3>Delete</h3>
-            </div>
-            <div class="modal-body">
-                Are you sure that you want to delete this? If you do delete it, there is no way to bring it back!
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger" id="delete">Delete</button>
-                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal">×</a>  
+                        <h4>Delete</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure that you want to delete this? If you do delete it, there is no way to bring it back!
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" id="delete">Delete</button>
+                        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                    </div>
+                </div>
             </div>
         </div>            
     <?php endif; ?>
 
     </div>
  	<!-- Image display here -->
-    <div id="document-display" >
-      	<div id="metadata" class="col">
+    <div id="document-display" class="row">
+      	<div id="metadata" class="col-md-6">
       		<input type="hidden" id="document-id" name="id" value="<?php print $image['_id']; ?>" />
       		<div class ="other">
             <?php print aaaart_utils_format_display_fields($IMAGE_FIELDS, $image, array('Contributors'=>$sharers)); ?>
             </div>
         </div>
-      	<div class="image" class="col">
+      	<div class="image" class="col-md-6">
             <?php print aaaart_image_display_image($image, 'medium', $can_download, false); ?>
-
-            <h6 class="muted">Collections</h6>
-            <div id="in-collections" data-objectid="<?php print $image['_id']; ?>">
-                <small><ul class="collections inline"></ul></small>
-                <?php print aaaart_collection_sort_element(); ?>
+            <div class="collections wrapper col-md-6">
+                <h6 class="muted">Collections</h6>
+                <div id="in-collections" data-objectid="<?php print $image['_id']; ?>">
+                    <small><ul class="collections list-inline"></ul></small>
+                    <?php print aaaart_collection_sort_element(); ?>
+                </div>
             </div>
             <?php if ($can_upload): ?>
+            <div class="files wrapper col-md-6">
             <h6 class="muted">Files</h6>
             <!-- The file upload form used as target for the file upload widget -->
             <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
-                <!-- Redirect browsers with JavaScript disabled to the origin page -->
-                <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
                 <!-- The table listing the files available for upload/download -->
-                <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+                <table role="presentation" class="row table table-condensed table-striped">
+                    <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+                </table>
                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                 <div class="row fileupload-buttonbar">
-                    <div class="span7">
-                        <i class="icon-question-sign uploading-help-trigger"></i> 
+                    <div >
+                        <span class="glyphicon glyphicon-question-sign uploading-help-trigger"></span> 
                         <!-- The fileinput-button span is used to style the file input field as button -->
-                        <span class="btn btn-small btn-success fileinput-button">
-                            <i class="icon-plus icon-white"></i>
+                        <span class="btn btn-success fileinput-button">
+                            <span class="glyphicon glyphicon-plus icon-white"></span>
                             <span>Add a new version...</span>
                             <input type="file" name="files[]" multiple>
                         </span>
@@ -131,7 +142,6 @@ print aaaart_template_header( $image['title'] );
                         <div class="progress-extended">&nbsp;</div>
                     </div>
                 </div>
-
             </form>
             <br>
             <div id="uploading-help" class="well" style="display:none">
@@ -142,6 +152,7 @@ print aaaart_template_header( $image['title'] );
                     <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
                     <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
                 </ul>
+            </div>
             </div>
             <?php endif; ?>
             
@@ -192,31 +203,29 @@ print aaaart_template_header( $image['title'] );
             {% if (file.error) { %}
                 <div><span class="label label-important">Error</span> {%=file.error%}</div>
             {% } %}
+            {% if (!o.files.error && !i && !o.options.autoUpload) { %}
+                <button class="btn btn-success btn-xs start">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Start</span>
+                </button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="btn btn-warning btn-xs cancel">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
         </td>
         <td class="editable-fields">
         		<input type="hidden" name="document-id" value="<?php print $image['_id']; ?>" />
             <div class="row">
-                <label>Comment:</label><input type="text" name="comment">
+                <input type="text" name="comment" class="form-control" placeholder="Info about file">
             </div>
         </td>
         <td>
             <p class="size">{%=o.formatFileSize(file.size)%}</p>
             {% if (!o.files.error) { %}
                 <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-            {% } %}
-        </td>
-        <td>
-            {% if (!o.files.error && !i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start">
-                    <i class="icon-upload icon-white"></i>
-                    <span>Start</span>
-                </button>
-            {% } %}
-            {% if (!i) { %}
-                <button class="btn btn-warning cancel">
-                    <i class="icon-ban-circle icon-white"></i>
-                    <span>Cancel</span>
-                </button>
             {% } %}
         </td>
     </tr>
@@ -246,7 +255,7 @@ print aaaart_template_header( $image['title'] );
         </td>
         <?php if ($can_edit): ?>
         <td>
-            <button class="btn btn-danger btn-mini delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+            <button class="btn btn-danger btn-xs delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                 <i class="icon-trash icon-white"></i>
                 <span>Delete</span>
             </button>

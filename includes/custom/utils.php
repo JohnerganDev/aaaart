@@ -389,7 +389,7 @@ function aaaart_utils_format_input_field($field, $name, $values=array()) {
       case 'textarea':
         $field_markup = sprintf(
           //'<label>%s</label><textarea data-provide="markdown" data-width="400" name="%s">%s</textarea><span class="help-block">%s</span>',
-          '<label>%s</label><textarea rows="8" name="%s">%s</textarea><span class="help-block">%s</span>',
+          '<div class="form-group"><label>%s</label><textarea class="form-control" rows="8" name="%s">%s</textarea><p class="help-block">%s</p></div>',
           (!empty($field['label'])) ? $field['label'] : '',
           $name,
           $default_value,
@@ -398,7 +398,7 @@ function aaaart_utils_format_input_field($field, $name, $values=array()) {
       break;
       case 'text':
         $field_markup = sprintf(
-          '<label>%s</label><input type="text" name="%s" value="%s"><span class="help-block">%s</span>',
+          '<div class="form-group"><label>%s</label><input type="text" class="form-control" name="%s" value="%s"><p class="help-block">%s</p></div>',
           (!empty($field['label'])) ? $field['label'] : '',
           $name,
           str_replace('"', '\"', $default_value),

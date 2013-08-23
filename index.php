@@ -22,15 +22,15 @@ Collections are groups of documents created by users.
 
 ?>
 
-<div id="container" class="container container-fluid">
-    <div class="row-fluid">
-    <div class="span6">
-      <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+<div id="container" class="container">
+    <div class="row">
+    <div class="col-md-6">
+      <ul class="files list-unstyled clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
       <button id="more" class="btn btn-mini btn-danger" type="button">More</button>
     </div>
     <?php if (LIST_TYPE=='list'): ?>
-    <ul id="active-discussions" class="span3"></ul>
-    <ul id="active-collections" class="span3"></ul>
+    <ul id="active-discussions" class="col-md-3 list-unstyled"></ul>
+    <ul id="active-collections" class="col-md-3 list-unstyled"></ul>
     <?php endif; ?>
 </div>
 

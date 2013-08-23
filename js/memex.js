@@ -127,7 +127,7 @@ $(function () {
         $.each(buttons, function(idx, button) {
             if (running_width == 0) {
                 $current_slide = $('<div>').addClass('item');
-                $current_path = $('<ul>').addClass('thumbnails');
+                $current_path = $('<ul>').addClass('thumbnails list-inline');
                 $current_slide.append($current_path);
                 $path.append($current_slide);
                 if ($leftover_button) {
@@ -173,10 +173,10 @@ $(function () {
     var $slider = null;
     var $actions = null;
     if ($container.is(":visible")) {
-        $container.addClass('row-fluid');
-        var $prev = $('<a class="btn btn-mini controls memex-prev" data-slide="prev" href="#memex-carousel" type="button"><i class="icon-chevron-left"></i></a>');
-        var $next = $('<a class="btn btn-mini controls memex-next" data-slide="next" href="#memex-carousel" type="button"><i class="icon-chevron-right"></i></a>');
-        var $controls = $('<div>').addClass('memex-controls btn-group');
+        $container.addClass('row');
+        var $prev = $('<button class="btn btn-default controls memex-prev" data-slide="prev" href="#memex-carousel" type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>');
+        var $next = $('<button class="btn btn-default controls memex-next" data-slide="next" href="#memex-carousel" type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>');
+        var $controls = $('<div>').addClass('memex-controls btn-group btn-group-xs');
         $actions = $('<div>').addClass('memex-actions');
         $controls.append($prev).append($next);
         $slider = $('<div>').attr("id","memex-carousel").attr("data-interval","false").addClass('carousel slide');

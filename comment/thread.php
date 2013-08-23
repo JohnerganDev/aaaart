@@ -13,24 +13,26 @@ aaaart_user_pull_activity('comment/thread.php?id='.(string)$thread['_id']);
 from: <?php print $ref_link; ?>
 <?php endif; ?>
 <form id="comment-form">
-  <fieldset>
-  	<?php if (empty($thread)): ?>
-    <input type="hidden" name="action" value="create_thread">
+	<?php if (empty($thread)): ?>
+  <input type="hidden" name="action" value="create_thread">
+  <div class="form-group">
     <label>New thread</label>
-    <input type="text" name="title" placeholder="Give a title">
-    <span class="help-block">What is the new discussion thread about?</span>
-    <?php else: ?>
-    <input type="hidden" name="action" value="create">
-    <input type="hidden" name="thread_id" value="<?php print $thread['_id']; ?>">
-    <?php endif; ?>
-    <textarea data-provide="markdown" data-width="400" name="message" rows="4"></textarea>
+    <input type="text" name="title" class="form-control" placeholder="Give a title">
+    <p class="help-block">What is the new discussion thread about?</p>
+  </div>
+  <?php else: ?>
+  <input type="hidden" name="action" value="create">
+  <input type="hidden" name="thread_id" value="<?php print $thread['_id']; ?>">
+  <?php endif; ?>
+  <div class="form-group">
+    <textarea data-provide="markdown" data-width="400" name="message" class="form-control" rows="4"></textarea>
     <span class="help-block">Write a message here.</span>
-    <button type="submit" class="btn">Submit</button>
-    <?php if (!empty($_GET['ref_type']) && !empty($_GET['ref_id'])): ?>
-    <input type="hidden" name="ref_type" value="<?php print $_GET['ref_type']; ?>">
-    <input type="hidden" name="ref_id" value="<?php print $_GET['ref_id']; ?>">
-	  <?php endif; ?>
-  </fieldset>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </div>
+  <?php if (!empty($_GET['ref_type']) && !empty($_GET['ref_id'])): ?>
+  <input type="hidden" name="ref_type" value="<?php print $_GET['ref_type']; ?>">
+  <input type="hidden" name="ref_id" value="<?php print $_GET['ref_id']; ?>">
+  <?php endif; ?>
 </form>
 <?php if (!empty($thread['posts'])): ?>
 <?php $posts = aaaart_comment_get_ordered_posts($thread); ?>
@@ -48,7 +50,7 @@ from: <?php print $ref_link; ?>
 
 
 <script type="text/javascript">
-  $("#comments .modal-header h3").text("<?php print (empty($thread)) ? 'Comment' : $thread['title']; ?>");
+  $("#comments .modal-header h4").text("<?php print (empty($thread)) ? 'Comment' : $thread['title']; ?>");
 	$("#comment-form textarea").markdown({autofocus:false, savable:false, additionalButtons: aaaart_markdown_buttons() });
   $("#comment-form").on('submit', function(event) {
   	var $form = $(this);

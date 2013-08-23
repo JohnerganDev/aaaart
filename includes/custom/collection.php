@@ -281,9 +281,9 @@ function aaaart_collection_sort_element() {
 	$output = '';
 	$collections = aaaart_collection_get_user_collections();
 	if (!empty($collections['initiated']) || !empty($collections['collaborating']) || !empty($collections['following'])) {
-		$output .= '<div class="input-append">';
-		$output .= '<select id="sort-into-collection" name="collection_id">';
-		$output .= sprintf('<option value="%s" selected="selected">%s</option>', 'none', ' :: Add to collection ::');
+		$output .= '<div class="input-group">';
+		$output .= '<select id="sort-into-collection" class="selectpicker" data-style="btn-default btn-xs" multiple title="Add to collection" name="collection_id">';
+		//$output .= sprintf('<option value="%s" selected="selected">%s</option>', 'none', ' :: Add to collection ::');
 		foreach ($collections as $group=>$list) {
 			if (!empty($list)) {
 				$output .= sprintf('<optgroup label="%s">', $group);
@@ -294,7 +294,7 @@ function aaaart_collection_sort_element() {
 			}
 		}
 		$output .= '</select>';
-		$output .= '<button class="btn" id="sort-into-collection-button">Add</button>';
+		$output .= '<span class="input-group-btn"><button class="btn btn-default btn-xs" id="sort-into-collection-button">Add</button></span>';
 		$output .= '</div>';
 	}
 	return $output;
@@ -326,6 +326,47 @@ function aaaart_collection_add_document($collection_id, $document_id, $print_res
 	}
 	aaaart_collection_push_activity($collection, $addition);
 	aaaart_solr_add_to_queue(IMAGES_COLLECTION, $document_id);
+	if ($print_response) {
+		return aaaart_utils_generate_response($response);
+	}
+}
+
+
+/**
+ * Adds a document to a collection
+ */
+function aaaart_collection_add_document_to_collections($collection_ids, $document_id, $print_response=false) {
+	$uid = aaaart_user_get_id();
+	$now = time();
+	$ref = aaaart_mongo_create_reference(IMAGES_COLLECTION, $document_id);
+	$added = array();
+	foreach ($collection_ids as $collection_id) {
+		$collection = aaaart_collection_get($collection_id);
+		if (aaaart_collection_check_perm('add', $collection)) {
+			if (!aaaart_collection_contains($collection_id, $document_id)) {
+				$addition = array(
+					'adder' => aaaart_mongo_id($uid),
+					'object' => $ref,
+					'added' => $now,
+					'notes' => '',
+				);
+				aaaart_mongo_push(COLLECTIONS_COLLECTION, $collection_id, array('contents' => $addition));
+				$added[] = $collection;
+			} else {
+				//$response = array( 'message' => 'That is already in this collection');
+			}
+		} else {
+			//$response = array( 'message' => 'You can\'t add to this collection');
+		}
+		aaaart_collection_push_activity($collection, $addition);
+		
+	}
+	if (!empty($added)) {
+		aaaart_solr_add_to_queue(IMAGES_COLLECTION, $document_id);
+		$response = array( 'message' => sprintf('Added to %s collections!', count($added)), 'collections' => $added);
+	} else {
+		$response = array( 'message' => 'Sorry, there were errors.');
+	}
 	if ($print_response) {
 		return aaaart_utils_generate_response($response);
 	}
@@ -376,14 +417,26 @@ function aaaart_collection_remove_document($collection_id, $document_id) {
  * When creating or editing a collection, the owner can set what "type" it is.
  * This function outputs the form element
  */
-function aaaart_collection_type_field($default = null) {
+function aaaart_collection_type_field($default = 'semi-public') {
 	global $COLLECTION_TYPES;
 	$options = '';
+	/*
 	foreach ($COLLECTION_TYPES as $key=>$value) {
 		$selected = (!empty($default) && ($default==$key)) ? 'selected="selected"' : '';
 		$options .= sprintf('<option value="%s"%s>%s</option>', $key, $selected, $value); 
 	}
-	return sprintf('<select name="type">%s</select>', $options);
+	return sprintf('<select name="type" class="selectpicker">%s</select>', $options);
+	*/
+	foreach ($COLLECTION_TYPES as $key=>$value) {
+		$selected = (!empty($default) && ($default==$key)) ? ' checked' : '';
+		$options .= sprintf('<div class="radio"><label><input type="radio" name="type" id="options-%s" value="%s"%s>%s</label></div>',
+			$key,
+			$key,
+			$selected,
+			$value
+		);
+	}
+	return $options;
 }
 
 /**
@@ -485,7 +538,7 @@ function aaaart_collection_format_active_collections($num=15, $time_window=86400
 			$to_display[ $most_recent_collection['added'] ] = $most_recent_collection;
 		}
 		if (!empty($to_display)) {
-			$output_title = sprintf('<h4><a class="text-error" href="%scollection/detail.php?id=%s">%s</a></h4>', BASE_URL, (string)$collection['_id'], $collection['title']);
+			$output_title = sprintf('<h4><a class="text-danger" href="%scollection/detail.php?id=%s">%s</a></h4>', BASE_URL, (string)$collection['_id'], $collection['title']);
 			$output_inner = '';
 			$count = 0;
 			krsort($to_display);
@@ -502,7 +555,7 @@ function aaaart_collection_format_active_collections($num=15, $time_window=86400
 				}
 			}
 			if (!empty($output_inner)) {
-				$output .= sprintf('<li>%s<ul>%s</ul></li>', $output_title, $output_inner);
+				$output .= sprintf('<li>%s<ul class="list-unstyled">%s</ul></li>', $output_title, $output_inner);
 			}
 		}
 	}
@@ -743,7 +796,11 @@ function aaaart_collection_make_request($values) {
 	$file = new StdClass();
 	aaaart_image_handle_form_data($values, $file, 0);
 	if (!empty($values['collection_id']) && !empty($file->document_id)) {
-		aaaart_collection_add_document($values['collection_id'], $file->document_id);
+		if (is_array($values['collection_id'])) {
+			aaaart_collection_add_document_to_collections($values['collection_id'], $file->document_id);
+		} else {
+			aaaart_collection_add_document($values['collection_id'], $file->document_id);
+		}
 	}
 }
 

@@ -23,15 +23,10 @@ body {
   margin-bottom: 50px;  
 }
 
-#document-display {
-  display: table-row;
-  width: 100%;
-}
 
 #document-display #metadata {
   vertical-align: top;
   padding-right: 50px;
-  min-width: 400px;
 }
 
 #document-display .image {
@@ -40,10 +35,6 @@ body {
 
 #document-display .image img {
   padding-bottom: 20px;
-}
-
-#document-display .col {
-  display: table-cell;
 }
 
 ul#gallery {

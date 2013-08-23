@@ -12,13 +12,13 @@ print aaaart_template_header( $maker['display'] );
 <div id="container" class="container">
     <div class="page-header">
         <h2 ><?php print $maker['display']; ?></h2>
-        <small><ul class="inline" id="collections-list"></ul></small>
+        <small><ul class="list-inline" id="collections-list"></ul></small>
         <?php print aaaart_template_comment_button(MAKERS_COLLECTION, $maker['_id']); ?>
     </div>
     <div id="metadata">
 		<input type="hidden" id="maker-id" name="id" value="<?php print $maker['_id']; ?>" />	
 	</div>
-  <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+  <ul class="files list-unstyled clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
 
     <?php if ($can_upload): ?>
 	<!-- The file upload form used as target for the file upload widget -->

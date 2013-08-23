@@ -68,9 +68,11 @@ $(function () {
                     }, 
                     dataType: 'json',
                     success: function(result){
-                        if (result.collection) {
+                        if (result.collections) {
                             if ($coll_list.length) {
-                                aaaart_add_collection_to_list($coll_list, result.collection);
+                                $.each(result.collections, function(x, collection) {
+                                    aaaart_add_collection_to_list($coll_list, collection);
+                                });
                             }
                         } else if (result.message) { alert(result.message); 
                         } else { alert("Sorry, that didn't work!"); }
@@ -131,6 +133,7 @@ $(function () {
                     $.each(result.collections, function (index, coll) {
                         $coll_select.find("option[value='"+coll._id+"']").remove();
                     });
+                    $coll_select.selectpicker('refresh');
                 }
             },
             error: function(){

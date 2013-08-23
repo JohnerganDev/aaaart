@@ -50,8 +50,6 @@ ul#active-collections ul,
 ul#active-collections li,
 ul#active-discussions ul,
 ul#active-discussions li {
-  list-style-type: none;
-  list-style: none;  
   line-height: 1em;
   margin-left: 0px;
 }
@@ -62,36 +60,23 @@ ul#active-discussions li {
   padding-left:75px;
 }
 
-#document-display {
-  display: table-row;
-  width: 100%;
-}
-
 #document-display #metadata {
   vertical-align: top;
   padding-right: 50px;
-  min-width: 400px;
 }
 
 #document-display .image img {
   padding-bottom: 20px;
 }
 
-#document-display .col {
-  display: table-cell;
-}
 
 ul#gallery,
 #create-reference-form ul.images {
-    list-style-type: none;
-    list-style: none;
     display: block;
     margin-bottom: 60px;
-    margin-left: 0px;
 }
 ul#gallery li.image,
 #create-reference-form ul.images li.image {
-    list-style-type: none;
     margin-bottom: 25px;
 }
 

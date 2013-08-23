@@ -18,21 +18,21 @@ print aaaart_template_header('Upload');
             <li><a href="#tab3" data-toggle="tab">Link to a video</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="tab1">
+            <div class="panel-body tab-pane active" id="tab1">
 
             <!-- The file upload form used as target for the file upload widget -->
             <form id="fileupload" action="<?php print BASE_URL; ?>upload/index.php" method="POST" enctype="multipart/form-data">
-                <!-- Redirect browsers with JavaScript disabled to the origin page -->
-                <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                 <div class="row fileupload-buttonbar">
                     <div class="span7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
-                        <span class="btn btn-success fileinput-button">
+                        <span class="btn btn-success btn-lg fileinput-button ">
                             <i class="icon-plus icon-white"></i>
                             <span>Add files...</span>
                             <input type="file" name="files[]" multiple>
                         </span>
+                        <!--
+                        
                         <button type="submit" class="btn btn-primary start">
                             <i class="icon-upload icon-white"></i>
                             <span>Start upload</span>
@@ -46,6 +46,7 @@ print aaaart_template_header('Upload');
                             <span>Delete</span>
                         </button>
                         <input type="checkbox" class="toggle">
+                        -->
                         <!-- The loading indicator is shown during file processing -->
                         <span class="fileupload-loading"></span>
                     </div>
@@ -66,8 +67,8 @@ print aaaart_template_header('Upload');
             <div class="well">
                 <h3>Upload Notes</h3>
                 <ul>
-                    <li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
-                    <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>
+                    <!--<li>The maximum file size for uploads is <strong>20 MB</strong>.</li>
+                    <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed.</li>-->
                     <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
                     <li>Built with <a href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a></li>
                 </ul>
@@ -75,33 +76,57 @@ print aaaart_template_header('Upload');
 
         </div>
 
-        <div class="tab-pane" id="tab2">
+        <div class="panel-body tab-pane" id="tab2">
             <form id="import-html" action="<?php print BASE_URL; ?>image/index.php" method="POST" >
                 <input type="hidden" name="action" value="html">
-                <label>URL of the page</label>
-                <input name="url" type="url" class="input-xxlarge" required>
-                <label>Title (this will have in the library)</label>
-                <input name="title" type="text" class="input-xlarge" required>
-                <label><?php print MAKERS_LABEL; ?></label>
-                <input name="maker" type="text" class="input-xlarge" required>
-                <label>Short description (just a few words)</label>
-                <input name="one_liner" type="text" class="input-xxlarge" required>
+                <div class="form-group">
+                    <label>URL of the page</label>
+                    <input name="url" type="url" class="form-control" required>
+                    <p class="help-block">The content of this page will be imported into the library</p>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input name="title" type="text" class="form-control" required>
+                    <p class="help-block">What title will this have in the library? </p>
+                </div>
+                <div class="form-group">
+                    <label><?php print MAKERS_LABEL; ?></label>
+                    <input name="maker" type="text" class="form-control" required>
+                    <p class="help-block">Separate multiple names with commas</p>
+                </div>
+                <div class="form-group">
+                    <label>Short description</label>
+                    <input name="one_liner" type="text" class="form-control" required>
+                    <p class="help-block">Just one line, or even a few words</p>
+                </div>
                 <br />
                 <button class="btn btn-primary"><span>Save</span></button>
             </form>
         </div>
 
-        <div class="tab-pane" id="tab3">
+        <div class="panel-body tab-pane" id="tab3">
             <form id="import-video" action="<?php print BASE_URL; ?>image/index.php" method="POST" >
                 <input type="hidden" name="action" value="video">
-                <label>URL of video (or audio)</label>
-                <input name="url" type="url" class="input-xxlarge" required>
-                <label>Title (this will have in the library)</label>
-                <input name="title" type="text" class="input-xlarge" required>
-                <label><?php print MAKERS_LABEL; ?></label>
-                <input name="maker" type="text" class="input-xlarge" required>
-                <label>Short description (just a few words)</label>
-                <input name="one_liner" type="text" class="input-xxlarge" required>
+                <div class="form-group">
+                    <label>URL of video (or audio)</label>
+                    <input name="url" type="url" class="form-control" required>
+                    <p class="help-block">Just paste the URL of the page for the media.</p>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input name="title" type="text" class="form-control" required>
+                    <p class="help-block">What title will this have in the library? </p>
+                </div>
+                <div class="form-group">
+                    <label><?php print MAKERS_LABEL; ?></label>
+                    <input name="maker" type="text" class="form-control" required>
+                    <p class="help-block">Separate multiple names with commas</p>
+                </div>
+                <div class="form-group">
+                    <label>Short description (just a few words)</label>
+                    <input name="one_liner" type="text" class="form-control" required>
+                    <p class="help-block">Just one line, or even a few words</p>
+                </div>
                 <br />
                 <button class="btn btn-primary"><span>Save</span></button>
             </form>
@@ -154,6 +179,9 @@ print aaaart_template_header('Upload');
             </div>
             <div class="row">
                 <label>Title:</label><input type="text" name="title[{%= file.name %}]">
+            </div>
+            <div class="row">
+                <label>Short description (just a few words)</label><input name="one_liner" type="text" class="input-xxlarge" required>
             </div>
         </td>
         <td>

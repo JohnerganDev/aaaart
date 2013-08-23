@@ -115,8 +115,8 @@ $followers_list = aaaart_user_format_simple_list($followers);
         <?php endif; ?>
     </div>
 
-    <span class="sorter muted">order by: <a href="#" data-toggle="tooltip" title="<?php print MAKERS_LABEL; ?> name" class="maker"><i class="icon-user"></i></a> / <a href="#" data-toggle="tooltip" title="Most recent" class="date"><i class="icon-calendar"></i></a></span>
-    <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+    <span class="sorter muted">order by: <a href="#" data-toggle="tooltip" title="<?php print MAKERS_LABEL; ?> name" class="maker"><span class="glyphicon glyphicon-user"></span></a> / <a href="#" data-toggle="tooltip" title="Most recent" class="date"><span class="glyphicon glyphicon-calendar"></span></a></span>
+    <ul class="files list-unstyled clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
 
     <?php if ($can_edit || $can_add): ?>
 	<!-- The file upload form used as target for the file upload widget -->

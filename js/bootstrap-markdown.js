@@ -96,9 +96,9 @@
                                     +ns
                                     +'" data-handler="'
                                     +buttonHandler
-                                    +'"><i class="'
+                                    +'"><span class="'
                                     +button.icon
-                                    +'"></i> '
+                                    +'"></span> '
                                     +btnText
                                     +'</button>')
 
@@ -242,7 +242,7 @@
                               +ns
                               +'" data-handler="'
                               +saveHandler
-                              +'"><i class="icon icon-white icon-ok"></i> Save</button>')
+                              +'"><span class="glyphicon icon-white iconglyphicon-ok"></span> Save</button>')
 
           editor.append(editorFooter)
         }
@@ -669,7 +669,7 @@
         data: [{
           name: 'cmdBold',
           title: 'Bold',
-          icon: 'icon icon-bold',
+          icon: 'glyphicon glyphicon-bold',
           callback: function(e){
             // Give/remove ** surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -698,7 +698,7 @@
         },{
           name: 'cmdItalic',
           title: 'Italic',
-          icon: 'icon icon-italic',
+          icon: 'glyphicon glyphicon-italic',
           callback: function(e){
             // Give/remove * surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -727,7 +727,7 @@
         },{
           name: 'cmdHeading',
           title: 'Heading',
-          icon: 'icon icon-font',
+          icon: 'glyphicon glyphicon-font',
           callback: function(e){
             // Append/remove ### surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar
@@ -763,7 +763,7 @@
         data: [{
           name: 'cmdUrl',
           title: 'URL/Link',
-          icon: 'icon icon-globe',
+          icon: 'glyphicon glyphicon-globe',
           callback: function(e){
             // Give [] surround the selection and prepend the link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -789,7 +789,7 @@
         },{
           name: 'cmdImage',
           title: 'Image',
-          icon: 'icon icon-picture',
+          icon: 'glyphicon glyphicon-picture',
           callback: function(e){
             // Give ![] surround the selection and prepend the image link
             var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link
@@ -821,7 +821,7 @@
         data: [{
           name: 'cmdList',
           title: 'List',
-          icon: 'icon icon-list',
+          icon: 'glyphicon glyphicon-list',
           callback: function(e){
             // Prepend/Give - surround the selection
             var chunk, cursor, selected = e.getSelection(), content = e.getContent()
@@ -873,7 +873,7 @@
           title: 'Preview',
           btnText: 'Preview',
           btnClass: 'btn btn-inverse',
-          icon: 'icon icon-white icon-search',
+          icon: 'glyphicon icon-white glyphicon-search',
           callback: function(e){
             // Check the preview mode and toggle based on this flag
             var isPreview = e.$isPreview,content

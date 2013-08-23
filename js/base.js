@@ -41,7 +41,7 @@ function aaaart_add_collection_to_list(list, collection) {
         $('<li>').attr('id', collection._id).append(
             $('<a>')
             //.addClass('label label-success')
-            .addClass('text-error')
+            .addClass('text-danger')
             .prop('title',collection.title)
             .attr('href', base_url + 'collection/detail.php?id=' + collection._id)
             .html(collection.title)
@@ -131,7 +131,7 @@ function aaaart_markdown_buttons() {
             name: "cmdRef",
             toggle: true, // this param only take effect if you load bootstrap.js
             title: "Add a Reference",
-            icon: "icon icon-share",
+            icon: "glyphicon glyphicon-share",
             callback: function(e){
                 // Replace selection with some drinks
                 var chunk, cursor, 
@@ -173,6 +173,9 @@ $(function () {
         content: $("#uploading-help").html(),
         html: true
     });
+
+    // select styling
+    $('.selectpicker').selectpicker();
 
     var $list = $("#gallery.search-results");
     var $list2 = $("#makers-and-collections-list");

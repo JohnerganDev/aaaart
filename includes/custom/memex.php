@@ -466,17 +466,17 @@ function aaaart_memex_render_actions($m) {
 	if (!empty($m['readonly']) && $m['readonly']==1) {
 		$main_action = 'fork';
 		$main_label = 'Make a copy of this trail';
-		$main_icon = 'icon-pencil';
+		$main_icon = 'glyphicon glyphicon-pencil';
 		$main_href = BASE_URL.'memex/save.php?fork=true&id='.(string)$m['_id'];
 		$remove_action = false;
 	} else {
 		$main_action = 'save';
 		$main_label = 'Save this trail';
-		$main_icon = 'icon-hdd';
+		$main_icon = 'glyphicon glyphicon-hdd';
 		$main_href = BASE_URL.'memex/save.php?id='.(string)$m['_id'];
 	}
 	$remove_action = 'new';
-	$remove_icon = 'icon-remove';
+	$remove_icon = 'glyphicon glyphicon-remove';
 	$remove_label = 'Start a new trail';
 	// build list of saved trails
 	$trails_list = sprintf("<li><a href=\"%smemex/list.php\">All trails ...</a></li>\n<li class=\"divider\"></li>", BASE_URL);
@@ -489,12 +489,12 @@ function aaaart_memex_render_actions($m) {
 		$trails_list .= '<li class="divider"></li>';
 	}
 
-	return sprintf('<div class="btn-group dropup">
-		<a data-toggle="modal" title="%s" data-target="#memex-modal" href="%s" class="btn btn-mini" type="button"><i class="%s"></i></a>
-		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-		<ul class="dropdown-menu">
+	return sprintf('<div class="btn-group btn-group-xs dropup">
+		<button type="button" class="btn btn-default" data-toggle="modal" title="%s" data-target="#memex-modal" href="%s"><span class="%s"></span></button>
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></button>
+		<ul class="dropdown-menu ">
 			%s
-	    <li><a class="remove" href="#"><i class="%s"></i> %s</a></li>
+	    <li><a class="remove" href="#"><span class="%s"></span> %s</a></li>
 	  </ul>
 	</div>', $main_label, $main_href, $main_icon, $trails_list, $remove_icon, $remove_label);
 }
@@ -513,17 +513,17 @@ function aaaart_memex_render_button($item, $icon_type, $button_type, $readonly) 
 		$dropdown = sprintf('<div class="dropdown-menu" style="padding: 15px;">%s</div>', Slimdown::render($note));
 	} else if (!$readonly && !empty($id)) {
 		$label = (empty($note)) ? 'Add a note' : 'Edit note';
-		$dropdown = sprintf('<ul class="dropdown-menu"><li><a data-toggle="modal" class="remove" data-url="%s" href="#"><i class="icon-remove"></i> Remove</a></li>
-	    <li><a data-toggle="modal" data-target="#memex-modal" href="%smemex/note.php?id=%s"><i class="icon-edit"></i> %s</a></li></ul>',  $uri, BASE_URL, $id, $label);
+		$dropdown = sprintf('<ul class="dropdown-menu"><li><a data-toggle="modal" class="remove" data-url="%s" href="#"><span class="glyphicon glyphicon-remove"></span> Remove</a></li>
+	    <li><a data-toggle="modal" data-target="#memex-modal" href="%smemex/note.php?id=%s"><span class="glyphicon glyphicon-edit"></span> %s</a></li></ul>',  $uri, BASE_URL, $id, $label);
 	}
 	if (empty($dropdown)) {
-		return sprintf('<li><div class="btn-group dropup">
-			<a href="%s%s" class="btn btn-mini %s" type="button"><i class="icon-%s icon-white"></i> %s</a>
+		return sprintf('<li><div class="btn-group btn-group-xs dropup">
+			<a href="%s%s" class="btn btn-mini %s" type="button"><span class="glyphicon glyphicon-%s icon-white"></span> %s</a>
 		</div></li>', BASE_URL, $uri, $button_type, $icon_type, aaaart_truncate($title, 30));
 	} else {
-		return sprintf('<li><div class="btn-group dropup">
-			<a href="%s%s" class="btn btn-mini %s" type="button"><i class="icon-%s icon-white"></i> %s</a>
-			<a class="btn btn-mini %s dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+		return sprintf('<li><div class="btn-group btn-group-xs dropup">
+			<a href="%s%s" class="btn %s" type="button"><span class="glyphicon glyphicon-%s icon-white"></span> %s</a>
+			<a class="btn %s dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 		    %s
 		</div></li>', BASE_URL, $uri, $button_type, $icon_type, aaaart_truncate($title, 30), $button_type, $dropdown);
 	}
