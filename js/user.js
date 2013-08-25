@@ -4,7 +4,7 @@ $(function () {
     $.ajax({
       type: "POST",
       url: base_url + "user/index.php",
-      data: $('#site-invite-form > form').serialize(), 
+      data: $('#site-invite-form .modal-dialog .modal-content > form').serialize(), 
       success: function(msg){
           alert('An invite has been sent - you might want to let the person know it is coming');
           $("#site-invite-form").modal('hide');
@@ -41,7 +41,7 @@ $(function () {
     $.ajax({
       type: "POST",
       url: base_url + "user/index.php",
-      data: $('#modal-login-form > form').serialize(), 
+      data: $('#modal-login-form .modal-dialog .modal-content > form').serialize(), 
       dataType: 'json',
       success: function(data){
         if (data.result) {
@@ -51,6 +51,7 @@ $(function () {
         }
       },
       error: function(){
+        console.log(data);
         $("#modal-login-form").modal('hide');
         alert("Sorry, that didn't work!");
       }
@@ -60,11 +61,11 @@ $(function () {
 
   // Initiates reset password process
   $('#modal-login-form .modal-footer button.reset').click(function() {
-    $('#modal-login-form > form input[name="action"]').val('reset');
+    $('#modal-login-form .modal-dialog .modal-content > form input[name="action"]').val('reset');
     $.ajax({
       type: "POST",
       url: base_url + "user/index.php",
-      data: $('#modal-login-form > form').serialize(), 
+      data: $('#modal-login-form .modal-dialog .modal-content > form').serialize(), 
       dataType: 'json',
       success: function(data){
         if (data.result) {
@@ -84,14 +85,14 @@ $(function () {
 
   // Toggle between login and forgot my password
   function toggleLoginReset() {
-    $('#modal-login-form > form input[name="pass"]').toggle();
-    $('#modal-login-form > form input[name="pass"]').prev('label').toggle();
-    $('#modal-login-form > .modal-footer button.reset').toggle();
-    $('#modal-login-form > .modal-footer button.login').toggle();
+    $('#modal-login-form .modal-dialog .modal-content > form input[name="pass"]').toggle();
+    $('#modal-login-form .modal-dialog .modal-content > form input[name="pass"]').prev('label').toggle();
+    $('#modal-login-form .modal-dialog .modal-content > .modal-footer button.reset').toggle();
+    $('#modal-login-form .modal-dialog .modal-content > .modal-footer button.login').toggle();
   }
 
   // Forgot my password link
-  $('#modal-login-form > form > a.forgot').click(function() {
+  $('#modal-login-form .modal-dialog .modal-content > form a.forgot').click(function() {
     toggleLoginReset();
     return false;
   });

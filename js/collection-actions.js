@@ -21,7 +21,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: base_url + "collection/index.php",
-            data: $('#create-collection-form > form').serialize(), 
+            data: $('#create-collection-form .modal-dialog .modal-content > form').serialize(), 
             success: function(msg){
                 window.location.reload();    
             },
@@ -36,7 +36,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: base_url + "collection/index.php",
-            data: $('#request-form > form').serialize(), 
+            data: $('#request-form .modal-dialog .modal-content > form').serialize(), 
             success: function(msg){
                 window.location.reload();    
             },

@@ -61,7 +61,7 @@ $(function () {
         $.ajax({
             type: "GET",
             url: base_url + 'comment/index.php',
-            data: {action: 'get_comments', type: 'new', _p: 0},
+            data: {action: 'get_comments', type: 'new', _p: 0, _n: 10},
             dataType: 'json',
             success: function(result) {
                 if (result.comments) {
