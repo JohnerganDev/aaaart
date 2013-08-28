@@ -317,6 +317,7 @@ function aaaart_collection_add_document($collection_id, $document_id, $print_res
 				'notes' => '',
 			);
 			aaaart_mongo_push(COLLECTIONS_COLLECTION, $collection_id, array('contents' => $addition));
+			aaaart_cache_invalidate('active_collections');
 			$response = array( 'message' => 'Added!', 'collection' => $collection);
 		} else {
 			$response = array( 'message' => 'That is already in this collection');
@@ -363,6 +364,7 @@ function aaaart_collection_add_document_to_collections($collection_ids, $documen
 	}
 	if (!empty($added)) {
 		aaaart_solr_add_to_queue(IMAGES_COLLECTION, $document_id);
+		aaaart_cache_invalidate('active_collections');
 		$response = array( 'message' => sprintf('Added to %s collections!', count($added)), 'collections' => $added);
 	} else {
 		$response = array( 'message' => 'Sorry, there were errors.');
@@ -402,6 +404,7 @@ function aaaart_collection_remove_document($collection_id, $document_id) {
 	if (aaaart_collection_check_perm('remove', $collection)) {
 		if (aaaart_collection_contains($collection_id, $document_id)) {
 			aaaart_mongo_pull(COLLECTIONS_COLLECTION, $collection_id, array("contents" => array('object.$id' => aaaart_mongo_id($document_id))) );
+			aaaart_cache_invalidate('active_collections');
 			$response = array( 'message' => 'Removed!');
 		} else {
 			$response = array( 'message' => 'That is not in this collection');
@@ -519,6 +522,9 @@ function aaaart_collections_get_active_collections($num=15) {
  * Formats a set of active collections, showing recently added texts
  */
 function aaaart_collection_format_active_collections($num=15, $time_window=86400, $max_per_collection=4) {
+	if ($cached = aaaart_cache_get('active_collections')) {
+			return $cached;
+	}
 	$collections = aaaart_collections_get_active_collections($num);
 	$cutoff = time() - $time_window;
 	$output = '';
@@ -562,6 +568,7 @@ function aaaart_collection_format_active_collections($num=15, $time_window=86400
 	if (!empty($output)) {
 		//$output = sprintf('<li>%s</li>%s','<h5 class="muted">recently sorted</h5>',$output);
 	}
+	aaaart_cache_set('active_collections', $output);
 	return $output;
 }
 
@@ -790,8 +797,16 @@ function aaaart_collection_get_makers_for_collection($collection_id, $print_resp
  * Get all images
  */
 function aaaart_collection_get_all_images() {
+	global $user;
+	if (empty($user) && ($cached = aaaart_cache_get('new_documents'))) {
+		return aaaart_utils_generate_response($cached);
+	}
 	$documents = aaaart_mongo_get_paged(IMAGES_COLLECTION, array(), array('_id' => -1));
-	return aaaart_image_generate_response_from_documents($documents);
+	$response = aaaart_image_generate_response_from_documents($documents);
+	if (empty($user)) {
+	 	aaaart_cache_set('new_documents', $response);
+	}
+	return $response;
 }
 
 

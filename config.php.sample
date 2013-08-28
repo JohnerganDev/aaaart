@@ -104,7 +104,7 @@ define( 'NAME_PARSER_URL', 'http://grr.numm.org/nameserver/');
 define( 'NAME_PARSER_SCRIPT', 'php /var/www/grr.numm.org/nameserver/index.php'); // if NAME_PARSER_URL is false, use this
 define( 'DEBUG_MODE', true);
 define( 'MAIL_FROM', 'aaaarg.org@gmail.com');
-define( 'FRONT_PAGE_BLOCK_CONTENT', 'this goes in a block on the front page');
+define( 'FRONT_PAGE_CUSTOM_BLOCK', 'this goes in a block on the front page');
 
 // access control stuff
 define( 'ACCESS_CONTROL_ALLOW_ORIGIN', false);

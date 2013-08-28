@@ -120,6 +120,7 @@ function aaaart_comment_create_thread($arr) {
 	}
 	$thread = aaaart_mongo_insert(COMMENTS_COLLECTION, $attributes);
 	aaaart_solr_add_to_queue(COMMENTS_COLLECTION, (string)$thread['_id']);
+	aaaart_cache_invalidate('new_comments');
 	return $thread;
 }
 
@@ -139,6 +140,7 @@ function aaaart_comment_create($thread_id, $arr) {
 	aaaart_mongo_push(COMMENTS_COLLECTION, $thread_id, array('posts' => $post));
 	aaaart_comment_push_activity($thread_id, $post);
 	aaaart_solr_add_to_queue(COMMENTS_COLLECTION, $thread_id);
+	aaaart_cache_invalidate('new_comments');
 }
 
 
@@ -225,7 +227,12 @@ function aaaart_comment_list_threads($show, $arg=false, $print_response = false)
  */
 function aaaart_comment_list_comments($show, $arg=false, $print_response = false) {
 	if ($show=="new") {
-		$result = aaaart_comment_get_new_comments();
+		if ($cached = aaaart_cache_get('new_comments')) {
+			$result = $cached;
+		} else {
+			$result = aaaart_comment_get_new_comments();
+			aaaart_cache_set('new_comments', $result);
+		}
 	} else if ($show=="thread") {
 		$result = aaaart_comment_get_comments($arg);
 	} else if ($show=="commented") {

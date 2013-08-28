@@ -130,14 +130,18 @@ function aaaart_mongo_remove($collection, $criterea) {
 /**
  * Updates a mongo collection
  */
-function aaaart_mongo_update($collection, $criterea, $data) {
+function aaaart_mongo_update($collection, $criterea, $data, $upsert=false) {
 	global $db;
   $c = $db->selectCollection($collection);
   _aaaart_mongo_convert_ids($criterea);
 	if (!empty($criterea)) {
     $set = array('$set' => $data);
-		return $c->update($criterea, $set);
-	}
+    if ($upsert) {
+      return $c->update($criterea, $set, array('upsert'=>true));
+    } else {
+  		return $c->update($criterea, $set);
+    }
+  }
 }
 
 

@@ -451,6 +451,7 @@ function aaaart_image_delete_image($id) {
 			$upload_handler->delete($file->name);
 		}
 		aaaart_mongo_remove(IMAGES_COLLECTION, $image['_id']);
+		aaaart_cache_invalidate('new_documents');
 		$response = array( 'message' => 'It worked' );
 	} else {
 		$response = array( 'message' => 'It didn\'t work');
@@ -508,6 +509,7 @@ function _aaaart_image_update_image($image, $values) {
 		);
 		aaaart_mongo_push(IMAGES_COLLECTION, $image['_id'], array('edits' => $this_edit));
 		aaaart_solr_add_to_queue(IMAGES_COLLECTION, (string)$image['_id']);
+		aaaart_cache_invalidate('new_documents');
 	}
 }
 
@@ -747,6 +749,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 	  $file->document_id = (string)$image['_id'];
 	  $file->document_url = BASE_URL . 'image/detail.php?id=' . (string)$image['_id'];
 	  aaaart_solr_add_to_queue(IMAGES_COLLECTION, (string)$image['_id']);
+	  aaaart_cache_invalidate('new_documents');
 	}
 }
 
@@ -780,6 +783,7 @@ function aaaart_image_import_video($arr) {
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
 		aaaart_solr_add_to_queue(IMAGES_COLLECTION, (string)$image['_id']);
+		aaaart_cache_invalidate('new_documents');
 		$response = array( 'success' => true, 'document_id' => (string)$image['_id'] );
 		return aaaart_utils_generate_response($response);
   } else {
@@ -817,6 +821,7 @@ function aaaart_image_import_html($arr) {
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
 		aaaart_solr_add_to_queue(IMAGES_COLLECTION, (string)$image['_id']);
+		aaaart_cache_invalidate('new_documents');
 		$response = array( 'success' => true, 'document_id' => (string)$image['_id'] );
 		return aaaart_utils_generate_response($response);
   } else {
