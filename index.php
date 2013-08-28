@@ -29,8 +29,13 @@ Collections are groups of documents created by users.
       <button id="more" class="btn btn-mini btn-danger" type="button">More</button>
     </div>
     <?php if (LIST_TYPE=='list'): ?>
-    <ul id="active-discussions" class="col-md-3 list-unstyled"></ul>
-    <ul id="active-collections" class="col-md-3 list-unstyled"></ul>
+    <div class="col-md-3">
+        <ul id="active-discussions" class="list-unstyled"></ul>
+    </div>
+    <div class="col-md-3">
+        <ul id="most-requested" class="list-unstyled alert alert-warning alert-dismissable"></ul>
+        <ul id="active-collections" class="list-unstyled"></ul>
+    </div>
     <?php endif; ?>
 </div>
 

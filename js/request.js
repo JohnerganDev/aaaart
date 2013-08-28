@@ -58,6 +58,12 @@ $(function () {
             loadRequests('date', false);
             $("button#more").show();
             $("#makers-filter").hide();
+        } else if ($(this).hasClass('requested')) {
+            $list.html('');
+            page = 0;
+            loadRequests('most', false);
+            $("button#more").show();
+            $("#makers-filter").hide();
         } else {
             $list.html('');
             loadRequests('maker', 'a');

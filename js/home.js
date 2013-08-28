@@ -18,6 +18,7 @@ $(function () {
     var page = 0;
     var $collections_ele = $('#active-collections');
     var $discussions_ele = $('#active-discussions');
+    var $requests_ele = $('#most-requested');
 
     function loadDocs() {
         $.ajax({
@@ -50,6 +51,29 @@ $(function () {
             dataType: 'json',
             success: function(result) {
                 $collections_ele.html(result.list);
+            },
+            error: function(){
+                //alert("Sorry, that didn't work!");
+            }
+        });
+    }
+
+    function loadRequests() {
+        $.ajax({
+            type: "GET",
+            url: base_url + 'collection/index.php',
+            data: {action: 'requests', sort: 'most', filter: false, '_n': 1},
+            dataType: 'json',
+            success: function(result) {
+                if (result.files.length) {
+                    $requests_ele.append('<h5 class="text-success">help! most requested:</h5>');
+                }
+                $.each(result.files, function (index, file) {
+                    aaaart_add_item_to_gallery(file, $requests_ele, true, false);
+                });
+                if (result.files.length) {
+                    $requests_ele.append('<a href="' + base_url + 'collection/requests.php" class="text-success">see all requests here</a>');
+                }
             },
             error: function(){
                 //alert("Sorry, that didn't work!");
@@ -93,6 +117,9 @@ $(function () {
     }
     if ($discussions_ele.length) {
         loadDiscussions();
+    }
+    if ($requests_ele.length) {
+        loadRequests();
     }
 
     $("button#more").click(function() {

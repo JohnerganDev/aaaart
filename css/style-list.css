@@ -32,10 +32,15 @@ body {
 }
 
 ul#active-collections,
-ul#active-discussions {
+ul#active-discussions,
+ul#most-requested {
   /*float: right;*/
   /*width: 200px;*/
   font-size: 0.8em;
+}
+
+ul#most-requested .lead {
+  font-size: 1.2em;
 }
 
 ul#active-collections h4,

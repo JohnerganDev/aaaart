@@ -597,15 +597,21 @@ function aaaart_image_save_document($id) {
 	global $user;
 	if ($user && aaaart_image_check_perm('save')) {
 		$doc = aaaart_image_get($id);
+		$current_count = (!empty($doc['saved_by'])) ? count($doc['saved_by']) : 0;
+		$new_count = $current_count;
 		if ($doc && !empty($doc['saved_by'])) {
 			$uids = array_map('strval', $doc['saved_by']);
 			if (in_array((string)$user['_id'], $uids)) {
+				$new_count = $current_count - 1;
 				aaaart_mongo_pull(IMAGES_COLLECTION, $doc['_id'], array("saved_by" => $user['_id']) );
+				aaaart_mongo_update(IMAGES_COLLECTION, $doc['_id'], array("saved_by_count" => $new_count) );
 				return;
 			}
 		}
 		// If we got this far, we have to add it!
+		$new_count = $current_count + 1;
 		aaaart_mongo_push(IMAGES_COLLECTION, $doc['_id'], array('saved_by' => $user['_id']));
+		aaaart_mongo_update(IMAGES_COLLECTION, $doc['_id'], array("saved_by_count" => $new_count) );
 	}
 }
 
@@ -722,7 +728,8 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 	  		)
 	  	),
 	  	'title' => $file->metadata->title,
-	  	'saved_by' => $owner,
+	  	'saved_by' => array( $owner ),
+	  	'saved_by_count' => 1,
 	  );
 	  aaaart_image_process_makers_string($makers_str, $attributes);
 		if (!empty($attributes['makers_display'])) {
@@ -767,7 +774,8 @@ function aaaart_image_import_video($arr) {
 	  	'metadata' => array(
 	  		'one_liner' => $arr['one_liner'],
 	  	),
-	  	'saved_by' => array( $owner )
+	  	'saved_by' => array( $owner ),
+	  	'saved_by_count' => 1,
 	  );
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);
@@ -804,6 +812,7 @@ function aaaart_image_import_html($arr) {
 	  	),
 	  	'content' => $content,
 	  	'saved_by' => array( $owner ),
+	  	'saved_by_count' => 1,
 	  );
 	  aaaart_image_process_makers_string($arr['maker'], $attributes);
 		$image = aaaart_mongo_insert(IMAGES_COLLECTION, $attributes);

@@ -10,7 +10,7 @@ print aaaart_template_header('requests');
     <div class="page-header">
     <h3 >library requests</h3>
     </div>
-    <span class="sorter muted">order by: <a href="#" data-toggle="tooltip" title="<?php print MAKERS_LABEL; ?> name" class="maker"><i class="icon-user"></i></a> / <a href="#" data-toggle="tooltip" title="Most recent" class="date"><i class="icon-calendar"></i></a></span>
+    <span class="sorter muted">order by: <a href="#" data-toggle="tooltip" title="<?php print MAKERS_LABEL; ?> name" class="maker"><span class="glyphicon glyphicon-user"></span></a> / <a href="#" data-toggle="tooltip" title="Most recent" class="date"><span class="glyphicon glyphicon-calendar"></span></a> / <a href="#" data-toggle="tooltip" title="Most requested" class="requested"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></a></span>
     <?php if (MAKERS_ARE_HUGE): ?>
     <div class="btn-toolbar">
       <div class="btn-group" id="makers-filter" style="display:none;">
@@ -44,7 +44,7 @@ print aaaart_template_header('requests');
       </div>
     </div>
     <?php endif; ?>  
-  <ul class="requests unstyled clearfix" id="gallery"></ul>  
+  <ul class="requests list-unstyled clearfix" id="gallery"></ul>  
   <button id="more" class="btn btn-mini btn-danger" type="button">More</button>
 </div>
 

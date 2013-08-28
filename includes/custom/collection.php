@@ -684,6 +684,7 @@ function aaaart_collection_list_collections($show, $arg=false, $print_response =
 
 /*
  * Get all requests
+ * $num only applies to the most requested
  */
 function aaaart_collection_get_requests($sort, $filter=false) {
 	if ($sort=='date') {
@@ -693,6 +694,11 @@ function aaaart_collection_get_requests($sort, $filter=false) {
 		if (!$filter) $filter=='a';
 		$regexObj = new MongoRegex("/^".$filter."/i"); 
 		$documents = aaaart_mongo_get( IMAGES_COLLECTION, array('makers_sortby'=>$regexObj, 'files'=>array(), 'content'=>array('$exists'=>false), 'media'=>array('$exists'=>false)), array('last'=>1));
+		return aaaart_image_generate_response_from_documents($documents);
+	} else if ($sort=='most') {
+		$documents = iterator_to_array(
+			aaaart_mongo_get_paged(IMAGES_COLLECTION, array('files'=>array(), 'content'=>array('$exists'=>false), 'media'=>array('$exists'=>false)), array('saved_by_count' => -1)
+		));
 		return aaaart_image_generate_response_from_documents($documents);
 	}
 } 
