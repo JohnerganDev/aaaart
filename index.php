@@ -30,11 +30,40 @@ Collections are groups of documents created by users.
     </div>
     <?php if (LIST_TYPE=='list'): ?>
     <div class="col-md-3">
-        <ul id="active-discussions" class="list-unstyled"></ul>
+        <?php if (defined("FRONT_PAGE_CUSTOM_BLOCK")): ?>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <?php print FRONT_PAGE_CUSTOM_BLOCK; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">recent comments</h3>
+            </div>
+            <ul id="active-discussions" class="list-group"></ul>
+        </div>
+
     </div>
     <div class="col-md-3">
-        <ul id="most-requested" class="list-unstyled alert alert-warning alert-dismissable"></ul>
-        <ul id="active-collections" class="list-unstyled"></ul>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">help! most requested</h3>
+            </div>
+            <div class="panel-body alert alert-warning">
+                <ul id="most-requested" class="list-unstyled"></ul>
+            </div>
+            <div class="panel-footer"><a href="<?php print BASE_URL; ?>collection/requests.php">see all requests</a></div>
+        </div>
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">recently sorted</h3>
+            </div>
+            <ul id="active-collections" class="list-group"></ul>
+        </div>
+
     </div>
     <?php endif; ?>
 </div>

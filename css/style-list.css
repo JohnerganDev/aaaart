@@ -31,6 +31,14 @@ body {
   width: 475px;
 }
 
+#container .panel-body.alert {
+  margin-bottom: 0px;
+}
+
+#container .panel-footer > a {
+  color: #666;
+}
+
 ul#active-collections,
 ul#active-discussions,
 ul#most-requested {
@@ -47,8 +55,6 @@ ul#active-collections h4,
 ul#active-discussions h4 {
   font-size: 1em;
   line-height: 1.1em;
-  border-top: 1px dotted #DDD;
-  padding-top: 15px;
 }
 
 ul#active-collections ul,
@@ -92,20 +98,20 @@ ul#gallery li.image h4,
 
 ul#gallery li.image h5,
 #create-reference-form ul.images li.image h5 {
-  margin-bottom:0px;
+  margin-bottom:4px;
 }
 
 ul#gallery li.image h6,
 #create-reference-form ul.images li.image h6 {
   margin-top:0px;
-  margin-bottom:0px;
+  margin-bottom:3px;
 }
 
 ul#gallery li.image .lead,
 #create-reference-form ul.images li.image .lead {
   font-size: 1em;
   margin-bottom: 0px;
-  line-height: 14px;
+  line-height: 15px;
 }
 
 ul#gallery li.image button.saver {

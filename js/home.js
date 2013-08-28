@@ -65,15 +65,9 @@ $(function () {
             data: {action: 'requests', sort: 'most', filter: false, '_n': 1},
             dataType: 'json',
             success: function(result) {
-                if (result.files.length) {
-                    $requests_ele.append('<h5 class="text-success">help! most requested:</h5>');
-                }
                 $.each(result.files, function (index, file) {
                     aaaart_add_item_to_gallery(file, $requests_ele, true, false);
                 });
-                if (result.files.length) {
-                    $requests_ele.append('<a href="' + base_url + 'collection/requests.php" class="text-success">see all requests here</a>');
-                }
             },
             error: function(){
                 //alert("Sorry, that didn't work!");
@@ -89,10 +83,11 @@ $(function () {
             dataType: 'json',
             success: function(result) {
                 if (result.comments) {
-                    $discussions_ele.append('<h5 class="muted">recent comments</h5>');
+                    //$discussions_ele.append('<h5 class="muted">recent comments</h5>');
                     $.each(result.comments, function (index, comment) {
                         $discussions_ele.append(
                             $('<li>')
+                                .addClass('list-group-item')
                                 .append($('<h4>').append($('<a>')
                                     .attr('href', comment.thread_url)
                                     .attr('data-toggle','modal')
@@ -100,7 +95,7 @@ $(function () {
                                     .addClass('comments-title')
                                     .html(comment.thread_title)))
                                 .append($('<p>').html(comment.text))
-                                .append($('<small>').addClass('muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
+                                .append($('<small>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
                         );
                     });
                 }

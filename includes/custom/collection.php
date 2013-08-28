@@ -545,7 +545,7 @@ function aaaart_collection_format_active_collections($num=15, $time_window=86400
 			foreach ($to_display as $c) {
 				if ($count<$max_per_collection) {
 					$document = aaaart_mongo_get_reference($c['object']);	
-					$output_inner .= sprintf('<li><a href="%simage/detail.php?id=%s">%s</a>%s</li>', 
+					$output_inner .= sprintf('<li><h5><a href="%simage/detail.php?id=%s">%s</a></h5>%s</li>', 
 						BASE_URL, 
 						(string)$document['_id'], 
 						$document['title'],
@@ -555,12 +555,12 @@ function aaaart_collection_format_active_collections($num=15, $time_window=86400
 				}
 			}
 			if (!empty($output_inner)) {
-				$output .= sprintf('<li>%s<ul class="list-unstyled">%s</ul></li>', $output_title, $output_inner);
+				$output .= sprintf('<li class="list-group-item">%s<ul class="list-unstyled">%s</ul></li>', $output_title, $output_inner);
 			}
 		}
 	}
 	if (!empty($output)) {
-		$output = sprintf('<li>%s</li>%s','<h5 class="muted">recently sorted</h5>',$output);
+		//$output = sprintf('<li>%s</li>%s','<h5 class="muted">recently sorted</h5>',$output);
 	}
 	return $output;
 }

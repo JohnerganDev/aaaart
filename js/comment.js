@@ -32,7 +32,7 @@ $(function () {
                                     .addClass('comments-title')
                                     .html(comment.thread_title)
                             ))
-                            .append($('<small>').addClass('muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
+                            .append($('<small>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
                     ));
                 });
             }
