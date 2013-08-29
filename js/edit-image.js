@@ -49,7 +49,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: base_url + "image/index.php",
-            data: $('#edit-form > form').serialize(), 
+            data: $('#edit-form .modal-dialog .modal-content > form').serialize(), 
             success: function(msg){
                 document.location.href = base_url + "image/detail.php?id=" + document_id    
             },
