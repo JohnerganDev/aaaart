@@ -346,7 +346,7 @@ function aaaart_comment_get_reference_link($thread) {
 function aaaart_comment_prepare_for_display(&$post) {
 	array_walk_recursive($post, create_function('&$val', '$val = stripslashes($val);'));
 	$post['display_date'] = !empty($post['created']) ? aaaart_utils_format_date($post['created']) : '';
-	$post['display_user'] = !empty($post['owner']) ? aaaart_user_format_display_name($post['owner']) : '';		
+	$post['display_user'] = !empty($post['owner']) ? aaaart_user_format_display_name($post['owner']) : 'Anonymous';		
 	$post['text'] = stripslashes(Slimdown::render($post['text']));
 }
 

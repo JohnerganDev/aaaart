@@ -11,10 +11,10 @@ $activity = array_reverse( $user['activity'] );
 
 ?>
 
-<ul class="activity list-unstyled">
+<ul class="activity list-group">
 
 <?php foreach ($activity as $item) { ?>
-<li>
+<li class="list-group-item">
     <?php print aaaart_user_format_activity($item); ?>
 </li>
 <?php } ?>

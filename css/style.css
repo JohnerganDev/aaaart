@@ -326,3 +326,23 @@ input[type="color"],
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
+
+.activity .list-group-item a {
+  color: #666;
+}
+
+.activity .list-group-item a .user,
+.activity .list-group-item a .thread,
+.activity .list-group-item a .document,
+.activity .list-group-item a .collection {
+  font-weight: bold;
+  color: #00FF00;
+}
+
+.activity .list-group-item a .note {
+  color: #000;
+}
+
+.activity .list-group-item .date {
+  color: #CCC;
+}
