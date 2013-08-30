@@ -199,7 +199,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: base_url + "collection/index.php",
-            data: $('#edit-form > form').serialize(), 
+            data: $('#edit-form .modal-dialog .modal-content > form').serialize(), 
             success: function(msg){
                 document.location.href = base_url + "collection/detail.php?id=" + collection_id    
             },
@@ -230,7 +230,7 @@ $(function () {
         $.ajax({
             type: "POST",
             url: base_url + "collection/index.php",
-            data: $('#invite-form > form').serialize(), 
+            data: $('#invite-form .modal-dialog .modal-content > form').serialize(), 
             success: function(msg){
                 $("#invite-form").modal('hide');
             },

@@ -40,21 +40,24 @@ $followers_list = aaaart_user_format_simple_list($followers);
                 <form class="modal-body" action="<?php print BASE_URL; ?>collection/index.php" method="POST">
                     <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />
                     <input type="hidden" name="action" value="update" />
-                    <fieldset>
-                      <label><h5>Name</h5></label>
-        	            <input type="text" class="input-xlarge" name="title" value="<?php print $collection['title'] ?>">
-
-                        <label><h5>Type</h5></label>
-                        <span class="help-block">Pick the type of collection you want to create. You can change it later.</span>
+                    <div class="form-group"> 
+                        <label>Name</label>
+        	            <input type="text" class="form-control" name="title" value="<?php print $collection['title'] ?>">
+                    </div>
+                    <div class="form-group"> 
+                        <label>Type</label>
+                        <p class="help-block">Pick the type of collection you want to create. You can change it later.</p>
                         <?php print aaaart_collection_type_field($collection['type']); ?>
+                    </div>
+                    <div class="form-group"> 
+        	            <label>Very Short Description</label>
+        	            <input type="text" class="form-control" name="short_description" value="<?php print stripslashes($collection['short_description']) ?>">
+        	       </div>
+                    <div class="form-group"> 
+                        <label>Longer Description</label>
+                        <textarea rows="6" class="form-control" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
+                    </div>                        
 
-        	            <label><h5>Very Short Description</h5></label>
-        	            <input type="text" class="input-xxlarge" name="short_description" value="<?php print stripslashes($collection['short_description']) ?>">
-        	            
-                        <label><h5>Longer Description</h5></label>
-                        <textarea rows="6" class="input-xxlarge" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
-                        
-                    </fieldset>
                 </form>
                 <div class="modal-footer">
                     <button class="btn btn-success" id="save">Save</button>
@@ -90,10 +93,10 @@ $followers_list = aaaart_user_format_simple_list($followers);
                 <form class="modal-body" action="<?php print BASE_URL; ?>collection/index.php" method="POST">
                     <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />
                     <input type="hidden" name="action" value="invite" />
-                    <fieldset>
-        	            <span class="help-block">Enter the email address of the person you are inviting to edit the contents of this collection. If there is nobody on the site with that email address, we will invite them to join.</span>
-        	            <input class="input-xlarge" type="email" name="email" placeholder="Email address" required>
-                    </fieldset>
+                    <div class="form-group"> 
+        	            <p class="help-block">Enter the email address of the person you are inviting to edit the contents of this collection. If there is nobody on the site with that email address, we will invite them to join.</p>
+        	            <input class="form-control" type="email" name="email" placeholder="Email address" required>
+                    </div>
                 </form>
                 <div class="modal-footer">
                     <button class="btn btn-success" id="invite">Invite</button>
