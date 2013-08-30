@@ -1,4 +1,5 @@
 <?php
+/*
 mb_internal_encoding("UTF-8");
 require("../config.php");
 
@@ -19,5 +20,5 @@ foreach ($cursor as $obj) {
 			$db->{$collection}->save($obj);
 		}
 }
-
+*/
 ?>
