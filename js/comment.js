@@ -8,7 +8,7 @@ $(function () {
     });
 
     var page = 0;
-    var $list = $('table#discussions');
+    var $list = $('ul#discussions');
     function loadDiscussions(type) {
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
@@ -21,10 +21,8 @@ $(function () {
             if (result.comments) {
                 $.each(result.comments, function (index, comment) {
                     $list.append(
-                        $('<tr>').append($('<td>')
-                            .append($('<p>').addClass('lead').html(comment.text))
-                            .append(
-                                $('<span>').append($('<a>')
+                        $('<li>').addClass('list-group-item')
+                            .append($('<p>').addClass('lead').append($('<a>')
                                     .attr('href', comment.thread_url)
                                     .attr('data-toggle','modal')
                                     .attr('data-target', '#comments')
@@ -32,8 +30,26 @@ $(function () {
                                     .addClass('comments-title')
                                     .html(comment.thread_title)
                             ))
-                            .append($('<small>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
-                    ));
+                            .append($('<p>')
+                                .append($('<span>').addClass('text-muted').html(comment.text))
+                                .append($('<span>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
+                            )
+/*
+                            .append($('<p>').addClass('lead').html(comment.thread_title))
+                            //.append($('<p>').addClass('lead').html(comment.text))
+                            .append(
+                                $('<span>').append($('<a>')
+                                    .attr('href', comment.thread_url)
+                                    .attr('data-toggle','modal')
+                                    .attr('data-target', '#comments')
+                                    .addClass('comments')
+                                    .addClass('comments-title')
+                                    .html(comment.text)
+                                    //.html(comment.thread_title)
+                            ))
+                            //.append($('<small>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
+*/
+                    );
                 });
             }
         });

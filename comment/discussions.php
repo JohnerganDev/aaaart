@@ -21,7 +21,7 @@ Collections are groups of documents created by users.
     <div class="page-header">
     <h3 >recent discussions</h3>
     </div>
-  <table class="discussions table table-striped clearfix" id="discussions"></table> 
+  <ul class="discussions clearfix list-group" id="discussions"></ul> 
   <button id="more" class="btn btn-mini btn-danger" type="button">More</button> 
 </div>
 

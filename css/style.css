@@ -309,9 +309,12 @@ input[type="color"],
 }
 
 .comments-title {
+  color: #333;
+}
+
+#active-discussions .comments-title {
   font-size: 12px;
   font-weight: bold;
-  color: #333;
 }
 
 .bootstrap-select.btn-group {
