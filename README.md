@@ -1,0 +1,9 @@
+**Introduction**
+
+This platform is a back-end and front-end that serves as a library shared between many people. It accepts various media and can be configured to allow for various kinds of display. The assumption is that with many people building a library of many artifacts, it becomes necessary to find ways of making sense of and giving structure to these artifacts, based on their specific qualities and their particular relationship to the social context of the library, as opposed to a higher or external authority.
+
+**Disclaimer**
+
+Many different people, groups and organizations may download and install this software for many different reasons and many different kinds of libraries. At this point, it supports images, documents, online videos, and HTML content. It may be that these individuals, groups, and organizations take different positions with respect to property law - from conciliatory to antagonistic. The contributors to this project are not responsible for the specific ways that the platform is used once it is installed and executed. One wouldn't demand authorship for building the keyboard with which an other writes a book.
+
+In particular: although this platform is being used for the most recent iteration of aaaarg, this open-source github project is not responsible for aaaarg. We get pleasure out of confronting the types of technological problems that collective libraries encounter, and so we welcome that site's use of the platform. It's an unfortunate situation that it has any legal problems. Someone else might be posting the juciest government secrets on their installation; an other family recipes; or biblical passages; or a museum collection. It is not the position of the contributors to this project that the software should delimit its own use in legal terms in any way.
