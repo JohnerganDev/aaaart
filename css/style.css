@@ -331,6 +331,10 @@ input[type="color"],
   color: #666;
 }
 
+.activity .list-group-item a:hover {
+  text-decoration: none;
+}
+
 .activity .list-group-item a .user,
 .activity .list-group-item a .thread,
 .activity .list-group-item a .document,
