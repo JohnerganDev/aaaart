@@ -23,7 +23,7 @@ $num_sections = (!empty($collection['sections'])) ? (($section) ? count($collect
 ?>
 
 <form id="section-form">
-  <fieldset>
+  
     <input type="hidden" name="collection_id" value="<?php print $collection_id; ?>">
     <?php if ($section): ?>
     <input type="hidden" name="action" value="save_section">
@@ -33,19 +33,21 @@ $num_sections = (!empty($collection['sections'])) ? (($section) ? count($collect
     <input type="hidden" name="action" value="add_section">
 
     <?php endif; ?>
-    
-    <label><h5>Name</h5></label>
-    <input type="text" class="input-xlarge" name="title" value="<?php print (!empty($section['title'])) ? $section['title'] : ''; ?>">
-    
-    <label><h5>Order (of sections - 1st, 2nd, 3rd, etc)</h5></label>
-    <select name="order">
-    <?php for ($i=1; $i<=$num_sections; $i++) { printf('<option%s>%s</option>', (!empty($section['order']) && $section['order']==$i) ? ' selected' : '' , $i); } ?>
-    </select>
-
-    <label><h5>Description</h5></label>
-    <textarea data-provide="markdown" rows="4" class="input-xxlarge" name="description"><?php print (!empty($section['description'])) ? $section['description'] : ''; ?></textarea>
-    
-  </fieldset>
+    <div class="form-group"> 
+      <label><h5>Name</h5></label>
+      <input type="text" class="form-control" name="title" value="<?php print (!empty($section['title'])) ? $section['title'] : ''; ?>">
+    </div>
+    <div class="form-group"> 
+      <label><h5>Order (of sections - 1st, 2nd, 3rd, etc)</h5></label>
+      <select name="order">
+      <?php for ($i=1; $i<=$num_sections; $i++) { printf('<option%s>%s</option>', (!empty($section['order']) && $section['order']==$i) ? ' selected' : '' , $i); } ?>
+      </select>
+    </div>
+    <div class="form-group"> 
+      <label><h5>Description</h5></label>
+      <textarea data-provide="markdown" rows="4" class="form-control" name="description"><?php print (!empty($section['description'])) ? $section['description'] : ''; ?></textarea>
+    </div>
+  
 </form>
 
 <script type="text/javascript">

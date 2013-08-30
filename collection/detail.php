@@ -67,7 +67,7 @@ $followers_list = aaaart_user_format_simple_list($followers);
         </div>
     </div>
     <!-- modal add section form -->
-    <div id="add-section-modal" class="modal hide fade in" style="display: none; ">
+    <div id="add-section-modal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
