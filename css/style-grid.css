@@ -46,8 +46,11 @@ ul#gallery {
 ul#gallery li.image {
     list-style-type: none;
     float: left;
-    width:160px;
+    width:190px;
     padding:15px;
+}
+ul#gallery li.image small {
+    width:160px;
 }
 ul#gallery li.image img {
   display: block;

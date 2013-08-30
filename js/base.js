@@ -91,7 +91,7 @@ function aaaart_add_save_buttons(list, saved, remove_from_list) {
             remove_button_text = 'requested!';
         } 
         if (id) {
-            var $button = $('<button class="btn btn-small saver" type="button">'); 
+            var $button = $('<button class="btn btn-xs saver" type="button">'); 
             if ($.inArray(id, saved)==-1) {
                 $button.text(add_button_text);
                 $button.addClass('do-add');
