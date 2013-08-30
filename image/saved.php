@@ -54,7 +54,7 @@ Collections are groups of documents created by users.
       </div>
       <?php endif; ?>
     </div>
-  <ul class="files clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+  <ul class="files clearfix list-unstyled" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
 </div>
 
 <?php
