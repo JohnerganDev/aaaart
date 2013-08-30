@@ -115,11 +115,21 @@ function aaaart_user_get_activity_count() {
 function aaaart_user_pull_activity($path) {
 	global $user;
 	if (empty($user['activity'])) return;
+	$cutoff_read = time() - 7*24*60*60;
+	$cutoff_unread = time() - 14*24*60*60;
+	$changed = false;
 	foreach ($user['activity'] as $k=>$a) {
 		if ($a['path']==$path && $a['unread']!==0) {
 			$user['activity'][$k]['unread'] = 0;
-			aaaart_user_update(array('activity'=>$user['activity']), $user);
+			$changed = true;
 		}
+		if ( ($a['unread']!=1 && $a['time']<$cutoff_read) || ($a['unread']==1 && $a['time']<$cutoff_unread) ) {
+			unset($user['activity'][$k]);
+			$changed = true;
+		}
+	}
+	if ($changed) {
+		aaaart_user_update(array('activity'=>$user['activity']), $user);
 	}
 }
 
