@@ -281,8 +281,8 @@ function aaaart_collection_sort_element() {
 	$output = '';
 	$collections = aaaart_collection_get_user_collections();
 	if (!empty($collections['initiated']) || !empty($collections['collaborating']) || !empty($collections['following'])) {
-		$output .= '<div class="input-group">';
-		$output .= '<select id="sort-into-collection" class="selectpicker" data-style="btn-default btn-xs" multiple title="Add to collection" name="collection_id">';
+		$output .= '<div class="input-group" style="width:100px">';
+		$output .= '<select id="sort-into-collection" class="selectpicker" data-style="btn-default btn-xs" multiple title="Sort into collection(s)" name="collection_id">';
 		//$output .= sprintf('<option value="%s" selected="selected">%s</option>', 'none', ' :: Add to collection ::');
 		foreach ($collections as $group=>$list) {
 			if (!empty($list)) {
