@@ -174,14 +174,17 @@ print aaaart_template_header('Upload');
             {% } %}
         </td>
         <td class="editable-fields">
-            <div class="row">
-                <label><?php print MAKERS_LABEL; ?>:</label><input type="text" name="maker[{%= file.name %}]">
+            <div class="row form-group">
+                <input type="text" class="form-control" name="maker[{%= file.name %}]">
+                <p class="help-block"><?php print MAKERS_LABEL; ?>: separate multiple people with commas. (eg. "Karl Marx, Frederick Engels")</p>
             </div>
-            <div class="row">
-                <label>Title:</label><input type="text" name="title[{%= file.name %}]">
+            <div class="row form-group">
+                <input type="text" class="form-control" name="title[{%= file.name %}]">
+                <p class="help-block">Title: the title this will have in the library</p>
             </div>
-            <div class="row">
-                <label>Short description (just a few words)</label><input name="one_liner" type="text" class="input-xxlarge" required>
+            <div class="row form-group">
+                <input name="one_liner" class="form-control" type="text" class="input-xxlarge" required>
+                <p class="help-block">Short description: just a few words to describe what this is.</p>
             </div>
         </td>
         <td>
