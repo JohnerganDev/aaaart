@@ -63,7 +63,7 @@ print aaaart_template_header( $image['title'] );
             </div>
         </div>
         <!-- modal delete form -->
-        <div id="delete-form" class="modal hide fade in" style="display: none; ">
+        <div id="delete-form" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

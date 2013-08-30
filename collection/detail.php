@@ -72,7 +72,7 @@ $followers_list = aaaart_user_format_simple_list($followers);
         </div>
     </div>
     <!-- modal invite form -->
-    <div id="invite-form" class="modal hide fade in" style="display: none; ">
+    <div id="invite-form" class="modal fade">
         <div class="modal-header">
             <a class="close" data-dismiss="modal">×</a>  
             <h3>Invite</h3>
@@ -91,7 +91,7 @@ $followers_list = aaaart_user_format_simple_list($followers);
         </div>
     </div>
     <!-- modal delete form -->
-    <div id="delete-form" class="modal hide fade in" style="display: none; ">
+    <div id="delete-form" class="modal fade">
         <div class="modal-header">
             <a class="close" data-dismiss="modal">×</a>  
             <h3>Delete</h3>

@@ -34,21 +34,6 @@ $(function () {
                                 .append($('<span>').addClass('text-muted').html(comment.text))
                                 .append($('<span>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
                             )
-/*
-                            .append($('<p>').addClass('lead').html(comment.thread_title))
-                            //.append($('<p>').addClass('lead').html(comment.text))
-                            .append(
-                                $('<span>').append($('<a>')
-                                    .attr('href', comment.thread_url)
-                                    .attr('data-toggle','modal')
-                                    .attr('data-target', '#comments')
-                                    .addClass('comments')
-                                    .addClass('comments-title')
-                                    .html(comment.text)
-                                    //.html(comment.thread_title)
-                            ))
-                            //.append($('<small>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
-*/
                     );
                 });
             }
