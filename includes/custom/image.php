@@ -713,6 +713,8 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 		$file->metadata->title = aaaart_utils_get_field_data($request_data, 'title', $file->original_name);
 		// Handle the "maker" (it might be several people separated by commas)
 		$makers_str = aaaart_utils_get_field_data($request_data, 'maker', $file->original_name);
+		// there might be a one-line description
+		$one_liner = aaaart_utils_get_field_data($request_data, 'one_liner', '');
 		// This attributes array will be inserted
 	  $attributes = array(
 	  	'owner' => $owner,
@@ -732,6 +734,9 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 	  	'title' => $file->metadata->title,
 	  	'saved_by' => array( $owner ),
 	  	'saved_by_count' => 1,
+	  	'metadata' => array(
+	  		'one_liner' => $one_liner
+	  	)
 	  );
 	  aaaart_image_process_makers_string($makers_str, $attributes);
 		if (!empty($attributes['makers_display'])) {
