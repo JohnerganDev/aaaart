@@ -30,78 +30,94 @@ $followers_list = aaaart_user_format_simple_list($followers);
     <?php print aaaart_template_comment_button(COLLECTIONS_COLLECTION, $collection['_id']); ?>
     <?php if ($can_edit): ?>
     <!-- modal edit form -->
-    <div id="edit-form" class="modal hide fade in" style="display: none; ">
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
-            <h3>Edit</h3>
-        </div>
-        <form class="modal-body" action="<?php print BASE_URL; ?>collection/index.php" method="POST">
-            <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />
-            <input type="hidden" name="action" value="update" />
-            <fieldset>
-              <label><h5>Name</h5></label>
-	            <input type="text" class="input-xlarge" name="title" value="<?php print $collection['title'] ?>">
+    <div id="edit-form" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>  
+                    <h3>Edit</h3>
+                </div>
+                <form class="modal-body" action="<?php print BASE_URL; ?>collection/index.php" method="POST">
+                    <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />
+                    <input type="hidden" name="action" value="update" />
+                    <fieldset>
+                      <label><h5>Name</h5></label>
+        	            <input type="text" class="input-xlarge" name="title" value="<?php print $collection['title'] ?>">
 
-                <label><h5>Type</h5></label>
-                <span class="help-block">Pick the type of collection you want to create. You can change it later.</span>
-                <?php print aaaart_collection_type_field($collection['type']); ?>
+                        <label><h5>Type</h5></label>
+                        <span class="help-block">Pick the type of collection you want to create. You can change it later.</span>
+                        <?php print aaaart_collection_type_field($collection['type']); ?>
 
-	            <label><h5>Very Short Description</h5></label>
-	            <input type="text" class="input-xxlarge" name="short_description" value="<?php print stripslashes($collection['short_description']) ?>">
-	            
-                <label><h5>Longer Description</h5></label>
-                <textarea rows="6" class="input-xxlarge" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
-                
-            </fieldset>
-        </form>
-        <div class="modal-footer">
-            <button class="btn btn-success" id="save">Save</button>
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        	            <label><h5>Very Short Description</h5></label>
+        	            <input type="text" class="input-xxlarge" name="short_description" value="<?php print stripslashes($collection['short_description']) ?>">
+        	            
+                        <label><h5>Longer Description</h5></label>
+                        <textarea rows="6" class="input-xxlarge" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
+                        
+                    </fieldset>
+                </form>
+                <div class="modal-footer">
+                    <button class="btn btn-success" id="save">Save</button>
+                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
         </div>
     </div>
     <!-- modal add section form -->
     <div id="add-section-modal" class="modal hide fade in" style="display: none; ">
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
-            <h3>Sections</h3>
-        </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-            <button class="btn btn-success" id="save-section">Save</button>
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>  
+                    <h3>Sections</h3>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" id="save-section">Save</button>
+                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
         </div>
     </div>
     <!-- modal invite form -->
     <div id="invite-form" class="modal fade">
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
-            <h3>Invite</h3>
-        </div>
-        <form class="modal-body" action="<?php print BASE_URL; ?>collection/index.php" method="POST">
-            <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />
-            <input type="hidden" name="action" value="invite" />
-            <fieldset>
-	            <span class="help-block">Enter the email address of the person you are inviting to edit the contents of this collection. If there is nobody on the site with that email address, we will invite them to join.</span>
-	            <input class="input-xlarge" type="email" name="email" placeholder="Email address" required>
-            </fieldset>
-        </form>
-        <div class="modal-footer">
-            <button class="btn btn-success" id="invite">Invite</button>
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>  
+                    <h3>Invite</h3>
+                </div>
+                <form class="modal-body" action="<?php print BASE_URL; ?>collection/index.php" method="POST">
+                    <input type="hidden" id="collection-id" name="id" value="<?php print $collection['_id']; ?>" />
+                    <input type="hidden" name="action" value="invite" />
+                    <fieldset>
+        	            <span class="help-block">Enter the email address of the person you are inviting to edit the contents of this collection. If there is nobody on the site with that email address, we will invite them to join.</span>
+        	            <input class="input-xlarge" type="email" name="email" placeholder="Email address" required>
+                    </fieldset>
+                </form>
+                <div class="modal-footer">
+                    <button class="btn btn-success" id="invite">Invite</button>
+                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
         </div>
     </div>
     <!-- modal delete form -->
     <div id="delete-form" class="modal fade">
-        <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
-            <h3>Delete</h3>
-        </div>
-        <div class="modal-body">
-            Are you sure that you want to delete this? If you do delete it, there is no way to bring it back!
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-danger" id="delete">Delete</button>
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>  
+                    <h3>Delete</h3>
+                </div>
+                <div class="modal-body">
+                    Are you sure that you want to delete this? If you do delete it, there is no way to bring it back!
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="delete">Delete</button>
+                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
         </div>
     </div>
     <?php endif; ?>
@@ -173,28 +189,32 @@ $followers_list = aaaart_user_format_simple_list($followers);
 
 <!-- modal-gallery is the modal dialog used for the image gallery -->
 <div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd" tabindex="-1">
-    <div class="modal-header">
-        <a class="close" data-dismiss="modal">&times;</a>
-        <h3 class="modal-title"></h3>
-    </div>
-    <div class="modal-body"><div class="modal-image"></div></div>
-    <div class="modal-footer">
-        <a class="btn modal-download" target="_blank">
-            <i class="icon-download"></i>
-            <span>Download</span>
-        </a>
-        <a class="btn modal-detail">
-            <i class="icon-info-sign"></i>
-            <span>Info</span>
-        </a>
-        <a class="btn btn-info modal-prev">
-            <i class="icon-arrow-left icon-white"></i>
-            <span>Previous</span>
-        </a>
-        <a class="btn btn-primary modal-next">
-            <span>Next</span>
-            <i class="icon-arrow-right icon-white"></i>
-        </a>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body"><div class="modal-image"></div></div>
+            <div class="modal-footer">
+                <a class="btn modal-download" target="_blank">
+                    <i class="icon-download"></i>
+                    <span>Download</span>
+                </a>
+                <a class="btn modal-detail">
+                    <i class="icon-info-sign"></i>
+                    <span>Info</span>
+                </a>
+                <a class="btn btn-info modal-prev">
+                    <i class="icon-arrow-left icon-white"></i>
+                    <span>Previous</span>
+                </a>
+                <a class="btn btn-primary modal-next">
+                    <span>Next</span>
+                    <i class="icon-arrow-right icon-white"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 <!-- The template to display files available for upload -->
