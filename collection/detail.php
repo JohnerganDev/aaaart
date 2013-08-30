@@ -21,10 +21,10 @@ $followers_list = aaaart_user_format_simple_list($followers);
     <h3 class="lead"><?php print $collection['short_description']; ?></h3>
 
 	<?php if ($can_edit): ?>
-    <a data-toggle="modal" href="#edit-form" class="btn btn-mini text-right" type="button">Edit</a>
-    <a id="edit-contents-toggle" class="btn btn-mini text-right" type="button">Edit contents</a>
-    <a data-toggle="modal" href="#invite-form" class="btn btn-mini text-right" type="button">Invite collaborator</a>
-    <a data-toggle="modal" href="#delete-form" class="btn btn-mini btn-danger text-right" type="button">Delete</a>
+    <a data-toggle="modal" href="#edit-form" class="btn btn-xs text-right" type="button">Edit</a>
+    <a id="edit-contents-toggle" class="btn btn-xs text-right" type="button">Edit contents</a>
+    <a data-toggle="modal" href="#invite-form" class="btn btn-xs text-right" type="button">Invite collaborator</a>
+    <a data-toggle="modal" href="#delete-form" class="btn btn-xs btn-danger text-right" type="button">Delete</a>
     <?php endif; ?>
     <?php print aaaart_collection_get_follow_button($collection); ?>
     <?php print aaaart_template_comment_button(COLLECTIONS_COLLECTION, $collection['_id']); ?>

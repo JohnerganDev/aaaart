@@ -229,6 +229,7 @@ class AaaartUploadHandler {
                 $file->name = $file_array['name'];
                 $file->size = $file_array['size'];
                 $file->type = $file_array['type'];
+                $file->comment = (!empty($file_array['comment'])) ? $file_array['comment'] : $file_array['type'];
                 if (!empty($file_path)) {
                     $file->url = $this->get_download_url($file->name, null, $file_path);
                     $this->set_file_delete_properties($file);
