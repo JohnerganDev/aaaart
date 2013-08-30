@@ -260,7 +260,8 @@ function aaaart_user_attempt_login($name, $password) {
 		//$u = aaaart_user_get($name);
 	} else {
 		if (strpos($name, '@')>0) {
-			$u = aaaart_mongo_get_one(PEOPLE_COLLECTION, array('email'=>$name, 'pass'=>md5($password)));
+			$regexObj = new MongoRegex("/^".$name."$/i"); 
+			$u = aaaart_mongo_get_one(PEOPLE_COLLECTION, array('email'=>$regexObj, 'pass'=>md5($password)));
 			if (empty($u)) {
 				aaaart_utils_generate_response(array('result' => false, 'message' => 'The password didn\'t work for the email address you used: '.$name));
 				exit;
