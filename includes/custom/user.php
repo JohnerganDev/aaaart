@@ -135,6 +135,11 @@ function aaaart_user_push_activity($users, $html, $path=false, $modal_target=fal
 		'modal' => $modal_target,
 		'unread' => 1,
 	);
+	foreach ($users as $k=>$v) {
+		if (empty($v)) {
+			unset($users[$k]);
+		}
+	}
 	aaaart_mongo_push(PEOPLE_COLLECTION, array('_id'=>array('$in'=>$users)), array('activity' => $addition), array('multiple'=>TRUE));
 }
 
