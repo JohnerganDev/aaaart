@@ -285,6 +285,7 @@ function aaaart_user_attempt_login($name, $password) {
 		}
 	}
 	if (!empty($u)) {
+		aaaart_user_update(array('last_login'=>time()));
 		$expiration = time() + 1209600;
 		$id = (string)$u['_id'];
 		$cookie = aaaart_user_generate_cookie( $id, $expiration ); 
