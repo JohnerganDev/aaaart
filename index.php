@@ -25,7 +25,17 @@ Collections are groups of documents created by users.
 <div id="container" class="container">
     <div class="row">
     <div <?php if (LIST_TYPE=='list'): ?>class="col-md-6"<?php else: ?>class="col-md-12"<?php endif; ?>>
-      <ul class="files list-unstyled clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+      <ul class="files list-unstyled clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+        <?php if (LIST_TYPE=='grid' && defined("FRONT_PAGE_CUSTOM_BLOCK")): ?>
+            <li class="image">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <small><?php print FRONT_PAGE_CUSTOM_BLOCK; ?></small>
+                    </div>
+                </div>
+            </li>
+        <?php endif; ?>
+      </ul>  
       <button id="more" class="btn btn-mini btn-danger" type="button">More</button>
     </div>
     <?php if (LIST_TYPE=='list'): ?>
