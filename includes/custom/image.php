@@ -870,4 +870,57 @@ function aaaart_image_generate_response_from_documents($documents, $extra=array(
 	return aaaart_utils_generate_response($response);
 }
 
+
+/*
+ * Generates an RSS feed
+ */
+function aaaart_image_generate_rss_feed_from_documents($documents) {
+	header( 'Content-type: application/rss+xml; charset=UTF-8' );
+	$xml = new XMLWriter();
+	// Output directly to the user
+	$xml->openURI('php://output');
+	$xml->startDocument('1.0');
+	$xml->setIndent(2);
+	//rss
+	$xml->startElement('rss');
+	$xml->writeAttribute('version', '2.0');
+	$xml->writeAttribute('xmlns:atom', 'http://www.w3.org/2005/Atom');
+	//channel
+	$xml->startElement('channel');
+
+	//title, desc, link, date
+	$xml->writeElement('title', SITE_TITLE);
+	$xml->writeElement('description', '');
+	$xml->writeElement('link', BASE_URL);
+	$xml->writeElement('pubDate', date('D, d M Y H:i:s e'));
+
+	foreach ($documents as $document) {
+		$xml->startElement('item');
+		$title = $document['title'];
+		$title .= (aaaart_image_is_request($document)) ? ' [request]' : '';
+		$xml->writeElement('title', $title);
+		$xml->writeElement('link', BASE_URL.'images/detail.php?id='.(string)$document['_id']);
+		$description = (!empty($document['metadata']['one_liner'])) ? $document['metadata']['one_liner'] : '';
+		$description .= (!empty($document['metadata']['description'])) ? md2html($document['metadata']['description']) : '';
+		if (!empty($document['media'])) {
+			$media = array_shift(array_values($document['media']));
+			$description .= $media['embed'];
+		}
+		$xml->writeElement('description', $description);
+		$xml->writeElement('pubDate', date('D, d M Y H:i:s e', $document['created']));
+		$xml->endElement();
+	}
+
+	//end channel
+	$xml->endElement();
+	// end rss
+	$xml->endElement();
+	//end doc
+	$xml->endDocument();
+	//flush
+	$xml->flush();
+	
+}
+
+
 ?>

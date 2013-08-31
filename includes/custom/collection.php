@@ -794,6 +794,14 @@ function aaaart_collection_get_makers_for_collection($collection_id, $print_resp
 
 
 /**
+ * Same as function below, but it creates an RSS feed
+ */
+function aaaart_collection_new_documents_rss() {
+	$documents = aaaart_mongo_get_paged(IMAGES_COLLECTION, array(), array('_id' => -1));
+	aaaart_image_generate_rss_feed_from_documents($documents);
+}
+
+/**
  * Get all images
  */
 function aaaart_collection_get_all_images() {
