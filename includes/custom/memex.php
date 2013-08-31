@@ -479,7 +479,8 @@ function aaaart_memex_render_actions($m) {
 	$remove_icon = 'glyphicon glyphicon-remove';
 	$remove_label = 'Start a new trail';
 	// build list of saved trails
-	$trails_list = sprintf("<li><a href=\"%smemex/list.php\">All trails ...</a></li>\n<li class=\"divider\"></li>", BASE_URL);
+	$trails_list = "<li><a href=\"http://en.wikipedia.org/wiki/Memex\"><span class=\"glyphicon glyphicon-question-sign\"></span> What are trails?</a></li>\n<li class=\"divider\"></li>";
+	$trails_list .= sprintf("<li><a href=\"%smemex/list.php\">All trails ...</a></li>\n<li class=\"divider\"></li>", BASE_URL);
 	$trails = aaaart_memex_get_saved_user_paths();
 	foreach ($trails as $trail) {
 		$icon = ($trail['_id']==$m['_id']) ? '<i class="icon-certificate"></i> ' : '';

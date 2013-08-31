@@ -18,6 +18,8 @@ $(function () {
     var letter = 'a';
     var $list = $('ul#collections');
     function loadCollections(show) {
+        $list.empty();
+        $list.html('Loading...');
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
@@ -33,6 +35,7 @@ $(function () {
                         $.each(collection_group, function (index, collection) {
                           var $item = $('<li>').attr('id', collection._id).append(
                               $('<a>')
+                              .addClass('text-danger')
                               .attr('href', base_url + 'collection/detail.php?id=' + collection._id)
                               .html(collection.title)
                           );
