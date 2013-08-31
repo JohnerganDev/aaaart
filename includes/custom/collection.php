@@ -1077,7 +1077,7 @@ function aaaart_collection_get_collected_documents($id, $order_by_maker = true, 
 		foreach ($collection['contents'] as $c) {
 			$document = aaaart_mongo_get_reference($c['object']);	
 			if ($order_by_maker) {
-				$key = $document['makers_orderby'] . '-' . $document['title'] . '-' . (string)$document['_id'];
+				$key = $document['makers_sortby'] . '-' . $document['title'] . '-' . (string)$document['_id'];
 			} else {
 				$key = $c['added']. '-' . (string)$document['_id'];
 			}
@@ -1121,7 +1121,7 @@ function aaaart_collection_get_documents_and_sections($id, $print_response = fal
 		$documents = array();
 		foreach ($collection['contents'] as $c) {
 			$document = aaaart_mongo_get_reference($c['object']);	
-			$key = $document['makers_orderby'] . '-' . $document['title'] . '-' . (string)$document['_id'];
+			$key = $document['makers_sortby'] . '-' . $document['title'] . '-' . (string)$document['_id'];
 			$documents[ $key ] = $document;
 			// If the document is in a section consult the map
 			if (!empty($c['section']) && array_key_exists($c['section'], $sections)) {

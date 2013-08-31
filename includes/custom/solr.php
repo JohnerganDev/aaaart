@@ -177,7 +177,7 @@ class Solr {
 			'title' => !empty($obj['title']) ? $obj['title'] : '',
 			'content_type' => IMAGES_COLLECTION,
 			'makers_display' => $obj['makers_display'],
-			'makers_sort' => !empty($obj['makers_orderby']) ? $obj['makers_orderby'] : '',
+			'makers_sort' => !empty($obj['makers_sortby']) ? $obj['makers_sortby'] : '',
 			'description' => !empty($obj['metadata']['description']) ? $obj['metadata']['description'] : '',
 			'one_liner' => !empty($obj['metadata']['one_liner']) ? $obj['metadata']['one_liner'] : '',
 			'makers' => array(),

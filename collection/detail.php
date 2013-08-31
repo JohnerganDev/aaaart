@@ -55,7 +55,7 @@ $followers_list = aaaart_user_format_simple_list($followers);
         	       </div>
                     <div class="form-group"> 
                         <label>Longer Description</label>
-                        <textarea rows="6" class="form-control" name="description"><?php print stripslashes($collection['metadata']['description']) ?></textarea>
+                        <textarea rows="6" class="form-control" name="description"><?php if (!empty($collection['metadata']['description'])) { print stripslashes($collection['metadata']['description']); } ?></textarea>
                     </div>                        
 
                 </form>
