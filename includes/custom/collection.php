@@ -288,7 +288,11 @@ function aaaart_collection_sort_element() {
 			if (!empty($list)) {
 				$output .= sprintf('<optgroup label="%s">', $group);
 				foreach ($list as $collection) {
-					$output .= sprintf('<option value="%s">%s</option>', $collection['_id'], $collection['title']);
+					if ($group=='following' && $collection['type']!=$COLLECTION_TYPES['public']) {
+						$output .= sprintf('<option disabled="disabled" value="%s">%s</option>', $collection['_id'], $collection['title']);
+					} else {
+						$output .= sprintf('<option value="%s">%s</option>', $collection['_id'], $collection['title']);
+					}
 				}
 				$output .= '</optgroup>';
 			}
@@ -904,8 +908,8 @@ function aaaart_collection_get_follow_button($collection_id, $user_id=false, $to
 	$is_following = aaaart_collection_user_is_following($user, $collection);
 	$is_editor = aaaart_collection_user_is_editor($user, $collection);
 	$is_owner = aaaart_collection_user_is_owner($user, $collection);
-	$button_follow = sprintf('<a id="%s" class="btn btn-mini follow" href="#" type="button">Follow</a>', (string)$collection['_id']);
-	$button_unfollow = sprintf('<a id="%s" class="btn btn-mini btn-inverse follow" href="#" type="button">Stop following</a>', (string)$collection['_id']);
+	$button_follow = sprintf('<a id="%s" class="btn btn-xs follow" href="#" type="button">Follow</a>', (string)$collection['_id']);
+	$button_unfollow = sprintf('<a id="%s" class="btn btn-xs btn-inverse follow" href="#" type="button">Stop following</a>', (string)$collection['_id']);
 	$show_button = ($is_following) ? $button_unfollow : $button_follow;
 	if ($is_owner) {
 		// owners can't do any following

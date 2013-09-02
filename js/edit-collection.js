@@ -69,7 +69,7 @@ $(function () {
                         .addClass('section well')
                         .html(section.description)
                         .prepend($('<h4>').text(section.title))
-                        .append($('<ul>').addClass('items'));
+                        .append($('<ul>').addClass('items').addClass('list-unstyled'));
                     //gallery.append(collection_sections[section.id]);
                     // b. create the section to put in a list of sections during "Edit contents"
                     var $section = $('<a>')
