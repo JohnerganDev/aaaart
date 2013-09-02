@@ -278,6 +278,7 @@ function aaaart_collection_get_section($id, $section_id) {
  * The dropdown select with a list of collections available to the user
  */
 function aaaart_collection_sort_element() {
+	global $COLLECTION_TYPES;
 	$output = '';
 	$collections = aaaart_collection_get_user_collections();
 	if (!empty($collections['initiated']) || !empty($collections['collaborating']) || !empty($collections['following'])) {
