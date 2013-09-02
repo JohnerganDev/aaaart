@@ -23,6 +23,7 @@ $(function () {
         url: action
     });
 
+    /*
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
         'option',
@@ -32,8 +33,36 @@ $(function () {
             '/cors/result.html?%s'
         )
     );
+    */
+
+    // check empty fields
+    $('#fileupload').on("change textInput input", 'input[type=text]', function () {
+        var ok = true;
+        var v;
+        $('#fileupload').find('input').each( function() {
+            if ($(this).attr("required")) {
+                v = $(this).val();
+                if ($.trim(v)=='') {
+                    ok = false;
+                }
+            }
+        } );
+        if (ok) {
+            $(this).closest('tr').find('button.start').attr('disabled', false);
+        } 
+    });
 
     $('form#import-video,form#import-html').submit(function() {
+        var v;
+        $(this).find('input').each( function() {
+            if ($(this).attr("required")) {
+                v = $(this).val();
+                if ($.trim(v)=='') {
+                    alert('Please fill out all fields!');
+                    return false;
+                }
+            }
+        } );
         $.ajax({
             type: "POST",
             url: base_url + "image/index.php",

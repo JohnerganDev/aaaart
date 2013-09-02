@@ -96,7 +96,7 @@ print aaaart_template_header('Upload');
                 </div>
                 <div class="form-group">
                     <label>Short description</label>
-                    <input name="one_liner" type="text" class="form-control" required>
+                    <input name="one_liner" type="text" class="form-control" required="required">
                     <p class="help-block">Just one line, or even a few words</p>
                 </div>
                 <br />
@@ -109,22 +109,22 @@ print aaaart_template_header('Upload');
                 <input type="hidden" name="action" value="video">
                 <div class="form-group">
                     <label>URL of video (or audio)</label>
-                    <input name="url" type="url" class="form-control" required>
+                    <input name="url" type="url" class="form-control" required="required">
                     <p class="help-block">Just paste the URL of the page for the media.</p>
                 </div>
                 <div class="form-group">
                     <label>Title</label>
-                    <input name="title" type="text" class="form-control" required>
+                    <input name="title" type="text" class="form-control" required="required">
                     <p class="help-block">What title will this have in the library? </p>
                 </div>
                 <div class="form-group">
                     <label><?php print MAKERS_LABEL; ?></label>
-                    <input name="maker" type="text" class="form-control" required>
+                    <input name="maker" type="text" class="form-control" required="required">
                     <p class="help-block">Separate multiple names with commas</p>
                 </div>
                 <div class="form-group">
                     <label>Short description (just a few words)</label>
-                    <input name="one_liner" type="text" class="form-control" required>
+                    <input name="one_liner" type="text" class="form-control" required="required">
                     <p class="help-block">Just one line, or even a few words</p>
                 </div>
                 <br />
@@ -175,15 +175,15 @@ print aaaart_template_header('Upload');
         </td>
         <td class="editable-fields">
             <div class="row form-group">
-                <input type="text" class="form-control" name="maker[{%= file.name %}]">
+                <input type="text" class="form-control" name="maker[{%= file.name %}]" required="required">
                 <p class="help-block"><?php print MAKERS_LABEL; ?>: separate multiple people with commas. (eg. "Karl Marx, Frederick Engels")</p>
             </div>
             <div class="row form-group">
-                <input type="text" class="form-control" name="title[{%= file.name %}]">
+                <input type="text" class="form-control" name="title[{%= file.name %}]" required="required">
                 <p class="help-block">Title: the title this will have in the library</p>
             </div>
             <div class="row form-group">
-                <input name="one_liner" class="form-control" type="text" class="input-xxlarge" required>
+                <input name="one_liner" class="form-control" type="text" required="required">
                 <p class="help-block">Short description: just a few words to describe what this is.</p>
             </div>
         </td>
@@ -195,7 +195,7 @@ print aaaart_template_header('Upload');
         </td>
         <td>
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start">
+                <button class="btn btn-primary start" disabled="disabled">
                     <i class="icon-upload icon-white"></i>
                     <span>Start</span>
                 </button>
