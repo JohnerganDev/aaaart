@@ -389,23 +389,4 @@ function aaaart_user_create_invitation($email, $print_response=false) {
 	}
 }
 
-/*
- * I am putting caching stuff in here, because it may be user-dependent, but probably this will soon move
- */
-function aaaart_cache_get($name) {
-	$i = aaaart_mongo_get_one(SYSTEM_COLLECTION, $name, 'cache_name');
-	if (!empty($i['value'])) {
-		return $i['value'];
-	} else {
-		return false;
-	}
-}
-
-function aaaart_cache_set($name, $value) {
-	aaaart_mongo_update(SYSTEM_COLLECTION, array('cache_name'=>$name), array('value'=>$value), true);
-}
-
-function aaaart_cache_invalidate($name) {
-	aaaart_mongo_remove(SYSTEM_COLLECTION, array('cache_name'=>$name));
-}
 ?>
