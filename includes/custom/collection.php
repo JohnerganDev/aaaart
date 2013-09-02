@@ -1143,17 +1143,19 @@ function aaaart_collection_get_documents_and_sections($id, $print_response = fal
 		$files = array();
 		foreach ($documents as $document) {
 			$f = aaaart_image_make_file_object($document);
-			$id = $f->document_id;
-			if (array_key_exists($id, $map)) {
-				if (!empty($map[$id]['section'])) {
-					$f->section = $map[$id]['section'];
+			if (!empty($f->document_id)) {
+				$id = $f->document_id;
+				if (array_key_exists($id, $map)) {
+					if (!empty($map[$id]['section'])) {
+						$f->section = $map[$id]['section'];
+					}
+					if (!empty($map[$id]['notes'])) {
+						$f->metadata->one_liner .= ' '.stripslashes($map[$id]['notes']);
+						$f->metadata->additional_notes = stripslashes($map[$id]['notes']);
+					}
 				}
-				if (!empty($map[$id]['notes'])) {
-					$f->metadata->one_liner .= ' '.stripslashes($map[$id]['notes']);
-					$f->metadata->additional_notes = stripslashes($map[$id]['notes']);
-				}
+				$files[] = $f;
 			}
-			$files[] = $f;
 		}
 		$response = array( 'sections'=>$sections, 'files' => $files );
 		return aaaart_utils_generate_response($response);
