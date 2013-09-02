@@ -90,6 +90,8 @@ function aaaart_utils_get_file_type($file_path) {
       return 'application/zip';
     case 'rar':
       return 'application/rar';
+    case 'mobi':
+      return 'application/x-mobipocket-ebook';
     case 'djvu':
       return 'image/djvu';
     case 'doc':
@@ -144,6 +146,7 @@ function aaaart_utils_trim_file_name($name, $type, $index, $content_range) {
       case 'application/msword': $name .= '.doc'; break;
       case 'text/plain': $name .= '.txt'; break;
       case 'text/html': $name .= '.html'; break;
+      case 'application/x-mobipocket-ebook': $name .= '.mobi'; break;
     }
   }
   return $name;
