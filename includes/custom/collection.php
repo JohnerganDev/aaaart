@@ -289,7 +289,7 @@ function aaaart_collection_sort_element() {
 			if (!empty($list)) {
 				$output .= sprintf('<optgroup label="%s">', $group);
 				foreach ($list as $collection) {
-					if ($group=='following' && $collection['type']!=$COLLECTION_TYPES['public']) {
+					if ($group=='following' && $collection['type']!='public') {
 						$output .= sprintf('<option disabled="disabled" value="%s">%s</option>', $collection['_id'], $collection['title']);
 					} else {
 						$output .= sprintf('<option value="%s">%s</option>', $collection['_id'], $collection['title']);
