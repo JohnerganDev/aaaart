@@ -35,8 +35,7 @@ function aaaart_template_header($title='Website') {
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 	<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
 	<!-- Stackable modals -->
-	<!--<link rel="stylesheet" href="{$script_url}css/bootstrap-modal-bs3patch.css">-->
-	<!--<link rel="stylesheet" href="{$script_url}css/bootstrap-modal.css">-->
+	<link rel="stylesheet" href="{$script_url}css/bootstrap-modal.css">
 	<!-- Bootstrap Image Gallery styles -->
 	<link rel="stylesheet" href="http://blueimp.github.com/Bootstrap-Image-Gallery/css/bootstrap-image-gallery.min.css">
 	<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
