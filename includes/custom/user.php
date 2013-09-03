@@ -149,7 +149,8 @@ function aaaart_user_get_activity_count() {
 function aaaart_user_pull_activity($path) {
 	global $user;
 	if (empty($user['activity'])) return;
-	$cutoff_read = time() - 7*24*60*60;
+	//$cutoff_read = time() - 7*24*60*60;
+	$cutoff_read = time();
 	$cutoff_unread = time() - 14*24*60*60;
 	$changed = false;
 	foreach ($user['activity'] as $k=>$a) {
