@@ -64,7 +64,11 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
         break;
         case 'search':
           if (!empty($_GET['q'])) {
-            aaaart_collection_search($_GET['q'], true);
+            if (!empty($_GET['filter']) && $_GET['filter']=='discussions') {
+              aaaart_comment_search($_GET['q'], true);
+            } else {
+              aaaart_collection_search($_GET['q'], true);
+            }
           }
         break;
         case 'follow':

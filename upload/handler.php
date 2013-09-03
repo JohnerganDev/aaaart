@@ -195,13 +195,13 @@ print aaaart_template_header('Upload');
         </td>
         <td>
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary start" disabled="disabled">
+                <button class="btn btn-primary btn-xs start" disabled="disabled">
                     <i class="icon-upload icon-white"></i>
                     <span>Start</span>
                 </button>
             {% } %}
             {% if (!i) { %}
-                <button class="btn btn-warning cancel">
+                <button class="btn btn-warning btn-xs cancel">
                     <i class="icon-ban-circle icon-white"></i>
                     <span>Cancel</span>
                 </button>

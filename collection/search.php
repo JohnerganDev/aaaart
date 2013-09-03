@@ -14,6 +14,7 @@ print aaaart_template_header( 'looking for: ' . $search_string );
         <small><ul class="list-inline" id="makers-and-collections-list"></ul></small>
     </div>
   <ul class="files clearfix search-results list-unstyled" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></ul>  
+  <ul class="list-unstyled" id="discussions-list"></ul>
 </div>
 
 <!-- modal-gallery is the modal dialog used for the image gallery -->

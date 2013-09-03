@@ -97,7 +97,7 @@ class Solr {
 		//$response = $this->solr->search( $query_string, $offset, $limit );
     $results = array();
     if ( $response->getHttpStatus() == 200 ) { 
-      // print_r( $response->getRawResponse() );
+       //debug( $response->getRawResponse() );
       
       if ( $response->response->numFound > 0 ) {
         //echo "$query_string <br />";
@@ -278,6 +278,26 @@ class Solr {
 			}	
 		}
 	}
+
+
+	/**
+	 * Reindex all documents
+	 */
+	public function reindexAllComments() {
+		global $pager;
+		$keep_going = true;
+		while ($keep_going) {
+			$docs =	aaaart_mongo_get_paged(COMMENTS_COLLECTION, array());
+			if ($docs->count()==0) {
+				$keep_going = false;
+			} else {
+				foreach ($docs as $doc) {
+					$this->indexDiscussion($doc);
+				}
+				$pager['start'] = $pager['start']	+ 1;
+			}	
+		}
+	}	
 
 	/**
 	* Indexes every document in the solr queue

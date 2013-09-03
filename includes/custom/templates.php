@@ -35,6 +35,7 @@ function aaaart_template_header($title='Website') {
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 	<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
 	<!-- Stackable modals -->
+	<link rel="stylesheet" href="{$script_url}css/bootstrap-modal-bs3patch.css">
 	<link rel="stylesheet" href="{$script_url}css/bootstrap-modal.css">
 	<!-- Bootstrap Image Gallery styles -->
 	<link rel="stylesheet" href="http://blueimp.github.com/Bootstrap-Image-Gallery/css/bootstrap-image-gallery.min.css">
@@ -60,7 +61,15 @@ function aaaart_template_header($title='Website') {
 			  <div class="form-group">
 			    <input name="q" type="text" class="span2 search-query">
 			  </div>
-			  <button type="submit" class="btn btn-default">Search</button>
+			  <div class="btn-group">
+				  <button type="submit" class="btn btn-default">Search</button>
+				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				    <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" role="menu">
+				    <li><a href="#" id="search-discussions">Search discussions</a></li>
+				  </ul>
+				</div>
 			</form>
 	  </div>
 	  </nav>
@@ -100,7 +109,7 @@ function aaaart_template_footer($js=array()) {
 
 	$output .= <<< EOF
 	<div id="footer"></div>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//code.jquery.com/jquery.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="{$script_url}js/vendor/jquery.ui.widget.js"></script>
 <!-- The jQuery hover intent for better hovering -->

@@ -17,6 +17,7 @@ $(function () {
 
     var letter = 'a';
     var gallery = $('#gallery');
+    var profile = $('#profile');
     function loadDocs() {
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
@@ -45,6 +46,26 @@ $(function () {
         }
     });
 
-    loadDocs();
+    if (gallery.length) {
+        loadDocs();
+    }
 
+    function loadUserDocs() {
+        $.ajax({
+            // Uncomment the following to send cross-domain cookies:
+            //xhrFields: {withCredentials: true},
+            url: base_url + 'image/index.php',
+            data: {'action': 'user_documents', id:$('#profile').attr('data-id') },
+            dataType: 'json',
+        }).done(function (result) {
+            profile.empty();
+            $.each(result.files, function (index, file) {
+                aaaart_add_item_to_gallery(file, profile, true);
+            });
+        });
+    }
+
+    if (profile.length) {
+        loadUserDocs();
+    }
 });

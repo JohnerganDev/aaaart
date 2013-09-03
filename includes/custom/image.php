@@ -592,6 +592,30 @@ function aaaart_image_filter_saved_documents($filter, $print_response=false) {
 }
 
 
+/**
+ * Gets a list of "saved" (by a user) texts whose makers beginning with a certain pattern
+ * $filter can be a single letter or a range (like ab-an)
+ */
+function aaaart_image_user_documents($id, $print_response=false) {
+	$person = aaaart_user_get($id);
+	if (empty($person['_id'])) {
+		$results = array();
+	} else {
+		$names = aaaart_mongo_get( IMAGES_COLLECTION, array('owner' => $person['_id']), array('makers_sortby'=>1));
+		$results = array();
+		foreach ($names as $obj) {
+			$results[] = $obj;
+		}
+	}
+	if ($print_response) {
+		aaaart_mongo_stringify_ids($results);
+		return aaaart_image_generate_response_from_documents($results);
+	} else {
+		return $results;
+	}
+}
+
+
 /*
  * Saves a document to a user's "saved" library (or unsaves it)
  */

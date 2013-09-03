@@ -32,6 +32,11 @@ switch (aaaart_utils_get_server_var('REQUEST_METHOD')) {
   					aaaart_image_filter_saved_documents($_GET['filter'], true);
   				}
 				break;
+				case 'user_documents':
+					if (!empty($_GET['id'])) {
+						aaaart_image_user_documents($_GET['id'], true);
+					}
+				break;
 				case 'get_files':
 					if (!empty($_GET['id'])) {
 						aaaart_image_get_files_for_image($_GET['id'], true);

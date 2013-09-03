@@ -195,6 +195,29 @@ function aaaart_comment_delete($id) {
 
 
 /**
+ * Runs a search. Displays results as a kind of collection
+ */
+function aaaart_comment_search($query, $print_response=false) {
+	$solr = new Solr();
+	// we query for facets as well as results
+	$results = $solr->simpleQuery($query, COMMENTS_COLLECTION, array());
+	if ($print_response) {
+		$docs = array();
+		if (!empty($results)) {
+			foreach ($results as $result) {
+				$thread = aaaart_comment_get_thread($result['id']);
+				$first_post = aaaart_comment_prepare_first_post($thread);
+				if ($first_post) {
+					$docs[] = $first_post;
+				}
+			}
+		}
+		$response = array( 'discussions' => $docs );
+		return aaaart_utils_generate_response($response);
+	} else return $results;
+}
+
+/**
  * List threads
  * $show can be "new" for newest threads, or a reference type
  * $arg is the reference id
@@ -294,16 +317,43 @@ function aaaart_comment_get_new_comments($filter_by_user = false, $num = 50) {
 		array('posts.created'=> -1)
 	);
 	foreach ($threads as $thread) {
-		$newest_post = current(aaaart_comment_get_ordered_posts($thread));
-		if (!empty($newest_post)) {
-			aaaart_comment_prepare_for_display($newest_post);
-			$newest_post['thread_id'] = (string)$thread['_id'];
-			$newest_post['thread_title'] = aaaart_comment_format_thread_title($thread);
-			$newest_post['thread_url'] = sprintf('%scomment/thread.php?id=%s', BASE_URL, $thread['_id']);
+		$newest_post = aaaart_comment_prepare_newest_post($thread);
+		if ($newest_post) {
 			$result[] = $newest_post;
 		}
 	}
 	return $result;
+}
+
+/*
+ * Takes a thread and shows a specific post from it for display in a list of threads
+ */
+function aaaart_comment_prepare_newest_post($thread) {
+	$newest_post = current(aaaart_comment_get_ordered_posts($thread));
+	if (!empty($newest_post)) {
+		aaaart_comment_prepare_for_display($newest_post);
+		$newest_post['thread_id'] = (string)$thread['_id'];
+		$newest_post['thread_title'] = aaaart_comment_format_thread_title($thread);
+		$newest_post['thread_url'] = sprintf('%scomment/thread.php?id=%s', BASE_URL, $thread['_id']);
+		return $newest_post;
+	} else return false;
+}
+
+/*
+ * Takes a thread and shows a specific post from it for display in a list of threads
+ */
+function aaaart_comment_prepare_first_post($thread) {
+	if (!empty($thread['posts'])) {
+		$first_post = current($thread['posts']);
+		if (!empty($first_post)) {
+			aaaart_comment_prepare_for_display($first_post);
+			$first_post['thread_id'] = (string)$thread['_id'];
+			$first_post['thread_title'] = aaaart_comment_format_thread_title($thread);
+			$first_post['thread_url'] = sprintf('%scomment/thread.php?id=%s', BASE_URL, $thread['_id']);
+			return $first_post;
+		} 
+	}
+	return false;
 }
 
 

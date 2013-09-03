@@ -14,6 +14,8 @@ function aaaart_user_check_perm($op='') {
 	switch ($op) {
 		case 'login':
 			return (!$c);
+		case 'view_user':
+			return aaaart_user_check_capability('do_anything');
 		default:
 			if (aaaart_user_check_capability('banned')) {
 				return false;
@@ -36,6 +38,9 @@ function aaaart_user_save($data) {
  */
 function aaaart_user_load_from_query_string() {
 	$id = isset($_GET['key']) ? $_GET['key'] : false;
+	if (!$id) {
+		$id = isset($_GET['id']) ? $_GET['id'] : false;
+	}
 	if ($id) {
 		return aaaart_mongo_get_one(PEOPLE_COLLECTION, $id);
 	}
@@ -69,27 +74,44 @@ function aaaart_user_get($value=false, $attr=false) {
 /**
  * Gets a display name for a user (id)
  */
-function aaaart_user_format_display_name($key) {
-	$u = aaaart_user_get($key);
-	return (!empty($u['display_name'])) ? $u['display_name'] : 'anonymous';
+function aaaart_user_format_display_name($key, $as_link=true) {
+	if (!empty($key['_id'])) {
+		$u = $key;
+	} else {
+		$u = aaaart_user_get($key);				
+	}
+	$label = (!empty($u['display_name'])) ? $u['display_name'] : 'anonymous';
+	if ($as_link && aaaart_user_check_perm('view_user')) {
+		return sprintf('<a href="%suser/detail.php?id=%s">%s</a>', BASE_URL, (string)$u['_id'], $label);
+	} else {
+		return $label;
+	}
 }
 
 
 /*
  * Outputs a comma separated list
  */
-function aaaart_user_format_simple_list($users) {
-	$anon_count = 0;
-	$names_list = array();
-	foreach ($users as $u) {
-		if (!empty($u['display_name']) && $u['display_name']!='x') {
-			$names_list[] = $u['display_name'];
-		} else $anon_count++;
+function aaaart_user_format_simple_list($users, $as_link=true) {
+	if ($as_link && aaaart_user_check_perm('view_user')) {
+		$names_list = array();
+		foreach ($users as $u) {
+			$names_list[] = aaaart_user_format_display_name($u);
+		}
+		return implode(', ', $names_list);
+	} else {
+		$anon_count = 0;
+		$names_list = array();
+		foreach ($users as $u) {
+			if (!empty($u['display_name']) && $u['display_name']!='x') {
+				$names_list[] = $u['display_name'];
+			} else $anon_count++;
+		}
+		$ret_str = (count($names_list)>0) ? implode(', ', $names_list) : '';
+		$ret_str .= (count($names_list)>0 && $anon_count>0) ? ' and ' : '';
+		$ret_str .= ($anon_count>0) ? sprintf('%s anonymous', $anon_count) : '';
+		return $ret_str;
 	}
-	$ret_str = (count($names_list)>0) ? implode(', ', $names_list) : '';
-	$ret_str .= (count($names_list)>0 && $anon_count>0) ? ' and ' : '';
-	$ret_str .= ($anon_count>0) ? sprintf('%s anonymous', $anon_count) : '';
-	return $ret_str;
 }
 
 /*
@@ -362,6 +384,16 @@ function aaaart_user_log_invitation($inviter, $invitee) {
 }
 
 
+/*
+ * Find who invited this person
+ */
+function aaaart_user_invited_by($u) {
+	return iterator_to_array(
+		aaaart_mongo_get(PEOPLE_COLLECTION, array('invited' => $u['_id']))
+	);
+}
+
+
 /**
  *
  */
@@ -370,7 +402,7 @@ function aaaart_user_create_invitation($email, $print_response=false) {
 	if (!empty($u)) {
 		return false;
 	} else {
-		$account = array('email' => $email);
+		$account = array('email' => $email, 'created'=>time());
 		$account = aaaart_user_save($account);
 		if (!empty($account['_id'])) {
 			$inviter = aaaart_user_get();

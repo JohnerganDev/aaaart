@@ -461,6 +461,7 @@ function aaaart_collection_search($query, $print_response=false) {
 				$docs[] = aaaart_image_make_file_object($result['id']);
 			}
 		}
+		$makers = array();
 		if (!empty($results['facets']['makers'])) {
 			$look_for = array();
 			foreach ($results['facets']['makers'] as $id=>$count) {
@@ -474,8 +475,6 @@ function aaaart_collection_search($query, $print_response=false) {
 						MAKERS_COLLECTION, 
 						array('_id' => array('$in' => $lookfor))
 				));
-			} else {
-				$makers = array();
 			}
 		}
 		// direct maker query

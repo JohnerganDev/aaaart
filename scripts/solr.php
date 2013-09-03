@@ -25,6 +25,12 @@ if (php_sapi_name() == 'cli') {
 			$solr->reindexAllDocuments();
 		break;
 
+		case 'reindexComments':
+			// reindex everything
+			$solr = new Solr();
+			$solr->reindexAllComments();
+		break;
+
 		case 'processQueue':
 			// only reindex queued items
 			$solr = new Solr();

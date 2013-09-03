@@ -48,6 +48,24 @@ function aaaart_add_collection_to_list(list, collection) {
     ));
 }
 
+function aaaart_add_comment_thread_to_list(list, comment) {
+    list.append(
+        $('<li>').addClass('list-group-item')
+            .append($('<p>').addClass('lead').append($('<a>')
+                    .attr('href', comment.thread_url)
+                    .attr('data-toggle','modal')
+                    .attr('data-target', '#comments')
+                    .addClass('comments')
+                    .addClass('comments-title')
+                    .html(comment.thread_title)
+            ))
+            .append($('<p>')
+                .append($('<span>').addClass('text-muted').html(comment.text))
+                .append($('<span>').addClass('text-muted').html(' ' + comment.display_user + ' on ' + comment.display_date))
+            )
+    );
+}
+
 // adds list items of makers
 function aaaart_build_makers_list(list, arr) {
     $.each(arr, function (index, maker) {
@@ -59,6 +77,13 @@ function aaaart_build_makers_list(list, arr) {
 function aaaart_build_collections_list(list, arr) {
     $.each(arr, function (index, collection) {
         aaaart_add_collection_to_list(list, collection);
+    });
+}
+
+// adds list items of comments
+function aaaart_build_comment_threads_list(list, arr) {
+    $.each(arr, function (index, thread) {
+        aaaart_add_comment_thread_to_list(list, thread);
     });
 }
 
@@ -179,21 +204,33 @@ $(function () {
 
     var $list = $("#gallery.search-results");
     var $list2 = $("#makers-and-collections-list");
-    function doSearch(q) {
+    var $list3 = $("#discussions-list");
+    
+    function doSearch(q, f) {
+        var filter = valOrDefault(f, false);
         $list.html('Looking...');
         $.ajax({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
             url: base_url + 'collection/index.php',
-            data: {action: 'search', q: q},
+            data: {action: 'search', filter: filter, q: q},
             dataType: 'json',
         }).done(function (result) {
             $list.html('');
-            $.each(result.files, function (index, file) {
-                aaaart_add_item_to_gallery(file, $list);
-            });
-            aaaart_build_makers_list($list2, result.makers);
-            aaaart_build_collections_list($list2, result.collections);
+            if (result.files) {
+                $.each(result.files, function (index, file) {
+                    aaaart_add_item_to_gallery(file, $list);
+                });
+            }
+            if (result.makers) {
+                aaaart_build_makers_list($list2, result.makers);
+            }
+            if (result.collections) {
+                aaaart_build_collections_list($list2, result.collections);
+            }
+            if (result.discussions) {
+                aaaart_build_comment_threads_list($list3, result.discussions);
+            }
             /*
             // @todo: paginating search results
             if (result.files.length===0) {
@@ -206,11 +243,24 @@ $(function () {
     // When search button is clicked
     $("form.form-search").submit(function() {
         var q = $("form.form-search .search-query").val();
-        if (str.length) {
+        if (q.length) {
             if ($list.length) {
-                doSearch(str);
+                doSearch(q);
             } else {
-                document.location.href = base_url + 'collection/search.php?q=' + encodeURI(str);
+                document.location.href = base_url + 'collection/search.php?q=' + encodeURI(q);
+            }
+        }
+        return false;
+    });
+
+    // When search button is clicked
+    $("form.form-search").on('click', '#search-discussions', function() {
+        var q = $("form.form-search .search-query").val();
+        if (q.length) {
+            if ($list.length) {
+                doSearch(q, 'discussions');
+            } else {
+                document.location.href = base_url + 'collection/search.php?q=' + encodeURI(q);
             }
         }
         return false;
