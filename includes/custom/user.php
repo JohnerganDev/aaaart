@@ -72,6 +72,18 @@ function aaaart_user_get($value=false, $attr=false) {
 
 
 /**
+ * Get user from the Mongo database
+ */
+function aaaart_user_get_list($arr) {
+	$users = array();
+	foreach ($arr as $id) {
+		$users[] = aaaart_user_get($id);
+	}
+	return $users;
+}
+
+
+/**
  * Gets a display name for a user (id)
  */
 function aaaart_user_format_display_name($key, $as_link=true) {

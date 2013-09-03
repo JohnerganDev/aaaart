@@ -35,8 +35,9 @@ print aaaart_template_header( $display_name );
     <?php endif; ?>
 
     <?php if (!empty($person['invited'])): ?>
+    <?php $invitees = aaaart_user_get_list($person['invited']); ?>
     <h5>Invited</h5>
-    <?php print aaaart_user_format_simple_list($person['invited']); ?>
+    <?php print aaaart_user_format_simple_list($invitees); ?>
     
     <?php endif; ?>    
 
