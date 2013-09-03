@@ -87,7 +87,7 @@ function aaaart_user_get_list($arr) {
  * Gets a display name for a user (id)
  */
 function aaaart_user_format_display_name($key, $as_link=true) {
-	if (!empty($key['_id'])) {
+	if (is_array($key) && !empty($key['_id'])) {
 		$u = $key;
 	} else {
 		$u = aaaart_user_get($key);				
