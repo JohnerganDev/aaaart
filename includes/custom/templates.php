@@ -233,7 +233,7 @@ function aaaart_template_form_create_collection(&$js = array()) {
 	<div class="modal-dialog">
     <div class="modal-content">
 	    <div class="modal-header">
-	        <a class="close" data-dismiss="modal">×</a>  
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
 	        <h4>Create a new collection</h4>
 	    </div>
 	    <form class="modal-body" action="{$script_url}collection/index.php" role="form" method="POST">
@@ -256,7 +256,7 @@ function aaaart_template_form_create_collection(&$js = array()) {
 	    </form>
 	    <div class="modal-footer">
 	        <button class="btn btn-success" id="save">Save</button>
-	        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 	    </div>
 	  </div>
 	</div>
@@ -278,7 +278,7 @@ function aaaart_template_form_invite(&$js=array()) {
 			<div class="modal-dialog">
     		<div class="modal-content">
 	        <div class="modal-header">
-	            <a class="close" data-dismiss="modal">×</a>  
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
 	            <h3>Invite</h3>
 	        </div>
 	        <form class="modal-body" action="{$script_url}user/index.php" method="POST">
@@ -290,7 +290,7 @@ function aaaart_template_form_invite(&$js=array()) {
 	        </form>
 	        <div class="modal-footer">
 	            <button class="btn btn-success" id="invite">Invite</button>
-	            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+	            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 	        </div>
 	      </div>
 	  	</div>
@@ -311,7 +311,7 @@ function aaaart_template_form_login(&$js=array()) {
 			<div class="modal-dialog">
 		    <div class="modal-content">    
         <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
             <h4>Login</h4>
         </div>
         <form class="modal-body">
@@ -330,7 +330,7 @@ function aaaart_template_form_login(&$js=array()) {
         <div class="modal-footer">
             <button class="btn btn-success login">Login</button>
             <button class="btn btn-primary reset" style="display:none;">Reset password</button>
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
 			  </div>
 			</div>        
@@ -352,7 +352,7 @@ function aaaart_template_form_reference(&$js=array()) {
 		    <div class="modal-content">
 
         <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
             <h4>le reference maker</h4>
         </div>
         <div class="modal-body">
@@ -369,7 +369,7 @@ function aaaart_template_form_reference(&$js=array()) {
             <ul class="list-unstyled images"></ul>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
 			  </div>
 			</div>        
@@ -390,7 +390,7 @@ function aaaart_template_form_request(&$js=array()) {
 	    <div class="modal-content">
 
 	    <div class="modal-header">
-	        <a class="close" data-dismiss="modal">×</a>  
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
 	        <h4>Create a new request</h4>
 	    </div>
 	    <form class="modal-body" action="{$script_url}collection/index.php" method="POST">
@@ -420,7 +420,7 @@ EOF;
 	    </form>
 	    <div class="modal-footer">
 	        <button class="btn btn-success" id="save">Request</button>
-	        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 	    </div>
 		  </div>
 		</div>	    
@@ -439,14 +439,14 @@ function aaaart_template_comment($js=array()) {
 		 	<div class="modal-dialog">
 		    <div class="modal-content">
         <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
             <h4>Comments</h4>
         </div>
         <div class="modal-body">
         	
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
 			  </div>
 			</div>        
@@ -463,14 +463,14 @@ function aaaart_template_activity($js=array()) {
     		<div class="modal-content">
 
         <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
             <h4>Activity</h4>
         </div>
         <div class="modal-body">
         	
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
 			  </div>
 			</div>        
@@ -490,14 +490,14 @@ function aaaart_template_memex(&$js=array()) {
 		    <div class="modal-content">
 
         <div class="modal-header">
-            <a class="close" data-dismiss="modal">×</a>  
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>  
             <h4>Edit trail</h4>
         </div>
         <div class="modal-body">
         	
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
 			  </div>
 			</div>        
