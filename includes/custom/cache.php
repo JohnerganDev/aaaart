@@ -6,7 +6,9 @@ define( 'CACHE_COLLECTION', 'cache');
  *
  */
 function aaaart_cache_get($name) {
-	$i = aaaart_mongo_get_one(CACHE_COLLECTION, $name, 'cache_name');
+	global $pager;
+	$pager_str = $pager['start'].'-'.$pager['amount'];
+	$i = aaaart_mongo_get_one(CACHE_COLLECTION, array('cache_name'=>$name, 'page' =>$pager_str));
 	if (!empty($i['value'])) {
 		return $i['value'];
 	} else {
@@ -18,7 +20,9 @@ function aaaart_cache_get($name) {
  *
  */
 function aaaart_cache_set($name, $value) {
-	aaaart_mongo_update(CACHE_COLLECTION, array('cache_name'=>$name), array('value'=>$value), true);
+	global $pager;
+	$pager_str = $pager['start'].'-'.$pager['amount'];
+	aaaart_mongo_update(CACHE_COLLECTION, array('cache_name'=>$name, 'page'=>$pager_str), array('value'=>$value), true);
 }
 
 /*
