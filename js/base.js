@@ -260,7 +260,7 @@ $(function () {
             if ($list.length) {
                 doSearch(q, 'discussions');
             } else {
-                document.location.href = base_url + 'collection/search.php?q=' + encodeURI(q);
+                document.location.href = base_url + 'collection/search.php?f=discussions&q=' + encodeURI(q);
             }
         }
         return false;
@@ -270,7 +270,8 @@ $(function () {
     $(document).ready(function() {
         if ($list.length) {
             var q = getURLParameter('q');
-            doSearch(q);
+            var f = getURLParameter('f');
+            doSearch(q, f);
         }
     });
 
