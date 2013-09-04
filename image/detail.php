@@ -16,6 +16,10 @@ $can_save = (aaaart_image_check_perm('save')) ? true : false;
 aaaart_user_pull_activity('image/detail.php?id='.(string)$image['_id']);
 // get sharers string
 $sharers = aaaart_image_get_sharers($image);
+// get savers
+$savers = (!empty($image['saved_by'])) ? $image['saved_by'] : array();
+$savers_list = aaaart_user_format_simple_list($savers, false);
+$savers_str = (!empty($image['saved_by_count'])) ?  : false;
 
 print aaaart_template_header( $image['title'] );
 
@@ -23,7 +27,7 @@ print aaaart_template_header( $image['title'] );
 
 <div id="container" class="container image-detail">
     <div class="page-header">
-    <h2 ><?php print $image['title']; ?></h2>
+    <h2 ><?php print $image['title']; ?></h2> <?php if ($savers_str): ?><small class="muted" rel="tooltip" data-toggle="tooltip" title="<?php print $savers_list; ?>"><?php print $savers_str; ?></small></h2><?php endif; ?>
     <h3 class="lead"><?php print $image['makers_display']; ?></h3>
 
     <?php if ($can_edit): ?>

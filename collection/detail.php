@@ -11,7 +11,7 @@ print aaaart_template_header( $collection['title'] );
 $followers = aaaart_collection_get_followers($collection);
 $followers_count = count($followers);
 $followers_str = ($followers_count==1) ? '1 follower' : sprintf('%s followers', $followers_count);
-$followers_list = aaaart_user_format_simple_list($followers);
+$followers_list = aaaart_user_format_simple_list($followers, false);
 
 ?>
 
