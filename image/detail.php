@@ -19,7 +19,7 @@ $sharers = aaaart_image_get_sharers($image);
 // get savers
 $savers = (!empty($image['saved_by'])) ? $image['saved_by'] : array();
 $savers_list = aaaart_user_format_simple_list($savers, false);
-$savers_str = (!empty($image['saved_by_count'])) ?  : false;
+$savers_str = (!empty($image['saved_by_count'])) ?  $image['saved_by_count'] : false;
 
 print aaaart_template_header( $image['title'] );
 
