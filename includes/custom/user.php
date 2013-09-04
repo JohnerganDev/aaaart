@@ -301,6 +301,7 @@ function aaaart_user_logout() {
  * Try to log in
  */
 function aaaart_user_attempt_login($name, $password) {
+	$now = time();
 	if (!$password) {
 		//$u = aaaart_user_get($name);
 	} else {
@@ -320,11 +321,11 @@ function aaaart_user_attempt_login($name, $password) {
 		}
 	}
 	if (!empty($u)) {
-		aaaart_user_update(array('last_login'=>time()));
-		$expiration = time() + 1209600;
+		$expiration = $now + 1209600;
 		$id = (string)$u['_id'];
 		$cookie = aaaart_user_generate_cookie( $id, $expiration ); 
 		setcookie( COOKIE_AUTH, $cookie, $expiration, COOKIE_PATH );
+		aaaart_user_update(array('last_login'=>$now), $id);
 		aaaart_utils_generate_response(array('result' => true, 'message' => 'success'));
 	} else {
 		aaaart_utils_generate_response(array('result' => false, 'message' => 'that didn\'t work'));
