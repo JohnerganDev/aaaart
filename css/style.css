@@ -6,6 +6,12 @@ body {
   background-color: #ffffff;
 }
 
+@media screen and (max-width: 768px) {
+    body { padding-top: 0px; }
+    .navbar-fixed-top{ position: relative; }
+    div#footer { visibility: hidden; }
+}
+
 a {
   /*color: #EF3038;*/
   color: #0000DD;
@@ -350,3 +356,4 @@ input[type="color"],
 .activity .list-group-item .date {
   color: #CCC;
 }
+

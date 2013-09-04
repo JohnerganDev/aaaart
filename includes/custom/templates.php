@@ -50,8 +50,7 @@ function aaaart_template_header($title='Website') {
 	<noscript><link rel="stylesheet" href="{$script_url}css/jquery.fileupload-ui-noscript.css"></noscript>
 	</head>
 	<body class="{$body_classes}">
-		<nav class="navbar navbar-fixed-top" role="navigation">
-		<a id="site-title" href="{$script_url}">{$site_name}</a>
+		<nav class="navbar" role="navigation">
 		<div class="container">
 			<ul id="nav" class="nav navbar-nav nav-pills">
         {$nav}
@@ -71,6 +70,8 @@ function aaaart_template_header($title='Website') {
 				</div>
 			</form>
 	  </div>
+	  	<a id="site-title" href="{$script_url}">{$site_name}</a>
+		
 	  </nav>
 
 	  
