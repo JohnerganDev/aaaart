@@ -405,6 +405,11 @@ function aaaart_template_form_request(&$js=array()) {
 	            <p class="help-block">Separate multiple names with commas, eg: <em>Karl Marx, Friedrich Engels</em></p>
 	            <input type="text" class="form-control" name="maker" value="" placeholder="Who?" required>
 	          </div>
+	          <div class="form-group">
+	            <label><h5>Short description</h5></label>
+	            <p class="help-block">Please describe a little about what you're looking for</p>
+	            <input type="text" class="form-control" name="one_liner" value="" placeholder="Short description" required>
+	          </div>
 EOF;
 	$sorter = aaaart_collection_sort_element();
 	if (!empty($sorter)) {
