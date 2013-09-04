@@ -43,7 +43,7 @@ function aaaart_image_check_perm($op, $image=false, $file=false) {
 			return true;
 		case 'update':
 			// only image owners or site moderators can update
-			return (aaaart_image_user_is_owner($user, $image));
+			return (aaaart_image_user_is_owner($user, $image) || aaaart_image_user_is_uploader($user, $image));
 		break;
 		case 'delete':
 			// only image owners or site moderators can update
@@ -85,6 +85,20 @@ function aaaart_image_user_is_owner($user, $document) {
 	// fallback
 	return false;
 }
+
+/*
+ * Did this user upload one of the files?
+ */
+function aaaart_image_user_is_uploader($user, $document) {
+	if (!empty($document['files']) && !empty($user['_id'])) {
+		foreach ($document['files'] as $f) {
+			if ($f['uploader']==$user['_id']) return true;
+		}
+	} 
+	// fallback
+	return false;
+}
+
 
 /**
  * Checks if a user is owner of a file
