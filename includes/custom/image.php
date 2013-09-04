@@ -719,8 +719,9 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 	$now = time();
 	if (!empty($request_data['document-id'])) {
 		$comment = (!empty($request_data['comment'])) ? $request_data['comment'] : '';
+		$file->comment = $comment;
 		// this file upload is for an image that already exists, so we only need to update it, not create it
-		$file = array(
+		$added_file = array(
 			'name' => (!empty($file->name)) ? $file->name : false,
       'size' => (!empty($file->size)) ? $file->size : false,
       'type' => (!empty($file->type)) ? $file->type : false,
@@ -729,7 +730,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
       'upload_date' => $now,
       'comment' => $comment,
 		);
-		aaaart_mongo_push(IMAGES_COLLECTION, $request_data['document-id'], array('files' => $file));
+		aaaart_mongo_push(IMAGES_COLLECTION, $request_data['document-id'], array('files' => $added_file));
 		//aaaart_solr_add_to_queue(IMAGES_COLLECTION, $request_data['document-id']);
 	} else {
 		// this is a brand new image
