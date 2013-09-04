@@ -718,7 +718,7 @@ function aaaart_image_handle_form_data($request_data, $file, $index) {
 	$owner = aaaart_mongo_id($uid);
 	$now = time();
 	if (!empty($request_data['document-id'])) {
-		$comment = (!empty($request_data['comment'])) ? $request_data['comment'] : '';
+		$comment = (!empty($request_data['comment'])) ? $request_data['comment'] : sprintf('added %s', aaaart_utils_format_date(time(), 'm'));
 		$file->comment = $comment;
 		// this file upload is for an image that already exists, so we only need to update it, not create it
 		$added_file = array(

@@ -229,7 +229,7 @@ function aaaart_template_form_create_collection(&$js = array()) {
 		$collection_type = aaaart_collection_type_field();
 		return <<< EOF
 <!-- modal form for creating a collection -->
-<div id="create-collection-form" class="modal fade" role="dialog" >
+<div id="create-collection-form" class="modal " role="dialog" >
 	<div class="modal-dialog">
     <div class="modal-content">
 	    <div class="modal-header">
@@ -274,7 +274,7 @@ function aaaart_template_form_invite(&$js=array()) {
 	$js[] = 'js/user.js';
 	return <<< EOF
 		<!-- modal invite form -->
-    <div id="site-invite-form" class="modal fade" role="dialog">
+    <div id="site-invite-form" class="modal " role="dialog">
 			<div class="modal-dialog">
     		<div class="modal-content">
 	        <div class="modal-header">
@@ -307,7 +307,7 @@ function aaaart_template_form_login(&$js=array()) {
 	$js[] = 'js/user.js';
 	return <<< EOF
 		<!-- modal login form -->
-    <div id="modal-login-form" class="modal fade" role="dialog">
+    <div id="modal-login-form" class="modal " role="dialog">
 			<div class="modal-dialog">
 		    <div class="modal-content">    
         <div class="modal-header">
@@ -347,7 +347,7 @@ function aaaart_template_form_reference(&$js=array()) {
 	$js[] = 'js/reference.js';
 	return <<< EOF
 		<!-- modal reference form -->
-    <div id="create-reference-form" class="modal fade" role="dialog">
+    <div id="create-reference-form" class="modal " role="dialog">
 			<div class="modal-dialog">
 		    <div class="modal-content">
 
@@ -385,7 +385,7 @@ function aaaart_template_form_request(&$js=array()) {
 	$js[] = "js/collection-actions.js";
 	$output = <<< EOF
 	<!-- modal form for creating a request -->
-	<div id="request-form" class="modal fade" role="dialog">
+	<div id="request-form" class="modal " role="dialog">
 		<div class="modal-dialog">
 	    <div class="modal-content">
 
@@ -435,7 +435,7 @@ function aaaart_template_comment($js=array()) {
 	$js[] = "js/comment.js";
 	return <<< EOF
 		<!-- modal comments / comment form -->
-    <div id="comments" class="modal fade" role="dialog">
+    <div id="comments" class="modal" role="dialog">
 		 	<div class="modal-dialog">
 		    <div class="modal-content">
         <div class="modal-header">
@@ -458,7 +458,7 @@ function aaaart_template_activity($js=array()) {
 	$script_url = BASE_URL;
 	return <<< EOF
 		<!-- modal activity form -->
-    <div id="activity" class="modal fade" role="dialog">
+    <div id="activity" class="modal " role="dialog">
 			<div class="modal-dialog">
     		<div class="modal-content">
 
@@ -485,7 +485,7 @@ function aaaart_template_memex(&$js=array()) {
 	$js[] = "js/memex.js";
 	return <<< EOF
 		<!-- modal memex / memex form -->
-    <div id="memex-modal" class="modal fade" role="dialog">
+    <div id="memex-modal" class="modal " role="dialog">
 			<div class="modal-dialog">
 		    <div class="modal-content">
 
