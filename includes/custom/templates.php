@@ -437,6 +437,9 @@ EOF;
 
 
 function aaaart_template_comment($js=array()) {
+	if (!aaaart_comment_check_perm('create_thread')) {
+		return '';
+	}
 	$script_url = BASE_URL;
 	$js[] = "js/comment.js";
 	return <<< EOF

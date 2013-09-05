@@ -3,6 +3,7 @@
 require_once('../config.php');
 
 $thread = aaaart_comment_load_thread_from_query_string();
+$can_comment = (aaaart_comment_check_perm('create')) ? true : false;
 $can_edit = (aaaart_comment_check_perm('update_thread', $thread)) ? true : false;
 $ref_link = aaaart_comment_get_reference_link($thread);
 // remove from user activity
@@ -12,6 +13,8 @@ aaaart_user_pull_activity('comment/thread.php?id='.(string)$thread['_id']);
 <?php if ($ref_link): ?>
 from: <?php print $ref_link; ?>
 <?php endif; ?>
+
+<?php if ($can_comment): ?>
 <form id="comment-form">
 	<?php if (empty($thread)): ?>
   <input type="hidden" name="action" value="create_thread">
@@ -34,6 +37,8 @@ from: <?php print $ref_link; ?>
   <input type="hidden" name="ref_id" value="<?php print $_GET['ref_id']; ?>">
   <?php endif; ?>
 </form>
+<?php endif; ?>
+
 <?php if (!empty($thread['posts'])): ?>
 <?php $posts = aaaart_comment_get_ordered_posts($thread); ?>
 <table class="comments-list table table-striped">
@@ -51,6 +56,7 @@ from: <?php print $ref_link; ?>
 
 <script type="text/javascript">
   $("#comments .modal-header h4").text("<?php print (empty($thread)) ? 'Comment' : $thread['title']; ?>");
+<?php if ($can_comment): ?>  
 	$("#comment-form textarea").markdown({autofocus:false, savable:false, additionalButtons: aaaart_markdown_buttons() });
   $("#comment-form").on('submit', function(event) {
   	var $form = $(this);
@@ -67,4 +73,5 @@ from: <?php print $ref_link; ?>
 	  });
   	return false;
   });
+<?php endif; ?>  
 </script>
