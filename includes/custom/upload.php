@@ -728,6 +728,16 @@ class AaaartUploadHandler {
       aaaart_utils_send_access_control_headers();
     }
 
+    // Filetype is unpredictable with some browsers so let's see if it is an allowed type and if not, derive from name
+    public function check_upload_type($filename, $type) {
+        $ext = aaaart_utils_get_extension_from_type($type);
+        if ($ext) {
+            return $type;
+        } else {
+            return aaaart_utils_get_file_type($filename);
+        }
+    }
+
     public function head() {
     	aaaart_utils_head();
     }
@@ -761,11 +771,13 @@ class AaaartUploadHandler {
             // param_name is an array identifier like "files[]",
             // $_FILES is a multi-dimensional array:
             foreach ($upload['tmp_name'] as $index => $value) {
+                $derived_name = $file_name ? $file_name : $upload['name'][$index];
+                $derived_type = $this->check_upload_type($derived_name, $upload['type'][$index]);
                 $files[] = $this->handle_file_upload(
                     $upload['tmp_name'][$index],
-                    $file_name ? $file_name : $upload['name'][$index],
+                    $derived_name,
                     $size ? $size : $upload['size'][$index],
-                    $upload['type'][$index],
+                    $derived_type,
                     $upload['error'][$index],
                     $index,
                     $content_range
@@ -774,14 +786,14 @@ class AaaartUploadHandler {
         } else {
             // param_name is a single object identifier like "file",
             // $_FILES is a one-dimensional array:
+            $derived_name = $file_name ? $file_name : (isset($upload['name']) ? $upload['name'] : null);
+            $derived_type = $this->check_upload_type($derived_name, isset($upload['type']) ? $upload['type'] : $this->get_server_var('CONTENT_TYPE'));
             $files[] = $this->handle_file_upload(
                 isset($upload['tmp_name']) ? $upload['tmp_name'] : null,
-                $file_name ? $file_name : (isset($upload['name']) ?
-                        $upload['name'] : null),
+                $derived_name,
                 $size ? $size : (isset($upload['size']) ?
                         $upload['size'] : $this->get_server_var('CONTENT_LENGTH')),
-                isset($upload['type']) ?
-                        $upload['type'] : $this->get_server_var('CONTENT_TYPE'),
+                $derived_type,
                 isset($upload['error']) ? $upload['error'] : null,
                 null,
                 $content_range

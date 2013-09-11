@@ -106,6 +106,29 @@ function aaaart_utils_get_file_type($file_path) {
   }
 }
 
+/**
+ *
+ */
+function aaaart_utils_get_extension_from_type($type) {
+  // Add missing file extension for known image types:
+  if (preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
+    return $matches[1];
+  } else if (preg_match('/^application\/(pdf|epub|zip|rar)/', $type, $matches)) {
+     return $matches[1];
+  } else if (preg_match('/^image\/(djvu)/', $type, $matches)) {
+    return $matches[1];
+  } else {
+    switch ($type) {
+      case 'application/msword': return '.doc';
+      case 'text/plain': return '.txt';
+      case 'text/html': return '.html';
+      case 'application/x-mobipocket-ebook': return '.mobi';
+      case 'image/x.djvu': return '.djvu';
+    }
+  }
+  return false;
+}
+
 
 /**
  *
@@ -135,18 +158,10 @@ function aaaart_utils_trim_file_name($name, $type, $index, $content_range) {
     $name = str_replace('.', '-', microtime(true));
   }
   // Add missing file extension for known image types:
-  if (strpos($name, '.') === false && preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
-    $name .= '.'.$matches[1];
-  } else if (strpos($name, '.') === false && preg_match('/^application\/(pdf|epub|zip|rar)/', $type, $matches)) {
-    $name .= '.'.$matches[1];
-  } else if (strpos($name, '.') === false && preg_match('/^image\/(djvu)/', $type, $matches)) {
-    $name .= '.'.$matches[1];
-  } else if (strpos($name, '.') === false) {
-    switch ($type) {
-      case 'application/msword': $name .= '.doc'; break;
-      case 'text/plain': $name .= '.txt'; break;
-      case 'text/html': $name .= '.html'; break;
-      case 'application/x-mobipocket-ebook': $name .= '.mobi'; break;
+  if (strpos($name, '.') === false)  {
+    $ext = aaaart_utils_get_extension_from_type($type);
+    if ($ext) {
+      $name = $name . '.' . $ext;
     }
   }
   return $name;
