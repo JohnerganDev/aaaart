@@ -25,6 +25,12 @@ Collections are groups of documents created by users.
 <div id="container" class="container">
     <div class="row">
     <div <?php if (LIST_TYPE=='list'): ?>class="col-md-6"<?php else: ?>class="col-md-12"<?php endif; ?>>
+    <div class="checkbox text-muted">
+      <label>
+        <input class="show-requests" type="checkbox" value="">
+        show requests
+      </label>
+    </div>
       <ul class="files list-unstyled clearfix" id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
         <?php if (LIST_TYPE=='grid' && defined("FRONT_PAGE_CUSTOM_BLOCK")): ?>
             <li class="image">
