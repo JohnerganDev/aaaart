@@ -16,6 +16,7 @@ $(function () {
     'use strict';
 
     var page = 0;
+    var hide_requests = true;
     var $collections_ele = $('#active-collections');
     var $discussions_ele = $('#active-discussions');
     var $requests_ele = $('#most-requested');
@@ -34,7 +35,9 @@ $(function () {
                 aaaart_add_item_to_gallery(file, gallery, true, true);
             });
             // hide requests
-            $(".image.request").hide();
+            if (hide_requests) {
+                $("#gallery .image.request").hide();
+            }
             // add save buttons
             if (result.saved) {
                aaaart_add_save_buttons(gallery, result.saved); 
@@ -125,7 +128,8 @@ $(function () {
     });
 
     $(".show-requests").click(function() {
-        $(".image.request").toggle();
+        $("#gallery .image.request").toggle();
+        hide_requests = !hide_requests;
     });
 
 });
