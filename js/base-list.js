@@ -44,7 +44,7 @@ function aaaart_render_thumbnail(file, show_author) {
 function aaaart_add_item_to_gallery(file, gallery, show_maker, show_date) {
   show_maker = (typeof show_maker === "undefined") ? true : show_maker;
   show_date = (typeof show_date === "undefined") ? false : show_date;
-  if (show_date && (file.date !== undefined)) {
+  if (show_date && file.hasOwnProperty("date") && (file.date !== null)) {
     if (file.date!=current_date) {
       current_date = file.date;
       gallery.append($('<li>').append($('<h4>').text(current_date)));
