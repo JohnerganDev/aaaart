@@ -267,7 +267,7 @@ function aaaart_comment_list_comments($show, $arg=false, $print_response = false
 			$result = aaaart_comment_get_new_comments();
 			aaaart_cache_set('new_comments', $result);
 		}
-	} else if ($show=="new_filtered") { // exclude the general discussion of documents
+	} else if ($show=="new_filtered") { // exclude the general discussion of documents	
 		if ($cached = aaaart_cache_get('new_filtered_comments')) {
 			$result = $cached;
 		} else {
@@ -350,7 +350,7 @@ function aaaart_comment_get_new_comments($filter_by_user = false, $num = 50) {
 function aaaart_comment_get_new_filtered_comments($filter_by_user = false, $num = 50) {
 	$result = array();
 	global $user;
-	$condition = ($filter_by_user) ? array('title' => 'General discussion', 'posts.owner' => $user['_id']) : array('title'=> 'General discussion');
+	$condition = ($filter_by_user) ? array('title' => array('$ne' => 'General discussion'), 'posts.owner' => $user['_id']) : array('title'=> array('$ne' => 'General discussion'));
 	$threads = aaaart_mongo_get_paged(
 		COMMENTS_COLLECTION, 
 		$condition,
