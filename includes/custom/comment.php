@@ -412,6 +412,9 @@ function aaaart_comment_format_thread_title($thread) {
 			$title = sprintf('%s', $ref['display']);
 		}
 	}
+	if (empty($title)) {
+		$title = '- untitled -';
+	}
 	return $title;
 }
 
