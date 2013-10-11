@@ -161,6 +161,17 @@ function aaaart_comment_push_activity($thread_id, $post) {
 			$users[ (string)$p['owner'] ] = $p['owner'];
 		}
 	}
+	$ref = aaaart_mongo_get_reference($thread['ref']);
+	if (!empty($ref)) {
+		switch ($thread['ref']['$ref']) {
+			case IMAGES_COLLECTION:
+			case COLLECTIONS_COLLECTION: 
+				if ($post['owner']!=$ref['owner']) {
+					$users[ (string)$ref['owner'] ] = $ref['owner'];
+				}
+			break;
+		}
+	}
 	aaaart_user_push_activity($users, $formatted, 'comment/thread.php?id='.$thread_id, '#comments');
 }
 
@@ -256,6 +267,13 @@ function aaaart_comment_list_comments($show, $arg=false, $print_response = false
 			$result = aaaart_comment_get_new_comments();
 			aaaart_cache_set('new_comments', $result);
 		}
+	} else if ($show=="new_filtered") { // exclude the general discussion of documents
+		if ($cached = aaaart_cache_get('new_filtered_comments')) {
+			$result = $cached;
+		} else {
+			$result = aaaart_comment_get_new_filtered_comments();
+			aaaart_cache_set('new_filtered_comments', $result);
+		}
 	} else if ($show=="thread") {
 		$result = aaaart_comment_get_comments($arg);
 	} else if ($show=="commented") {
@@ -311,6 +329,28 @@ function aaaart_comment_get_new_comments($filter_by_user = false, $num = 50) {
 	$result = array();
 	global $user;
 	$condition = ($filter_by_user) ? array('posts.owner' => $user['_id']) : array();
+	$threads = aaaart_mongo_get_paged(
+		COMMENTS_COLLECTION, 
+		$condition,
+		array('posts.created'=> -1)
+	);
+	foreach ($threads as $thread) {
+		$newest_post = aaaart_comment_prepare_newest_post($thread);
+		if ($newest_post) {
+			$result[] = $newest_post;
+		}
+	}
+	return $result;
+}
+
+
+/**
+ * Gets a list of new comments (excluding the general discussion)
+ */
+function aaaart_comment_get_new_filtered_comments($filter_by_user = false, $num = 50) {
+	$result = array();
+	global $user;
+	$condition = ($filter_by_user) ? array('title' => 'General discussion', 'posts.owner' => $user['_id']) : array('title'=> 'General discussion');
 	$threads = aaaart_mongo_get_paged(
 		COMMENTS_COLLECTION, 
 		$condition,
