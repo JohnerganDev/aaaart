@@ -121,6 +121,7 @@ function aaaart_comment_create_thread($arr) {
 	$thread = aaaart_mongo_insert(COMMENTS_COLLECTION, $attributes);
 	aaaart_solr_add_to_queue(COMMENTS_COLLECTION, (string)$thread['_id']);
 	aaaart_cache_invalidate('new_comments');
+	aaaart_cache_invalidate('new_filtered_comments');
 	return $thread;
 }
 
@@ -141,6 +142,7 @@ function aaaart_comment_create($thread_id, $arr) {
 	aaaart_comment_push_activity($thread_id, $post);
 	aaaart_solr_add_to_queue(COMMENTS_COLLECTION, $thread_id);
 	aaaart_cache_invalidate('new_comments');
+	aaaart_cache_invalidate('new_filtered_comments');
 }
 
 
