@@ -515,10 +515,15 @@ function aaaart_collection_search($query, $print_response=false) {
  * Gets recently active collections
  */
 function aaaart_collections_get_active_collections($num=15) {
-	$ret_arr = iterator_to_array(
-		aaaart_mongo_get(COLLECTIONS_COLLECTION, array('type' => array('$ne' => 'private')), array('contents.added'=>-1, 'title'=> 1), array('metadata'=>0))
-	);
-	$ret_arr = array_slice($ret_arr, 0, $num);
+	$ret_arr = array();
+	$cursor = aaaart_mongo_get(COLLECTIONS_COLLECTION, array('type' => array('$ne' => 'private')), array('contents.added'=>-1, 'title'=> 1), array('metadata'=>0));
+	$i = 0;
+	foreach ($cursor as $doc) {
+		if ($i<$num) {
+			$ret_arr[] = $doc;
+			$i++;
+		}
+	}
 	return $ret_arr;
 }
 
